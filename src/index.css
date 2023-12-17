@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+	/* font-family: "Lato", sans-serif; */
+	font-family: "Dosis", sans-serif;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background-color: #161e31;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #fab07a;
+	/* border-radius: 4px; */
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: #fab07a;
+}

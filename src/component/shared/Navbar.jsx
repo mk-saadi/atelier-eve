@@ -163,8 +163,11 @@ const Navbar = () => {
 											</div>
 										</div>
 									) : (
-										<div>
-											<p>login</p>
+										<div className="flex space-x-3">
+											<Link to="/auth/login">login</Link>
+											<Link to="/auth/register">
+												sign up
+											</Link>
 										</div>
 									)}
 
