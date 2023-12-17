@@ -1,0 +1,50 @@
+#inputForm {
+	background-color: transparent;
+	outline: none;
+	padding-top: 10px;
+	caret-color: #fab07a;
+	color: #fff;
+	width: 100%;
+}
+
+#inputForm:-webkit-autofill,
+#inputForm:-webkit-autofill:hover,
+#inputForm:-webkit-autofill:focus,
+#inputForm:-webkit-autofill:active {
+	transition: background-color 5000s ease-in-out 0s,
+		color 5000s ease-in-out 0s;
+}
+
+#parag {
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.authPage a.active {
+	color: aliceblue;
+	border-bottom: 2px solid white;
+	padding-bottom: 2px;
+	transition: 0.3s ease;
+}
+
+.submitButton {
+	background-color: #fab07a;
+	box-shadow: 0px 0px 5px 2px #a16c46;
+	color: white;
+	padding-left: 2rem;
+	padding-right: 2rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	margin-top: 1rem;
+	margin-bottom: 2rem;
+	transition-duration: 200ms;
+	border-radius: 0.5rem;
+	outline: none;
+	cursor: pointer;
+	width: fit-content;
+}
+
+.submitButton:active {
+	background-color: #d49263;
+	transform: scale(0.95);
+}

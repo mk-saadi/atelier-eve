@@ -4,7 +4,7 @@ import Navbar from "../component/shared/Navbar";
 const Main = () => {
 	return (
 		<div>
-			<div className="sticky top-0">
+			<div className="sticky top-0 z-50">
 				<Navbar />
 			</div>
 
