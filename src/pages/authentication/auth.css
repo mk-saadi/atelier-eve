@@ -44,9 +44,14 @@
 	outline: none;
 	cursor: pointer;
 	width: fit-content;
+	font-weight: 700;
 }
 
 .submitButton:active {
 	background-color: #d49263;
 	transform: scale(0.95);
+}
+
+.authShadow {
+	box-shadow: 0px 0px 15px 8px rgba(17, 17, 32, 0.418);
 }

@@ -3,9 +3,13 @@ import { AuthContext } from "../../provide/AuthProvider";
 import "./auth.css";
 import axios from "axios";
 import { Eye, EyeOff, ImagePlus } from "lucide-react";
+import imageCompression from "browser-image-compression";
+import { storage } from "../../../firebase.config";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const Register = () => {
 	const { signUp, updateProfileInfo } = useContext(AuthContext);
+	const imgbbApiKey = "5617d55658537c83fee4ef9a7cffb921";
 
 	const [activeInput, setActiveInput] = useState("");
 
@@ -17,92 +21,63 @@ const Register = () => {
 		setActiveInput("");
 	};
 
-	const handleSignUp = (event) => {
+	const handleSignUp = async (event) => {
 		event.preventDefault();
 
 		const form = event.target;
+		const image = form.image.files[0];
 		const name = form.name.value;
-		const photoURL = form.image.value;
 		const email = form.email.value;
 		const password = form.password.value;
-		const confirmPassword = form.confirm.value;
-
-		if (password !== confirmPassword) {
-			alert("Passwords do not match");
-			console.log("Passwords do not match");
-			return;
-		}
-
-		if (password.length < 8) {
-			alert("Password must be at least 8 characters");
-			console.log("Password must be at least 8 characters");
-			return;
-		}
-
-		form.reset();
 
 		signUp(email, password)
 			.then((res) => {
-				const users = res.user;
-				updateProfileInfo(name, photoURL);
+				// Create a storage reference
+				const storageRef = ref(storage, email);
+				// Upload the file to the new reference
+				const uploadTask = uploadBytesResumable(storageRef, image);
 
-				const registrationDate = new Date();
-				const userDocument = {
-					photo: photoURL,
-					name: name,
-					email: email,
-					password: password,
-					role: "applicant",
-					registrationDate: registrationDate.toISOString(),
-				};
-
-				axios
-					.post(
-						"https://difly-server-1q8p1qpt8-mk-saadi.vercel.app/users",
-						userDocument
-					)
-					.then((response) => {
+				uploadTask.on(
+					"state_changed",
+					(snapshot) => {
+						// Handle the upload task progress here
 						console.log(
-							"User details stored in the database:",
-							response.data
+							"Upload is " +
+								(snapshot.bytesTransferred /
+									snapshot.totalBytes) *
+									100 +
+								"% done"
 						);
-					})
-					.catch((error) => {
-						console.log(
-							"Error storing user details in the database:",
-							error
+					},
+					(error) => {
+						// Handle the error here
+						console.log(error.message);
+					},
+					() => {
+						getDownloadURL(uploadTask.snapshot.ref).then(
+							(downloadURL) => {
+								console.log("File available at", downloadURL);
+								// Update the user document with the download URL of the image
+								const userDocument = {
+									photo: downloadURL,
+									name: name,
+									email: email,
+								};
+								console.log(userDocument);
+								updateProfileInfo(name, downloadURL);
+							}
 						);
-					});
-
-				if (users.uid) {
-					alert("Please check your email");
-					// logOut();
-					// navigate("/login");
-				}
+					}
+				);
 			})
 			.catch((error) => {
 				console.log(error.message);
-				alert(`error.message`);
+				alert(`${error.message}`);
 			});
 	};
 
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [imagePreview, setImagePreview] = useState(null);
-
-	// const handleChange = (event) => {
-	// 	const file = event.target.files[0];
-	// 	setSelectedFile(file);
-	// 	// const imageUrl = URL.createObjectURL(file);
-	// 	// setImagePreview(imageUrl);
-
-	// 	try {
-	// 		const imageUrl = URL.createObjectURL(file);
-	// 		setImagePreview(imageUrl);
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 		// Handle file reading error (e.g., invalid file)
-	// 	}
-	// };
 	const handleChange = (event) => {
 		if (event.target.files.length > 0) {
 			const file = event.target.files[0];
@@ -113,7 +88,6 @@ const Register = () => {
 	};
 
 	const [showPassword, setShowPassword] = useState(false);
-
 	const handleTogglePassword = () => {
 		setShowPassword(!showPassword);
 	};
@@ -139,11 +113,14 @@ const Register = () => {
 						id="parag"
 						tabIndex={1}
 					>
-						<p className="text-gray-400">Your Name</p>
+						<p className="text-sm font-medium text-gray-400">
+							Your Name
+						</p>
 						<input
 							type="text"
 							id="inputForm"
 							name="name"
+							required
 						/>
 					</div>
 
@@ -161,7 +138,9 @@ const Register = () => {
 						id="parag"
 						tabIndex={1}
 					>
-						<p className="text-gray-400">Your Photo</p>
+						<p className="text-sm font-medium text-gray-400">
+							Your Photo
+						</p>
 
 						{selectedFile ? (
 							<label
@@ -188,14 +167,14 @@ const Register = () => {
 								<ImagePlus /> Upload photo
 							</label>
 						)}
-
 						<input
 							type="file"
 							id="inputFormPic"
-							name="name"
+							name="image"
 							accept="image/*"
 							onChange={handleChange}
 							style={{ display: "none" }}
+							required
 						/>
 					</div>
 
@@ -213,20 +192,14 @@ const Register = () => {
 						id="parag"
 						tabIndex={1}
 					>
-						<p className="text-gray-400">Your Email</p>
+						<p className="text-sm font-medium text-gray-400">
+							Your Email
+						</p>
 						<input
 							type="text"
 							id="inputForm"
 							name="email"
-							autoComplete="off"
-							// style={{
-							// 	borderLeft:
-							// 		activeInput === "email"
-							// 			? "3px solid #fab07a"
-							// 			: "",
-							// }}
-							// onFocus={handleFocus}
-							// onBlur={handleBlur}
+							required
 						/>
 					</div>
 
@@ -245,13 +218,15 @@ const Register = () => {
 						id="parag"
 						tabIndex={1}
 					>
-						<p className="text-gray-400">Password</p>
+						<p className="text-sm font-medium text-gray-400">
+							Password
+						</p>
 						<div className="flex">
 							<input
-								// type="password"
 								id="inputForm"
 								name="password"
 								autoComplete="off"
+								required
 								type={showPassword ? "text" : "password"}
 							/>
 
@@ -269,24 +244,35 @@ const Register = () => {
 						className="bg-[#42486a]"
 						style={{
 							borderLeft:
-								activeInput === "confirmPassword"
+								activeInput === "confirm"
 									? "3px solid #fab07a"
 									: "",
-							paddingLeft:
-								activeInput === "confirmPassword" ? "7px" : "",
+							paddingLeft: activeInput === "confirm" ? "7px" : "",
 						}}
 						onFocus={handleFocus}
 						onBlur={handleBlur}
 						id="parag"
 						tabIndex={1}
 					>
-						<p className="text-gray-400">Confirm Password</p>
-						<input
-							type="password"
-							id="inputForm"
-							name="confirmPassword"
-							autoComplete="off"
-						/>
+						<p className="text-sm font-medium text-gray-400">
+							Confirm Password
+						</p>
+						<div className="flex">
+							<input
+								type={showPassword ? "text" : "password"}
+								id="inputForm"
+								name="confirm"
+								autoComplete="off"
+								required
+							/>
+							<button
+								type="button"
+								onClick={handleTogglePassword}
+								className="text-gray-300 outline-none"
+							>
+								{showPassword ? <EyeOff /> : <Eye />}
+							</button>
+						</div>
 					</div>
 
 					<input

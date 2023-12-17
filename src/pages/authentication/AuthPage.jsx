@@ -6,15 +6,15 @@ import "./auth.css";
 const AuthPage = () => {
 	return (
 		<div className="min-h-screen overflow-hidden bg-[#161e31] relative">
-			<div className="absolute flex justify-center w-full select-none top-4">
+			<div className="absolute flex justify-center w-full select-none top-1">
 				<div className="">
 					<p className="hidden font-[800] text-white uppercase opacity-40 md:block md:text-7xl xl:text-8xl">
-						auth
+						authentication
 					</p>
 				</div>
 			</div>
 
-			<div className="grid  relative justify-center grid-cols-1 lg:mx-16 md:mx-8 lg:my-20 xl:my-24 md:mt-16 mx-3 my-8  bg-[#2d3250] lg:grid-cols-2 rounded-xl lg:rounded-2xl shadow-xl drop-shadow-md">
+			<div className="grid  relative justify-center grid-cols-1 lg:mx-16 md:mx-8 lg:mt-16 xl:mt-20 md:mt-14 mx-3 mt-8 mb-4  bg-[#2d3250] lg:grid-cols-2 rounded-xl lg:rounded-2xl authShadow">
 				<div className="hidden col-span-1 md:order-2 lg:block">
 					<img
 						src={shop}
