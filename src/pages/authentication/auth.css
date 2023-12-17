@@ -1,11 +1,12 @@
 #inputForm {
 	background-color: transparent;
 	outline: none;
-	padding-top: 10px;
+	padding-top: 5px;
 	caret-color: #fab07a;
 	color: #fff;
 	width: 100%;
-	font-size: large;
+	font-size: larger;
+	caret-color: #fab07a;
 }
 
 #inputForm:-webkit-autofill,
@@ -17,7 +18,7 @@
 }
 
 #parag {
-	padding: 10px;
+	padding: 5px 10px;
 	border-radius: 5px;
 }
 

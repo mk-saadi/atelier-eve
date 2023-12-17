@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../provide/AuthProvider";
 import "./auth.css";
 import axios from "axios";
+import { Eye, EyeOff, ImagePlus } from "lucide-react";
 
 const Register = () => {
 	const { signUp, updateProfileInfo } = useContext(AuthContext);
@@ -85,6 +86,38 @@ const Register = () => {
 			});
 	};
 
+	const [selectedFile, setSelectedFile] = useState(null);
+	const [imagePreview, setImagePreview] = useState(null);
+
+	// const handleChange = (event) => {
+	// 	const file = event.target.files[0];
+	// 	setSelectedFile(file);
+	// 	// const imageUrl = URL.createObjectURL(file);
+	// 	// setImagePreview(imageUrl);
+
+	// 	try {
+	// 		const imageUrl = URL.createObjectURL(file);
+	// 		setImagePreview(imageUrl);
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 		// Handle file reading error (e.g., invalid file)
+	// 	}
+	// };
+	const handleChange = (event) => {
+		if (event.target.files.length > 0) {
+			const file = event.target.files[0];
+			setSelectedFile(file);
+			const imageUrl = URL.createObjectURL(file);
+			setImagePreview(imageUrl);
+		}
+	};
+
+	const [showPassword, setShowPassword] = useState(false);
+
+	const handleTogglePassword = () => {
+		setShowPassword(!showPassword);
+	};
+
 	return (
 		<div>
 			<div>
@@ -106,7 +139,7 @@ const Register = () => {
 						id="parag"
 						tabIndex={1}
 					>
-						<p className="text-gray-500">Your Name</p>
+						<p className="text-gray-400">Your Name</p>
 						<input
 							type="text"
 							id="inputForm"
@@ -128,12 +161,41 @@ const Register = () => {
 						id="parag"
 						tabIndex={1}
 					>
-						<p className="text-gray-500">Your Photo</p>
+						<p className="text-gray-400">Your Photo</p>
+
+						{selectedFile ? (
+							<label
+								htmlFor="inputFormPic"
+								className="flex gap-2 text-gray-300 cursor-pointer"
+							>
+								{imagePreview && (
+									<img
+										id="preview-image"
+										src={imagePreview}
+										alt="Image preview"
+										className="object-cover rounded-full w-7 h-7"
+									/>
+								)}
+								{selectedFile.name.length > 25
+									? `${selectedFile.name.slice(0, 25)}...`
+									: selectedFile.name}
+							</label>
+						) : (
+							<label
+								htmlFor="inputFormPic"
+								className="flex items-center justify-start text-gray-300 cursor-pointer gap-x-2"
+							>
+								<ImagePlus /> Upload photo
+							</label>
+						)}
+
 						<input
 							type="file"
-							id="inputForm"
+							id="inputFormPic"
 							name="name"
 							accept="image/*"
+							onChange={handleChange}
+							style={{ display: "none" }}
 						/>
 					</div>
 
@@ -151,7 +213,7 @@ const Register = () => {
 						id="parag"
 						tabIndex={1}
 					>
-						<p className="text-gray-500">Your Email</p>
+						<p className="text-gray-400">Your Email</p>
 						<input
 							type="text"
 							id="inputForm"
@@ -183,13 +245,24 @@ const Register = () => {
 						id="parag"
 						tabIndex={1}
 					>
-						<p className="text-gray-500">Password</p>
-						<input
-							type="password"
-							id="inputForm"
-							name="password"
-							autoComplete="off"
-						/>
+						<p className="text-gray-400">Password</p>
+						<div className="flex">
+							<input
+								// type="password"
+								id="inputForm"
+								name="password"
+								autoComplete="off"
+								type={showPassword ? "text" : "password"}
+							/>
+
+							<button
+								type="button"
+								onClick={handleTogglePassword}
+								className="text-gray-300 outline-none"
+							>
+								{showPassword ? <EyeOff /> : <Eye />}
+							</button>
+						</div>
 					</div>
 
 					<div
@@ -207,7 +280,7 @@ const Register = () => {
 						id="parag"
 						tabIndex={1}
 					>
-						<p className="text-gray-500">Confirm Password</p>
+						<p className="text-gray-400">Confirm Password</p>
 						<input
 							type="password"
 							id="inputForm"
