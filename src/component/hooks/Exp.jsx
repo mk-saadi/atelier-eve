@@ -179,25 +179,7 @@ const handleSignUp = async (event) => {
 	// 				registrationDate: registrationDate.toISOString(),
 	// 			};
 
-	// 			axios
-	// 				.post("http://localhost:2000/users", userDocument)
-	// 				.then((response) => {
-	// 					if (response.data.acknowledged === true) {
-	// 						alert("User details stored in the database");
-	// 						// window.location.reload();
-	// 						// form.reset();
-	// 						console.log(
-	// 							"User details stored in the database:",
-	// 							response.data
-	// 						);
-	// 					}
-	// 				})
-	// 				.catch((error) => {
-	// 					console.log(
-	// 						"Error storing user details in the database:",
-	// 						error
-	// 					);
-	// 				});
+	//
 	// 		})
 	// 		.catch((error) => {
 	// 			console.log(error.message);

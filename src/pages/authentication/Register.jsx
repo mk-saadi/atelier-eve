@@ -6,12 +6,15 @@ import { Eye, EyeOff, ImagePlus } from "lucide-react";
 import imageCompression from "browser-image-compression";
 import { storage } from "../../../firebase.config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ErrorContext } from "../../component/hooks/ErrorContext";
+import useToast from "../../component/hooks/useToast";
+import Toast from "../../component/hooks/Toast";
 
 const Register = () => {
+	const { setError, setSuccess } = useContext(ErrorContext);
 	const { signUp, updateProfileInfo } = useContext(AuthContext);
-	const imgbbApiKey = "5617d55658537c83fee4ef9a7cffb921";
-
 	const [activeInput, setActiveInput] = useState("");
+	const { toastType, toastMessage, showToast, hideToast } = useToast();
 
 	const handleFocus = (e) => {
 		setActiveInput(e.target.name);
@@ -29,46 +32,91 @@ const Register = () => {
 		const name = form.name.value;
 		const email = form.email.value;
 		const password = form.password.value;
+		const confirmPassword = form.confirm.value;
+
+		if (!image) {
+			// return setError("Please upload an image");
+			return showToast("error", "Pleases upload an image");
+		}
+
+		if (password !== confirmPassword) {
+			return setError("Passwords do not match!");
+		}
+		if (password.length < 8) {
+			return setError("Password must be at least 8 characters!");
+		}
+
+		const options = {
+			maxSizeMB: 0.05,
+			maxWidthOrHeight: 400,
+			useWebWorker: true,
+		};
+		const compressedImage = await imageCompression(image, options);
+		const blob = await imageCompression.getFilefromDataUrl(
+			await imageCompression.getDataUrlFromFile(compressedImage),
+			image.type
+		);
 
 		signUp(email, password)
 			.then((res) => {
-				// Create a storage reference
-				const storageRef = ref(storage, email);
-				// Upload the file to the new reference
-				const uploadTask = uploadBytesResumable(storageRef, image);
+				if (res.user) {
+					const storageRef = ref(storage, email);
+					const uploadTask = uploadBytesResumable(storageRef, blob);
 
-				uploadTask.on(
-					"state_changed",
-					(snapshot) => {
-						// Handle the upload task progress here
-						console.log(
-							"Upload is " +
-								(snapshot.bytesTransferred /
-									snapshot.totalBytes) *
-									100 +
-								"% done"
-						);
-					},
-					(error) => {
-						// Handle the error here
-						console.log(error.message);
-					},
-					() => {
-						getDownloadURL(uploadTask.snapshot.ref).then(
-							(downloadURL) => {
-								console.log("File available at", downloadURL);
-								// Update the user document with the download URL of the image
-								const userDocument = {
-									photo: downloadURL,
-									name: name,
-									email: email,
-								};
-								console.log(userDocument);
-								updateProfileInfo(name, downloadURL);
-							}
-						);
-					}
-				);
+					uploadTask.on(
+						"state_changed",
+						(snapshot) => {
+							console.log(
+								"Upload is " +
+									(snapshot.bytesTransferred /
+										snapshot.totalBytes) *
+										100 +
+									"% done"
+							);
+						},
+						(error) => {
+							console.log(error.message);
+						},
+						() => {
+							getDownloadURL(uploadTask.snapshot.ref).then(
+								(downloadURL) => {
+									const userDocument = {
+										photo: downloadURL,
+										name: name,
+										email: email,
+									};
+									updateProfileInfo(name, downloadURL);
+
+									axios
+										.post(
+											"http://localhost:2000/users",
+											userDocument
+										)
+										.then((response) => {
+											if (
+												response.data.acknowledged ===
+												true
+											) {
+												setSuccess(
+													"Registration successful!"
+												);
+												form.reset();
+											}
+										})
+										.catch((error) => {
+											setError("Registration failed!");
+											console.log(
+												"Error storing user details in the database:",
+												error
+											);
+										});
+								}
+							);
+						}
+					);
+				} else {
+					console.log("error singing in user");
+				}
 			})
 			.catch((error) => {
 				console.log(error.message);
@@ -93,8 +141,15 @@ const Register = () => {
 	};
 
 	return (
-		<div>
-			<div>
+		<>
+			{toastType && (
+				<Toast
+					type={toastType}
+					message={toastMessage}
+					onHide={hideToast}
+				/>
+			)}
+			<div className="relative">
 				<form
 					onSubmit={handleSignUp}
 					className="flex flex-col w-full gap-y-2"
@@ -174,7 +229,6 @@ const Register = () => {
 							accept="image/*"
 							onChange={handleChange}
 							style={{ display: "none" }}
-							required
 						/>
 					</div>
 
@@ -282,7 +336,7 @@ const Register = () => {
 					/>
 				</form>
 			</div>
-		</div>
+		</>
 	);
 };
 
