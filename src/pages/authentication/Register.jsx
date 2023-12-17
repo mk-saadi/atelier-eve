@@ -21,7 +21,6 @@ const Register = () => {
 
 	return (
 		<div>
-			<p>register page</p>
 			{/* <Box
 				component="form"
 				sx={{
@@ -60,7 +59,7 @@ const Register = () => {
 						style={{
 							borderLeft:
 								activeInput === "name"
-									? "2px solid #16a34a"
+									? "3px solid #fab07a"
 									: "none",
 						}}
 						onFocus={handleFocus}
@@ -73,7 +72,7 @@ const Register = () => {
 						style={{
 							borderLeft:
 								activeInput === "email"
-									? "2px solid #16a34a"
+									? "3px solid #fab07a"
 									: "",
 						}}
 						onFocus={handleFocus}
@@ -86,11 +85,17 @@ const Register = () => {
 						style={{
 							borderLeft:
 								activeInput === "password"
-									? "2px solid #16a34a"
+									? "3px solid #fab07a"
 									: "",
 						}}
 						onFocus={handleFocus}
 						onBlur={handleBlur}
+					/>
+
+					<input
+						type="submit"
+						value="Submit"
+						className="px-8 py-2 mt-4 duration-200 rounded-lg outline-none cursor-pointer submitButton w-fit hover:scale-95"
 					/>
 				</form>
 				{/* <form
