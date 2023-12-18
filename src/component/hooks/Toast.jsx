@@ -27,7 +27,7 @@ const Toast = ({ type, message, onHide }) => {
 	}
 
 	useEffect(() => {
-		const timeoutId = setTimeout(onHide, 3500);
+		const timeoutId = setTimeout(onHide, 3000);
 		return () => clearTimeout(timeoutId);
 	}, [onHide]);
 

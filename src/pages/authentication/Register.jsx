@@ -158,7 +158,7 @@ const Register = () => {
 				<div className="relative">
 					<form
 						onSubmit={handleSignUp}
-						className="flex flex-col w-full gap-y-1.5"
+						className="flex flex-col w-full gap-y-1.5 drop-shadow-sm"
 					>
 						<Fade
 							cascade

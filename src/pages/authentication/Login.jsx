@@ -1,7 +1,7 @@
 import { useContext, useState, Fragment } from "react";
 import useToast from "../../component/hooks/useToast";
 import Toast from "../../component/hooks/Toast";
-import { CheckSquare2, Eye, EyeOff, Loader, Square } from "lucide-react";
+import { CheckSquare2, Eye, EyeOff, Square } from "lucide-react";
 import { AuthContext } from "../../provide/AuthProvider";
 import { Chip, Divider } from "@mui/material";
 import { FaGoogle } from "react-icons/fa";
@@ -62,11 +62,12 @@ const Login = () => {
 				}
 			})
 			.catch((error) => {
-				console.log("error: ", error);
+				passwordInput.value = "";
 
 				showToast("error", "Error, please try again");
 			});
 	};
+
 	const [isOpen, setIsOpen] = useState(false);
 
 	const [showPassword, setShowPassword] = useState(false);
@@ -94,10 +95,11 @@ const Login = () => {
 			<Fade
 				cascade
 				direction="up"
+				// className="border"
 			>
 				<form
 					onSubmit={handleLogin}
-					className="flex flex-col w-full gap-y-1.5"
+					className="flex flex-col w-full gap-y-1.5 drop-shadow-sm"
 				>
 					<Fade
 						cascade
@@ -166,7 +168,7 @@ const Login = () => {
 							</div>
 						</div>
 
-						<div className="flex items-center justify-between w-full">
+						<div className="flex items-center justify-between w-full text-sm md:text-base">
 							<div className="flex items-center justify-start gap-3 mt-4 text-gray-300">
 								<span
 									className="cursor-pointer text-[#fab07a] duration-200"
@@ -181,7 +183,7 @@ const Login = () => {
 								Remember Me
 							</div>
 
-							<div>
+							<div className="-mb-[13px]">
 								<button
 									onClick={openModal}
 									className="font-medium text-gray-300 cursor-pointer hover:underline"
@@ -208,10 +210,10 @@ const Login = () => {
 				</div>
 
 				<div className="flex items-center justify-start my-8">
-					<p className="mr-16 text-xl font-semibold text-gray-300">
+					<p className="mr-16 text-base font-semibold text-gray-300 md:text-xl">
 						Login with your
 					</p>
-					<div className="text-[#fab07a] flex justify-center items-center gap-4 text-2xl">
+					<div className="text-[#fab07a] flex justify-center items-center gap-4 text-xl md:text-2xl">
 						<button>
 							<FaGoogle />
 						</button>

@@ -9,6 +9,7 @@ import Register from "./pages/authentication/Register";
 import Login from "./pages/authentication/Login";
 import AuthPage from "./pages/authentication/AuthPage";
 import AuthProvider from "./provide/AuthProvider";
+import AddProducts from "./dashboard/admin/AddProducts";
 
 const router = createBrowserRouter([
 	{
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
 				element: <Register />,
 			},
 		],
+	},
+	{
+		path: "/addProducts",
+		element: <AddProducts />,
 	},
 ]);
 

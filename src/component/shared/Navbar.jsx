@@ -1,15 +1,9 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { AlignJustify, Bell, ListX } from "lucide-react";
 import { Link } from "react-router-dom";
-// import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-
-const user = {
-	name: "Tom Cook",
-	email: "tom@example.com",
-	imageUrl:
-		"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
+import { AuthContext } from "../../provide/AuthProvider";
+import Cart from "./Cart";
 
 const navigation = [
 	{ name: "Dashboard", href: "#", current: true },
@@ -30,7 +24,7 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
-	const currentUser = false;
+	const { user } = useContext(AuthContext);
 
 	return (
 		<div>
@@ -79,7 +73,7 @@ const Navbar = () => {
 										</div>
 									</div>
 
-									{currentUser ? (
+									{user ? (
 										<div className="hidden md:block">
 											<div className="flex items-center ml-4 md:ml-6">
 												<button
@@ -90,10 +84,7 @@ const Navbar = () => {
 													<span className="sr-only">
 														View notifications
 													</span>
-													{/* <BellIcon
-													className="w-6 h-6"
-													aria-hidden="true"
-												/> */}
+
 													<Bell absoluteStrokeWidth />
 												</button>
 
@@ -103,19 +94,21 @@ const Navbar = () => {
 													as="div"
 													className="relative ml-3"
 												>
-													<div>
-														<Menu.Button className="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+													<div className="flex items-center justify-center">
+														<Menu.Button className="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none">
 															<span className="absolute -inset-1.5" />
 															<span className="sr-only">
 																Open user menu
 															</span>
-															<img
-																className="w-8 h-8 rounded-full"
-																src={
-																	user.imageUrl
-																}
-																alt=""
-															/>
+															{user?.photoURL && (
+																<img
+																	className="w-8 h-8 rounded-full"
+																	src={
+																		user?.photoURL
+																	}
+																	alt=""
+																/>
+															)}
 														</Menu.Button>
 													</div>
 													<Transition
@@ -160,6 +153,14 @@ const Navbar = () => {
 														</Menu.Items>
 													</Transition>
 												</Menu>
+
+												<div className="ml-4">
+													<span className="sr-only">
+														Open cart
+													</span>
+
+													<Cart />
+												</div>
 											</div>
 										</div>
 									) : (
@@ -221,21 +222,24 @@ const Navbar = () => {
 										</Disclosure.Button>
 									))}
 								</div>
+
 								<div className="pt-4 pb-3 border-t border-gray-700">
 									<div className="flex items-center px-5">
 										<div className="flex-shrink-0">
-											<img
-												className="w-10 h-10 rounded-full"
-												src={user.imageUrl}
-												alt=""
-											/>
+											{user?.photoURL && (
+												<img
+													className="w-10 h-10 rounded-full"
+													src={user?.photoURL}
+													alt=""
+												/>
+											)}
 										</div>
 										<div className="ml-3">
 											<div className="text-base font-medium leading-none text-white">
-												{user.name}
+												{user?.displayName}
 											</div>
 											<div className="text-sm font-medium leading-none text-gray-400">
-												{user.email}
+												{user?.email}
 											</div>
 										</div>
 										<button
