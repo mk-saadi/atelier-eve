@@ -190,46 +190,44 @@ const handleSignUp = async (event) => {
 	// }
 };
 
-import { storage } from "../../../firebase.config";
-import { ref } from "firebase/storage"; // ref is not being used
-
-const handleSignUp = async (event) => {
+const [loading, setLoading] = useState(false);
+const handleLogin = (event) => {
 	event.preventDefault();
+	setLoading("Please wait!");
+	// showToast("loading", "Please wait!");
 
 	const form = event.target;
-	const image = form.image.files[0];
-	const name = form.name.value;
 	const email = form.email.value;
-	const password = form.password.value;
+	const passwordInput = form.password;
+	const password = passwordInput.value;
 
-	signUp(email, password)
+	if (password.length < 8) {
+		console.log("password must be at least 8 characters");
+		passwordInput.value = "";
+		return;
+	}
+
+	signIn(email, password)
 		.then((res) => {
-			// Create a storage reference
-			const storageRef = storage.ref();
-			// Create a child reference to a new file named after the user's email
-			const imageRef = storageRef.child(email);
-			// Upload the file to the new reference
-			imageRef.put(image).then((snapshot) => {
-				console.log("Uploaded a blob or file!");
-				// Get the download URL of the uploaded file
-				snapshot.ref.getDownloadURL().then((downloadURL) => {
-					console.log("File available at", downloadURL);
-					// Update the user document with the download URL of the image
-					const userDocument = {
-						photo: downloadURL,
-						name: name,
-						email: email,
-					};
-					console.log(userDocument);
-					updateProfileInfo(name, downloadURL);
-				});
-			});
+			const user = res.user;
+			if (user.uid) {
+				form.reset();
+
+				setTimeout(() => {
+					navigate("/");
+				}, 1500);
+			}
 		})
 		.catch((error) => {
-			console.log(error.message);
-			alert(`${error.message}`);
+			console.log("error: ", error);
 		});
 };
+
+<input
+	type="submit"
+	value="Submit"
+	className="submitButton"
+/>;
 
 /*
 firebase storage rules

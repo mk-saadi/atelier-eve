@@ -8,11 +8,29 @@
 	font-size: larger;
 	caret-color: #fab07a;
 }
+#inputFormMo {
+	background-color: transparent;
+	outline: none;
+	padding-top: 5px;
+	caret-color: #fab07a;
+	color: #4d4d4d;
+	width: 100%;
+	font-size: larger;
+	caret-color: #fab07a;
+}
 
 #inputForm:-webkit-autofill,
 #inputForm:-webkit-autofill:hover,
 #inputForm:-webkit-autofill:focus,
 #inputForm:-webkit-autofill:active {
+	transition: background-color 5000s ease-in-out 0s,
+		color 5000s ease-in-out 0s;
+}
+
+#inputFormMo:-webkit-autofill,
+#inputFormMo:-webkit-autofill:hover,
+#inputFormMo:-webkit-autofill:focus,
+#inputFormMo:-webkit-autofill:active {
 	transition: background-color 5000s ease-in-out 0s,
 		color 5000s ease-in-out 0s;
 }
