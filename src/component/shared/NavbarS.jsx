@@ -197,7 +197,10 @@ const NavbarS = () => {
 						<div className="fixed inset-0 bg-black bg-opacity-25" />
 					</Transition.Child>
 
-					<div className="fixed inset-0 z-40 flex">
+					<div
+						className="fixed inset-0 flex"
+						style={{ zIndex: "999" }}
+					>
 						<Transition.Child
 							as={Fragment}
 							enter="transition ease-in-out duration-300 transform"
@@ -219,16 +222,17 @@ const NavbarS = () => {
 											Close menu
 										</span>
 										<X
-											className="z-50 w-6 h-6"
+											className="w-6 h-6"
 											aria-hidden="true"
 										/>
 									</button>
 								</div>
 
-								{/* Links mobile version */}
+								{/* tabs name mobile version */}
 								<Tab.Group
 									as="div"
 									className="z-0 mt-2"
+									style={{ zIndex: "0" }}
 								>
 									<div className="border-b border-gray-200">
 										<Tab.List className="flex px-4 -mb-px space-x-8">
@@ -242,8 +246,8 @@ const NavbarS = () => {
 															classNames(
 																selected
 																	? "border-[#278277] text-[#278277]"
-																	: "border-transparent text-gray-900",
-																"flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#278277]"
+																	: "border-transparent text-gray-700 font-bold",
+																"flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#278277]"
 															)
 														}
 													>
@@ -253,6 +257,7 @@ const NavbarS = () => {
 											)}
 										</Tab.List>
 									</div>
+
 									<Tab.Panels as={Fragment}>
 										{navigation.categories.map(
 											(category) => (
@@ -416,20 +421,20 @@ const NavbarS = () => {
 								) : (
 									<div className="px-4 py-6 space-y-6 border-t border-gray-200">
 										<div className="flow-root">
-											<a
-												href="#"
+											<Link
+												to="/auth/login"
 												className="block p-2 -m-2 font-medium text-gray-900"
 											>
 												Sign in
-											</a>
+											</Link>
 										</div>
 										<div className="flow-root">
-											<a
-												href="#"
+											<Link
+												to="/auth/register"
 												className="block p-2 -m-2 font-medium text-gray-900"
 											>
 												Create account
-											</a>
+											</Link>
 										</div>
 									</div>
 								)}
@@ -467,7 +472,8 @@ const NavbarS = () => {
 						<div className="flex items-center h-16">
 							<button
 								type="button"
-								className="relative p-2 text-gray-400 bg-transparent  focus-visible:outline-offset-2 focus-visible:outline-[#278277] rounded-md lg:hidden z-50"
+								className="relative p-2 text-gray-400 bg-transparent  focus-visible:outline-offset-2 focus-visible:outline-[#278277] rounded-md lg:hidden"
+								style={{ zIndex: "0" }}
 								onClick={() => setOpen(true)}
 							>
 								<span className="absolute -inset-0.5" />

@@ -2,12 +2,13 @@ import { NavLink, Outlet } from "react-router-dom";
 import shop from "../../assets/shop.avif";
 import "./auth.css";
 import Navbar from "../../component/shared/Navbar";
+import NavbarS from "../../component/shared/NavbarS";
 
 const AuthPage = () => {
 	return (
 		<>
 			<div className="block lg:hidden">
-				<Navbar />
+				<NavbarS />
 			</div>
 			<div className="min-h-screen overflow-hidden bg-[#161e31] relative grid items-center md:block">
 				<div className="absolute flex justify-center w-full select-none top-1">

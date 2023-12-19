@@ -18,6 +18,18 @@ const AddProducts = () => {
 		console.log("e", e);
 	};
 
+	const [selectedFile, setSelectedFile] = useState(null);
+	const [imagePreview, setImagePreview] = useState(null);
+
+	const handleChange = (event) => {
+		if (event.target.files.length > 0) {
+			const file = event.target.files[0];
+			setSelectedFile(file);
+			const imageUrl = URL.createObjectURL(file);
+			setImagePreview(imageUrl);
+		}
+	};
+
 	return (
 		<div className="px-6 py-24 bg-white isolate sm:py-32 lg:px-8">
 			<div
@@ -67,36 +79,45 @@ const AddProducts = () => {
 					</div>
 					<div>
 						<label
-							htmlFor="last-name"
+							htmlFor="price"
 							className="block text-sm font-semibold leading-6 text-gray-900"
 						>
-							Last name
+							Price
 						</label>
-						<div className="mt-2.5">
+						<div className="relative mt-2.5 rounded-md shadow-sm">
+							<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+								<span className="text-gray-500 sm:text-sm">
+									$
+								</span>
+							</div>
 							<input
 								type="text"
-								name="last-name"
-								id="last-name"
-								autoComplete="family-name"
-								className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none sm:text-sm sm:leading-6"
+								name="price"
+								id="price"
+								className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none sm:text-sm sm:leading-6 pl-7"
 							/>
 						</div>
 					</div>
 					<div className="sm:col-span-2">
 						<label
-							htmlFor="company"
+							htmlFor="overview"
 							className="block text-sm font-semibold leading-6 text-gray-900"
 						>
-							Company
+							Quick Overview{" "}
+							<span className="ml-2 opacity-70">
+								(use comma ( , ) between each point )
+							</span>
 						</label>
 						<div className="mt-2.5">
-							<input
+							<textarea
 								type="text"
-								name="company"
-								id="company"
+								name="overview"
+								id="overview"
 								autoComplete="organization"
+								rows={5}
 								className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none sm:text-sm sm:leading-6"
-							/>
+								defaultValue={""}
+							></textarea>
 						</div>
 					</div>
 
@@ -104,11 +125,12 @@ const AddProducts = () => {
 					<div className="col-span-full">
 						<label
 							htmlFor="cover-photo"
-							className="block text-sm font-medium leading-6 text-gray-900"
+							className="block text-sm font-semibold leading-6 text-gray-900"
 						>
-							Cover photo
+							Main Photo
 						</label>
-						<div className="flex justify-center px-6 py-10 mt-2 border border-dashed rounded-lg border-gray-900/25">
+						{/* border below */}
+						{/* <div className="flex justify-center px-6 py-10 mt-2 border border-dashed rounded-lg border-gray-900/25">
 							<div className="text-center">
 								<Image
 									className="w-12 h-12 mx-auto text-gray-300"
@@ -116,13 +138,13 @@ const AddProducts = () => {
 								/>
 								<div className="flex mt-4 text-sm leading-6 text-gray-600">
 									<label
-										htmlFor="file-upload"
+										htmlFor="main-photo"
 										className="relative font-semibold text-indigo-600 bg-white rounded-md cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
 									>
 										<span>Upload a file</span>
 										<input
-											id="file-upload"
-											name="file-upload"
+											id="main-photo"
+											name="main-photo"
 											type="file"
 											className="sr-only"
 										/>
@@ -133,7 +155,58 @@ const AddProducts = () => {
 									PNG, JPG, GIF up to 10MB
 								</p>
 							</div>
-						</div>
+						</div> */}
+
+						{selectedFile ? (
+							<div className="flex justify-center p-2 mt-2 border border-dashed rounded-lg border-gray-900/25">
+								<label
+									htmlFor="main-photo"
+									className="flex flex-col gap-2 font-semibold text-center text-gray-700 cursor-pointer"
+								>
+									{imagePreview && (
+										<img
+											id="preview-image"
+											src={imagePreview}
+											alt="Image preview"
+											className="max-h-[250px] object-cover rounded-md shadow-md drop-shadow-md"
+										/>
+									)}
+									{selectedFile.name.length > 35
+										? `${selectedFile.name.slice(0, 35)}...`
+										: selectedFile.name}
+								</label>
+							</div>
+						) : (
+							<div className="flex justify-center px-6 py-10 mt-2 border border-dashed rounded-lg border-gray-900/25">
+								<div className="text-center">
+									<Image
+										className="w-12 h-12 mx-auto text-gray-300"
+										aria-hidden="true"
+									/>
+									<div className="flex mt-4 text-sm leading-6 text-gray-600">
+										<label
+											htmlFor="main-photo"
+											className="relative font-semibold text-indigo-600 bg-white rounded-md cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+										>
+											<span>Upload a file</span>
+											<input
+												type="file"
+												accept="image/*"
+												id="main-photo"
+												name="main-photo"
+												className="sr-only"
+												onChange={handleChange}
+												style={{ display: "none" }}
+											/>
+										</label>
+										<p className="pl-1">or drag and drop</p>
+									</div>
+									<p className="text-xs leading-5 text-gray-600">
+										PNG, JPG, GIF up to 10MB
+									</p>
+								</div>
+							</div>
+						)}
 					</div>
 
 					<div className="sm:col-span-2">
@@ -141,11 +214,11 @@ const AddProducts = () => {
 							htmlFor="email"
 							className="block text-sm font-semibold leading-6 text-gray-900"
 						>
-							Email
+							Quantity
 						</label>
 						<div className="mt-2.5">
 							<input
-								type="email"
+								type="number"
 								name="email"
 								id="email"
 								autoComplete="email"
@@ -278,3 +351,26 @@ export default AddProducts;
   }
   ```
 */
+
+{
+	/* <>
+	<label
+		htmlFor="price"
+		className="block text-sm font-medium leading-6 text-gray-900"
+	>
+		Price
+	</label>
+	<div className="relative mt-2 rounded-md shadow-sm">
+		<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+			<span className="text-gray-500 sm:text-sm">$</span>
+		</div>
+		<input
+			type="text"
+			name="price"
+			id="price"
+			className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+			placeholder="0.00"
+		/>
+	</div>
+</>; */
+}
