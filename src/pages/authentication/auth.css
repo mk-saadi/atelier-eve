@@ -2,21 +2,20 @@
 	background-color: transparent;
 	outline: none;
 	padding-top: 5px;
-	caret-color: #fab07a;
+	/* caret-color: #fab07a; */
+	caret-color: #278277;
 	color: #fff;
 	width: 100%;
 	font-size: larger;
-	caret-color: #fab07a;
 }
 #inputFormMo {
 	background-color: transparent;
 	outline: none;
 	padding-top: 5px;
-	caret-color: #fab07a;
 	color: #4d4d4d;
 	width: 100%;
 	font-size: larger;
-	caret-color: #fab07a;
+	caret-color: #278277;
 }
 
 #inputForm:-webkit-autofill,
@@ -41,15 +40,17 @@
 }
 
 .authPage a.active {
-	color: #fab07a;
-	border-bottom: 2px solid #fab07a;
+	color: #278277;
+	border-bottom: 2px solid #278277;
 	padding-bottom: 2px;
 	transition: 0.3s ease;
 }
 
 .submitButton {
-	background-color: #fab07a;
-	box-shadow: 0px 0px 5px 2px #a16c46;
+	/* background-color: #fab07a; */
+	/* background-color: #112a25; */
+	background-color: #278277;
+	box-shadow: 0px 0px 5px 2px #27554c;
 	color: white;
 	padding-left: 2rem;
 	padding-right: 2rem;
@@ -66,7 +67,7 @@
 }
 
 .submitButton:active {
-	background-color: #d49263;
+	background-color: #1f6961;
 	transform: scale(0.95);
 }
 

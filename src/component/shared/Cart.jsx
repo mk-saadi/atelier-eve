@@ -31,7 +31,7 @@ const Cart = () => {
 					<button
 						onClick={toggleDrawer(anchor, true)}
 						// className="relative p-1 text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-						className="flex-shrink-0 w-6 h-6 text-gray-400 hover:text-[#fab07a] duration-200"
+						className="flex-shrink-0 w-6 h-6 text-gray-400 hover:text-[#278277] duration-200"
 					>
 						{/* {anchor} */}
 

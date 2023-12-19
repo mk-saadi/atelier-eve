@@ -14,7 +14,7 @@
 */
 import { Fragment, useContext, useState } from "react";
 import { Menu, Dialog, Popover, Tab, Transition } from "@headlessui/react";
-import { AlignJustify, Search, X } from "lucide-react";
+import { AlignJustify, BellIcon, Search, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import Cart from "./Cart";
 import { AuthContext } from "../../provide/AuthProvider";
@@ -174,7 +174,7 @@ const NavbarS = () => {
 	};
 
 	return (
-		<div className=" bg-[#161e31]">
+		<div className=" bg-[#fff]">
 			{/* Mobile menu */}
 			<Transition.Root
 				show={open}
@@ -219,16 +219,16 @@ const NavbarS = () => {
 											Close menu
 										</span>
 										<X
-											className="w-6 h-6"
+											className="z-50 w-6 h-6"
 											aria-hidden="true"
 										/>
 									</button>
 								</div>
 
-								{/* Links */}
+								{/* Links mobile version */}
 								<Tab.Group
 									as="div"
-									className="mt-2"
+									className="z-0 mt-2"
 								>
 									<div className="border-b border-gray-200">
 										<Tab.List className="flex px-4 -mb-px space-x-8">
@@ -241,9 +241,9 @@ const NavbarS = () => {
 														}) =>
 															classNames(
 																selected
-																	? "border-indigo-600 text-indigo-600"
+																	? "border-[#278277] text-[#278277]"
 																	: "border-transparent text-gray-900",
-																"flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium"
+																"flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#278277]"
 															)
 														}
 													>
@@ -373,24 +373,66 @@ const NavbarS = () => {
 									))}
 								</div>
 
-								<div className="px-4 py-6 space-y-6 border-t border-gray-200">
-									<div className="flow-root">
-										<a
-											href="#"
-											className="block p-2 -m-2 font-medium text-gray-900"
-										>
-											Sign in
-										</a>
+								{user ? (
+									<div className="pt-4 pb-3 border-t border-gray-700">
+										<div className="flex items-center px-5">
+											<div className="flex-shrink-0">
+												{/* <img
+													className="w-10 h-10 rounded-full"
+													src={user.imageUrl}
+													alt=""
+												/> */}
+												{user?.photoURL && (
+													<img
+														className="w-10 h-10 rounded-full"
+														src={user?.photoURL}
+														alt=""
+													/>
+												)}
+											</div>
+											<div className="ml-3">
+												<div className="text-base font-semibold leading-none text-gray-700">
+													{user?.displayName}
+												</div>
+												<div className="text-sm font-medium leading-none text-gray-500">
+													{user?.email}
+												</div>
+											</div>
+											<button
+												type="button"
+												className="relative flex-shrink-0 p-1 ml-auto  bg-transparent rounded-full text-gray-400 hover:text-[#278277] duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+											>
+												<span className="absolute -inset-1.5" />
+												<span className="sr-only">
+													View notifications
+												</span>
+												<BellIcon
+													className="w-6 h-6"
+													aria-hidden="true"
+												/>
+											</button>
+										</div>
 									</div>
-									<div className="flow-root">
-										<a
-											href="#"
-											className="block p-2 -m-2 font-medium text-gray-900"
-										>
-											Create account
-										</a>
+								) : (
+									<div className="px-4 py-6 space-y-6 border-t border-gray-200">
+										<div className="flow-root">
+											<a
+												href="#"
+												className="block p-2 -m-2 font-medium text-gray-900"
+											>
+												Sign in
+											</a>
+										</div>
+										<div className="flow-root">
+											<a
+												href="#"
+												className="block p-2 -m-2 font-medium text-gray-900"
+											>
+												Create account
+											</a>
+										</div>
 									</div>
-								</div>
+								)}
 
 								<div className="px-4 py-6 border-t border-gray-200">
 									<a
@@ -416,7 +458,7 @@ const NavbarS = () => {
 				</Dialog>
 			</Transition.Root>
 
-			<header className="relative  bg-[#161e31]">
+			<header className="relative  bg-[#fff]">
 				<nav
 					aria-label="Top"
 					className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8"
@@ -425,7 +467,7 @@ const NavbarS = () => {
 						<div className="flex items-center h-16">
 							<button
 								type="button"
-								className="relative p-2 text-gray-400 bg-white rounded-md lg:hidden"
+								className="relative p-2 text-gray-400 bg-transparent  focus-visible:outline-offset-2 focus-visible:outline-[#278277] rounded-md lg:hidden z-50"
 								onClick={() => setOpen(true)}
 							>
 								<span className="absolute -inset-0.5" />
@@ -445,13 +487,15 @@ const NavbarS = () => {
 									</span>
 									<img
 										className="w-auto h-8"
-										src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+										src="https://tailwindui.com/img/logos/mark.svg?color=green&shade=500"
 										alt=""
 									/>
 								</a>
 							</div>
 
-							{/* Flyout menus */}
+							{/*
+									Flyout menus / large device
+								*/}
 							<Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
 								<div className="flex h-full space-x-8">
 									{navigation.categories.map((category) => (
@@ -618,10 +662,13 @@ const NavbarS = () => {
 									<>
 										<Menu
 											as="div"
-											className="relative ml-3"
+											className="relative hidden ml-3 sm:block"
 										>
-											<div className="flex items-center justify-center">
-												<Menu.Button className="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none">
+											<div className="flex items-center justify-center md:mr-2 lg:mr-0">
+												<Menu.Button
+													className="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+													// className="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+												>
 													<span className="absolute -inset-1.5" />
 													<span className="sr-only">
 														Open user menu
@@ -644,19 +691,19 @@ const NavbarS = () => {
 												leaveFrom="transform opacity-100 scale-100"
 												leaveTo="transform opacity-0 scale-95"
 											>
-												<Menu.Items className="absolute right-0 z-50 w-48 py-1 mt-2 origin-top-right  bg-[#2d3250] rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-													<Menu.Items className="px-4 py-2 text-base text-gray-300  duration-200 hover:bg-[#4a5383] bg-opacity-50 cursor-pointer">
+												<Menu.Items className="absolute right-0 z-50 w-48 py-1 mt-2 origin-top-right  bg-[#fff] rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+													<Menu.Items className="px-4 py-2 text-base text-gray-300  duration-200 hover:bg-[#fff] bg-opacity-50 cursor-pointer">
 														<Link to="/profile">
 															User Profile
 														</Link>
 													</Menu.Items>
 
-													<Menu.Items className="px-4 py-2 text-base text-gray-300  duration-200 hover:bg-[#4a5383] bg-opacity-50 cursor-pointer">
+													<Menu.Items className="px-4 py-2 text-base text-gray-300  duration-200 hover:bg-[#fff] bg-opacity-50 cursor-pointer">
 														Settings
 													</Menu.Items>
 
 													<Menu.Items
-														className="px-4 py-2 text-base text-gray-300  duration-200 hover:bg-[#4a5383] bg-opacity-50 cursor-pointer"
+														className="px-4 py-2 text-base text-gray-300  duration-200 hover:bg-[#fff] bg-opacity-50 cursor-pointer"
 														onClick={handleLogOut}
 													>
 														<button>Logout</button>
@@ -669,7 +716,7 @@ const NavbarS = () => {
 									<div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
 										<Link
 											to="/auth/login"
-											className="text-sm font-medium text-gray-400 hover:text-[#fab07a] duration-200"
+											className="text-sm font-medium text-gray-400 hover:text-[#278277] duration-200"
 										>
 											Sign in
 										</Link>
@@ -679,7 +726,7 @@ const NavbarS = () => {
 										/>
 										<Link
 											to="/auth/register"
-											className="text-sm font-medium text-gray-400 hover:text-[#fab07a] duration-200"
+											className="text-sm font-medium text-gray-400 hover:text-[#278277] duration-200"
 										>
 											Create account
 										</Link>
@@ -690,7 +737,7 @@ const NavbarS = () => {
 								<div className="flex lg:ml-6">
 									<a
 										href="#"
-										className="p-2 text-gray-400 hover:text-[#fab07a] duration-200"
+										className="p-2 text-gray-400 hover:text-[#278277] duration-200 focus:outline-2 outline-offset-2 outline-[#278277]"
 									>
 										<span className="sr-only">Search</span>
 										<Search
@@ -701,8 +748,8 @@ const NavbarS = () => {
 								</div>
 
 								{/* Cart */}
-								<div className="flow-root mt-1 ml-4 lg:ml-6">
-									<div className="flex items-center p-2 -m-2 group">
+								<div className="flow-root mt-1 lg:ml-6">
+									<div className="flex items-center p-2 group">
 										<div aria-hidden="true">
 											<Cart />
 										</div>
