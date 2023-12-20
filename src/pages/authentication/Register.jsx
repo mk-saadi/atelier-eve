@@ -170,7 +170,7 @@ const Register = () => {
 								style={{
 									borderLeft:
 										activeInput === "name"
-											? "3px solid #278277"
+											? "3px solid #fab07a"
 											: "",
 									paddingLeft:
 										activeInput === "name" ? "7px" : "",
@@ -196,7 +196,7 @@ const Register = () => {
 								style={{
 									borderLeft:
 										activeInput === "image"
-											? "3px solid #278277"
+											? "3px solid #fab07a"
 											: "",
 									paddingLeft:
 										activeInput === "image" ? "7px" : "",
@@ -253,7 +253,7 @@ const Register = () => {
 								style={{
 									borderLeft:
 										activeInput === "email"
-											? "3px solid #278277"
+											? "3px solid #fab07a"
 											: "",
 									paddingLeft:
 										activeInput === "email" ? "7px" : "",
@@ -279,7 +279,7 @@ const Register = () => {
 								style={{
 									borderLeft:
 										activeInput === "password"
-											? "3px solid #278277"
+											? "3px solid #fab07a"
 											: "",
 									paddingLeft:
 										activeInput === "password" ? "7px" : "",
@@ -318,7 +318,7 @@ const Register = () => {
 								style={{
 									borderLeft:
 										activeInput === "confirm"
-											? "3px solid #278277"
+											? "3px solid #fab07a"
 											: "",
 									paddingLeft:
 										activeInput === "confirm" ? "7px" : "",

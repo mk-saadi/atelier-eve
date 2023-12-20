@@ -110,7 +110,7 @@ const Login = () => {
 							style={{
 								borderLeft:
 									activeInput === "email"
-										? "3px solid #278277"
+										? "3px solid #fab07a"
 										: "",
 								paddingLeft:
 									activeInput === "email" ? "7px" : "",
@@ -136,7 +136,7 @@ const Login = () => {
 							style={{
 								borderLeft:
 									activeInput === "password"
-										? "3px solid #278277"
+										? "3px solid #fab07a"
 										: "",
 								paddingLeft:
 									activeInput === "password" ? "7px" : "",
@@ -171,7 +171,7 @@ const Login = () => {
 						<div className="flex items-center justify-between w-full text-sm md:text-base">
 							<div className="flex items-center justify-start gap-3 mt-4 text-gray-300">
 								<span
-									className="cursor-pointer text-[#278277] duration-200"
+									className="cursor-pointer text-[#fab07a] duration-200"
 									onClick={handleClick}
 								>
 									{isToggled ? (
@@ -213,7 +213,7 @@ const Login = () => {
 					<p className="mr-16 text-base font-semibold text-gray-300 md:text-xl">
 						Login with your
 					</p>
-					<div className="text-[#278277] flex justify-center items-center gap-4 text-xl md:text-2xl">
+					<div className="text-[#fab07a] flex justify-center items-center gap-4 text-xl md:text-2xl">
 						<button>
 							<FaGoogle />
 						</button>
@@ -276,7 +276,7 @@ const Login = () => {
 											style={{
 												borderLeft:
 													activeInput === "emails"
-														? "3px solid #278277"
+														? "3px solid #fab07a"
 														: "",
 												paddingLeft:
 													activeInput === "emails"

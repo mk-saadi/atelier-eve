@@ -33,7 +33,8 @@ const Toast = ({ type, message, onHide }) => {
 
 	return (
 		<Fade
-			className="absolute top-0 z-50 flex justify-center w-full text-lg"
+			className="fixed right-0 z-50 flex justify-center w-full text-lg transform -translate-x-1/2 top-5"
+			style={{ zIndex: "999999" }}
 			direction="down"
 		>
 			<div

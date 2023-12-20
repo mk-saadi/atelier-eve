@@ -245,9 +245,9 @@ const NavbarS = () => {
 														}) =>
 															classNames(
 																selected
-																	? "border-[#278277] text-[#278277]"
+																	? "border-[#fab07a] text-[#fab07a]"
 																	: "border-transparent text-gray-700 font-bold",
-																"flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#278277]"
+																"flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fab07a]"
 															)
 														}
 													>
@@ -405,7 +405,7 @@ const NavbarS = () => {
 											</div>
 											<button
 												type="button"
-												className="relative flex-shrink-0 p-1 ml-auto  bg-transparent rounded-full text-gray-400 hover:text-[#278277] duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+												className="relative flex-shrink-0 p-1 ml-auto  bg-transparent rounded-full text-gray-400 hover:text-[#fab07a] duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
 											>
 												<span className="absolute -inset-1.5" />
 												<span className="sr-only">
@@ -472,7 +472,7 @@ const NavbarS = () => {
 						<div className="flex items-center h-16">
 							<button
 								type="button"
-								className="relative p-2 text-gray-400 bg-transparent  focus-visible:outline-offset-2 focus-visible:outline-[#278277] rounded-md lg:hidden"
+								className="relative p-2 text-gray-400 bg-transparent  focus-visible:outline-offset-2 focus-visible:outline-[#fab07a] rounded-md lg:hidden"
 								style={{ zIndex: "0" }}
 								onClick={() => setOpen(true)}
 							>
@@ -722,7 +722,7 @@ const NavbarS = () => {
 									<div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
 										<Link
 											to="/auth/login"
-											className="text-sm font-medium text-gray-400 hover:text-[#278277] duration-200"
+											className="text-sm font-medium text-gray-400 hover:text-[#fab07a] duration-200"
 										>
 											Sign in
 										</Link>
@@ -732,7 +732,7 @@ const NavbarS = () => {
 										/>
 										<Link
 											to="/auth/register"
-											className="text-sm font-medium text-gray-400 hover:text-[#278277] duration-200"
+											className="text-sm font-medium text-gray-400 hover:text-[#fab07a] duration-200"
 										>
 											Create account
 										</Link>
@@ -743,7 +743,7 @@ const NavbarS = () => {
 								<div className="flex lg:ml-6">
 									<a
 										href="#"
-										className="p-2 text-gray-400 hover:text-[#278277] duration-200 focus:outline-2 outline-offset-2 outline-[#278277]"
+										className="p-2 text-gray-400 hover:text-[#fab07a] duration-200 focus:outline-2 outline-offset-2 outline-[#fab07a]"
 									>
 										<span className="sr-only">Search</span>
 										<Search

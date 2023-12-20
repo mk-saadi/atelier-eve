@@ -16,9 +16,9 @@ body {
 	background-color: currentColor;
 } */
 ::-webkit-scrollbar-thumb {
-	background-color: #278277;
+	background-color: #fab07a;
 	/* border-radius: 4px; */
 }
 ::-webkit-scrollbar-thumb:hover {
-	background-color: #278277;
+	background-color: #fab07a;
 }
