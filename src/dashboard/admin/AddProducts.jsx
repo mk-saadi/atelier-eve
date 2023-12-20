@@ -1,65 +1,58 @@
 import { useContext, useState, Fragment } from "react";
 import { AuthContext } from "../../provide/AuthProvider";
-// import { ChevronDown } from '@heroicons/react/20/solid'
 import { Switch, Listbox, Transition } from "@headlessui/react";
-import {
-	ChevronsUpDown,
-	ChevronDown,
-	Image,
-	PhoneOutgoingIcon,
-	Check,
-} from "lucide-react";
+import { ChevronsUpDown, Image, Check } from "lucide-react";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 
-const people = [{ gender: "" }, { gender: "Male" }, { gender: "Female" }];
+const people = [{ gender: "" }, { gender: "Female" }, { gender: "Male" }];
 
 const season = [
 	{ sea: "" },
+	{ sea: "All" },
+	{ sea: "Rainy" },
 	{ sea: "Summer" },
 	{ sea: "Winter" },
-	{ sea: "Rainy" },
-	{ sea: "All" },
 ];
 
 const femaleCategory = [
 	{ cat: "" },
-	{ cat: "Tops" },
-	{ cat: "Sweaters" },
-	{ cat: "Denim" },
-	{ cat: "Jackets" },
-	{ cat: "T-Shirts" },
-	{ cat: "Pants" },
 	{ cat: "Activewear" },
 	{ cat: "Bras" },
+	{ cat: "Denim" },
 	{ cat: "Gown" },
-	{ cat: "Wedding Dress" },
-	{ cat: "Vest" },
+	{ cat: "Jackets" },
 	{ cat: "Long Coat" },
+	{ cat: "Pants" },
+	{ cat: "Sweaters" },
+	{ cat: "Tops" },
+	{ cat: "T-Shirts" },
+	{ cat: "Vest" },
+	{ cat: "Wedding Dress" },
 ];
 
 const maleCategory = [
 	{ cat: "" },
-	{ cat: "Sweaters" },
+	{ cat: "Activewear" },
 	{ cat: "Denim" },
 	{ cat: "Jackets" },
-	{ cat: "T-Shirts" },
-	{ cat: "Pants" },
 	{ cat: "Jeans" },
-	{ cat: "Activewear" },
 	{ cat: "Long Coat" },
+	{ cat: "Pants" },
+	{ cat: "Sweaters" },
+	{ cat: "T-Shirts" },
 ];
 
 const accessoriesCategory = [
 	{ cat: "" },
+	{ cat: "Bags" },
+	{ cat: "Belts" },
+	{ cat: "Hats" },
+	{ cat: "Sunglasses" },
 	{ cat: "Watches" },
 	{ cat: "Wallets" },
-	{ cat: "Bags" },
-	{ cat: "Sunglasses" },
-	{ cat: "Hats" },
-	{ cat: "Belts" },
 ];
 
 const brandCategory = [
@@ -68,7 +61,6 @@ const brandCategory = [
 	{ cat: "Nike" },
 	{ cat: "Gucci" },
 	{ cat: "Gap" },
-	{ cat: "Sunglasses" },
 	{ cat: "Calvin Klein" },
 	{ cat: "Chanel" },
 	{ cat: "Burberry" },
@@ -120,7 +112,42 @@ const AddProducts = () => {
 	const handleProduct = (e) => {
 		e.preventDefault();
 
-		console.log("e", e);
+		const form = e.target;
+
+		const genderCat = form.genderCat.value; // if value is empty string "" then dont send the value
+		const accessCat = form.accessCat.value; // if value is empty string "" then dont send the value
+		const seasonCat = selectedSeason.sea; // if value is empty string "" then dont send the value
+		const brandCat = selectedBrand.cat; // if value is empty string "" then dont send the value
+
+		// const listItem = {
+		// 	genderCat: genderCat,
+		// 	accessCat: accessCat,
+		// 	seasonCat: seasonCat,
+		// 	brandCat: brandCat,
+		// 	uploaderName: user?.displayName,
+		// 	uploaderImage: user?.photoURL,
+		// 	uploaderEmail: user?.email,
+		// };
+
+		let listItem = {
+			uploaderName: user?.displayName,
+			uploaderImage: user?.photoURL,
+			uploaderEmail: user?.email,
+		};
+		if (genderCat !== "") {
+			listItem.genderCat = genderCat;
+		}
+		if (accessCat !== "") {
+			listItem.accessCat = accessCat;
+		}
+		if (seasonCat !== "") {
+			listItem.seasonCat = seasonCat;
+		}
+		if (brandCat !== "") {
+			listItem.brandCat = brandCat;
+		}
+
+		console.log("listItem: ", listItem);
 	};
 
 	const [selectedFile, setSelectedFile] = useState(null);
@@ -234,33 +261,6 @@ const AddProducts = () => {
 						>
 							Main Photo
 						</label>
-						{/* border below */}
-						{/* <div className="flex justify-center px-6 py-10 mt-2 border border-dashed rounded-lg border-gray-900/25">
-							<div className="text-center">
-								<Image
-									className="w-12 h-12 mx-auto text-gray-300"
-									aria-hidden="true"
-								/>
-								<div className="flex mt-4 text-sm leading-6 text-gray-600">
-									<label
-										htmlFor="main-photo"
-										className="relative font-semibold text-indigo-600 bg-white rounded-md cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-									>
-										<span>Upload a file</span>
-										<input
-											id="main-photo"
-											name="main-photo"
-											type="file"
-											className="sr-only"
-										/>
-									</label>
-									<p className="pl-1">or drag and drop</p>
-								</div>
-								<p className="text-xs leading-5 text-gray-600">
-									PNG, JPG, GIF up to 10MB
-								</p>
-							</div>
-						</div> */}
 
 						{selectedFile ? (
 							<div className="flex justify-center p-2 mt-2 border border-dashed rounded-lg border-gray-900/25">
@@ -314,10 +314,15 @@ const AddProducts = () => {
 						)}
 					</div>
 
+					{/* SELECT BELOW */}
 					<div className="flex-col items-center justify-around w-full md:flex gap-y-4 gap-x-3 md:flex-row col-span-full">
+						{/* gender */}
 						<Listbox
-							value={selectedGender}
+							name="genderCat"
+							id="gender"
 							onChange={setSelectedGender}
+							value={selectedGender.gender}
+							required
 						>
 							<div className="relative w-full mt-1">
 								<Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-300">
@@ -377,12 +382,79 @@ const AddProducts = () => {
 								</Transition>
 							</div>
 						</Listbox>
-						{/* gender select above */}
 
-						{/* season select below */}
+						<div className="flex-col items-center justify-around w-full md:flex gap-y-4 gap-x-3 md:flex-row col-span-full">
+							<select
+								name="accessCat"
+								id="category"
+								value={
+									selectedGender.gender === "Male"
+										? selectedMale.cat
+										: selectedGender.gender === "Female"
+										? selectedFemale.cat
+										: selectedAccessories.cat
+								}
+								onChange={(e) => {
+									const selectedCategoryValue =
+										e.target.value;
+									if (selectedGender.gender === "Male") {
+										setSelectedMale({
+											cat: selectedCategoryValue,
+										});
+									} else if (
+										selectedGender.gender === "Female"
+									) {
+										setSelectedFemale({
+											cat: selectedCategoryValue,
+										});
+									} else {
+										setSelectedAccessories({
+											cat: selectedCategoryValue,
+										});
+									}
+								}}
+								className="w-full px-2 py-2 mt-1 rounded-lg shadow-md cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-300"
+								required
+							>
+								{selectedGender.gender === "Male"
+									? maleCategory.map((category, index) => (
+											<option
+												key={index}
+												value={category.cat}
+											>
+												{category.cat}
+											</option>
+									  ))
+									: selectedGender.gender === "Female"
+									? femaleCategory.map((category, index) => (
+											<option
+												key={index}
+												value={category.cat}
+											>
+												{category.cat}
+											</option>
+									  ))
+									: accessoriesCategory.map(
+											(category, index) => (
+												<option
+													key={index}
+													value={category.cat}
+												>
+													{category.cat}
+												</option>
+											)
+									  )}
+							</select>
+						</div>
+					</div>
+
+					<div className="flex-col items-center justify-around w-full md:flex gap-y-4 gap-x-3 md:flex-row col-span-full">
+						{/* season here */}
 						<Listbox
 							value={selectedSeason}
 							onChange={setSelectedSeason}
+							required
+							name="seasonCat"
 						>
 							<div className="relative w-full mt-1">
 								<Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-300">
@@ -442,79 +514,13 @@ const AddProducts = () => {
 								</Transition>
 							</div>
 						</Listbox>
-					</div>
-
-					<div>
-						{/* accessoriesCategory select below */}
-						<Listbox
-							value={selectedAccessories}
-							onChange={setSelectedAccessories}
-						>
-							<div className="relative w-full mt-1">
-								<Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-300">
-									<span className="block truncate">
-										{selectedAccessories.cat}
-									</span>
-									<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-										<ChevronsUpDown
-											className="w-5 h-5 text-gray-400"
-											aria-hidden="true"
-										/>
-									</span>
-								</Listbox.Button>
-								<Transition
-									as={Fragment}
-									leave="transition ease-in duration-100"
-									leaveFrom="opacity-100"
-									leaveTo="opacity-0"
-								>
-									<Listbox.Options className="absolute z-50 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black/5 focus:outline-none sm:text-sm">
-										{accessoriesCategory.map(
-											(season, seasonIdx) => (
-												<Listbox.Option
-													key={seasonIdx}
-													className={({ active }) =>
-														`relative select-none py-2 pl-10 pr-4 font-semibold cursor-pointer ${
-															active
-																? "bg-amber-100 text-amber-900"
-																: "text-gray-900"
-														}`
-													}
-													value={season}
-												>
-													{({ selected }) => (
-														<>
-															<span
-																className={`block truncate ${
-																	selected
-																		? "font-medium"
-																		: "font-normal"
-																}`}
-															>
-																{season.cat}
-															</span>
-															{selected ? (
-																<span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-																	<Check
-																		className="w-5 h-5"
-																		aria-hidden="true"
-																	/>
-																</span>
-															) : null}
-														</>
-													)}
-												</Listbox.Option>
-											)
-										)}
-									</Listbox.Options>
-								</Transition>
-							</div>
-						</Listbox>
 
 						{/* brandCategory select below */}
 						<Listbox
 							value={selectedBrand}
 							onChange={setSelectedBrand}
+							required
+							name="brandCat"
 						>
 							<div className="relative w-full mt-1">
 								<Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-300">
@@ -536,140 +542,6 @@ const AddProducts = () => {
 								>
 									<Listbox.Options className="absolute z-50 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black/5 focus:outline-none sm:text-sm">
 										{brandCategory.map(
-											(season, seasonIdx) => (
-												<Listbox.Option
-													key={seasonIdx}
-													className={({ active }) =>
-														`relative select-none py-2 pl-10 pr-4 font-semibold cursor-pointer ${
-															active
-																? "bg-amber-100 text-amber-900"
-																: "text-gray-900"
-														}`
-													}
-													value={season}
-												>
-													{({ selected }) => (
-														<>
-															<span
-																className={`block truncate ${
-																	selected
-																		? "font-medium"
-																		: "font-normal"
-																}`}
-															>
-																{season.cat}
-															</span>
-															{selected ? (
-																<span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-																	<Check
-																		className="w-5 h-5"
-																		aria-hidden="true"
-																	/>
-																</span>
-															) : null}
-														</>
-													)}
-												</Listbox.Option>
-											)
-										)}
-									</Listbox.Options>
-								</Transition>
-							</div>
-						</Listbox>
-					</div>
-
-					<div>
-						{/* maleCategory select below */}
-						<Listbox
-							value={selectedMale}
-							onChange={setSelectedMale}
-						>
-							<div className="relative w-full mt-1">
-								<Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-300">
-									<span className="block truncate">
-										{selectedMale.cat}
-									</span>
-									<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-										<ChevronsUpDown
-											className="w-5 h-5 text-gray-400"
-											aria-hidden="true"
-										/>
-									</span>
-								</Listbox.Button>
-								<Transition
-									as={Fragment}
-									leave="transition ease-in duration-100"
-									leaveFrom="opacity-100"
-									leaveTo="opacity-0"
-								>
-									<Listbox.Options className="absolute z-50 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black/5 focus:outline-none sm:text-sm">
-										{maleCategory.map(
-											(season, seasonIdx) => (
-												<Listbox.Option
-													key={seasonIdx}
-													className={({ active }) =>
-														`relative select-none py-2 pl-10 pr-4 font-semibold cursor-pointer ${
-															active
-																? "bg-amber-100 text-amber-900"
-																: "text-gray-900"
-														}`
-													}
-													value={season}
-												>
-													{({ selected }) => (
-														<>
-															<span
-																className={`block truncate ${
-																	selected
-																		? "font-medium"
-																		: "font-normal"
-																}`}
-															>
-																{season.cat}
-															</span>
-															{selected ? (
-																<span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-																	<Check
-																		className="w-5 h-5"
-																		aria-hidden="true"
-																	/>
-																</span>
-															) : null}
-														</>
-													)}
-												</Listbox.Option>
-											)
-										)}
-									</Listbox.Options>
-								</Transition>
-							</div>
-						</Listbox>
-
-						{/* femaleCategory select below */}
-						<Listbox
-							value={selectedFemale}
-							onChange={setSelectedFemale}
-						>
-							<div className="relative w-full mt-1">
-								<Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-300">
-									<span className="block truncate">
-										{selectedFemale.cat}
-									</span>
-									<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-										<ChevronsUpDown
-											className="w-5 h-5 text-gray-400"
-											aria-hidden="true"
-										/>
-									</span>
-								</Listbox.Button>
-								<Transition
-									as={Fragment}
-									leave="transition ease-in duration-100"
-									leaveFrom="opacity-100"
-									leaveTo="opacity-0"
-								>
-									<Listbox.Options className="absolute z-50 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black/5 focus:outline-none sm:text-sm">
-										{femaleCategory.map(
 											(season, seasonIdx) => (
 												<Listbox.Option
 													key={seasonIdx}
@@ -839,95 +711,3 @@ const AddProducts = () => {
 };
 
 export default AddProducts;
-
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-
-{
-	/* <>
-	<label
-		htmlFor="price"
-		className="block text-sm font-medium leading-6 text-gray-900"
-	>
-		Price
-	</label>
-	<div className="relative mt-2 rounded-md shadow-sm">
-		<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-			<span className="text-gray-500 sm:text-sm">$</span>
-		</div>
-		<input
-			type="text"
-			name="price"
-			id="price"
-			className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-			placeholder="0.00"
-		/>
-	</div>
-</>; */
-}
-
-/*
-      <Listbox value={selected} onChange={setSelected}>
-        <div className="relative mt-1">
-          <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            <span className="block truncate">{selected.name}</span>
-            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-              <ChevronUpDownIcon
-                className="w-5 h-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </span>
-          </Listbox.Button>
-          <Transition
-            as={Fragment}
-            leave="transition ease-in duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black/5 focus:outline-none sm:text-sm">
-              {people.map((person, personIdx) => (
-                <Listbox.Option
-                  key={personIdx}
-                  className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
-                    }`
-                  }
-                  value={person}
-                >
-                  {({ selected }) => (
-                    <>
-                      <span
-                        className={`block truncate ${
-                          selected ? 'font-medium' : 'font-normal'
-                        }`}
-                      >
-                        {person.name}
-                      </span>
-                      {selected ? (
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                          <CheckIcon className="w-5 h-5" aria-hidden="true" />
-                        </span>
-                      ) : null}
-                    </>
-                  )}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </Transition>
-        </div>
-      </Listbox>
-
-*/

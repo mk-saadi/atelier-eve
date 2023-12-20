@@ -181,10 +181,6 @@ const Exp = () => {
 					<Listbox
 						name="gender"
 						id="gender"
-						// onChange={(e) => {
-						// 	const selectedGenderValue = e.target.value;
-						// 	setSelectedGender({ gender: selectedGenderValue });
-						// }}
 						onChange={setSelectedGender}
 						value={selectedGender.gender}
 					>
@@ -207,12 +203,6 @@ const Exp = () => {
 								leaveTo="opacity-0"
 							>
 								<Listbox.Options className="absolute z-50 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black/5 focus:outline-none sm:text-sm">
-									{/* {people.map((person, index) => (
-										<Listbox.Option key={index}>
-											value={person.gender}
-											{person.gender}
-										</Listbox.Option>
-									))} */}
 									{people.map((person, personIdx) => (
 										<Listbox.Option
 											key={personIdx}
@@ -277,6 +267,7 @@ const Exp = () => {
 								});
 							}
 						}}
+						className="px-2 w-full py-1.5 mt-1  rounded-md shadow-md focus:outline-none"
 					>
 						{selectedGender.gender === "Male"
 							? maleCategory.map((category, index) => (
@@ -305,6 +296,97 @@ const Exp = () => {
 									</option>
 							  ))}
 					</select>
+
+					{/* 
+					<Listbox
+						name="category"
+						id="category"
+						value={
+							selectedGender.gender === "Male"
+								? selectedMale.cat
+								: selectedGender.gender === "Female"
+								? selectedFemale.cat
+								: selectedAccessories.cat
+						}
+						onChange={(e) => {
+							const selectedCategoryValue = e.target.value;
+							if (selectedGender.gender === "Male") {
+								setSelectedMale({ cat: selectedCategoryValue });
+							} else if (selectedGender.gender === "Female") {
+								setSelectedFemale({
+									cat: selectedCategoryValue,
+								});
+							} else {
+								setSelectedAccessories({
+									cat: selectedCategoryValue,
+								});
+							}
+						}}
+					>
+						<div className="relative w-full mt-1">
+							<Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-300">
+								<span className="block truncate">
+									{selectedGender.gender}
+								</span>
+								<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+									<ChevronsUpDown
+										className="w-5 h-5 text-gray-400"
+										aria-hidden="true"
+									/>
+								</span>
+							</Listbox.Button>
+							<Transition
+								as={Fragment}
+								leave="transition ease-in duration-100"
+								leaveFrom="opacity-100"
+								leaveTo="opacity-0"
+							>
+								<Listbox.Options>
+									{selectedGender.gender === "Male"
+										? maleCategory.map(
+												(category, index) => (
+													<Listbox.Option
+														key={index}
+														className={({
+															active,
+														}) =>
+															`relative select-none py-2 pl-10 pr-4 font-semibold cursor-pointer ${
+																active
+																	? "bg-amber-100 text-amber-900"
+																	: "text-gray-900"
+															}`
+														}
+														value={category}
+													>
+														{category.cat}
+													</Listbox.Option>
+												)
+										  )
+										: selectedGender.gender === "Female"
+										? femaleCategory.map(
+												(category, index) => (
+													<Listbox.Option
+														key={index}
+														value={category.cat}
+													>
+														{category.cat}
+													</Listbox.Option>
+												)
+										  )
+										: accessoriesCategory.map(
+												(category, index) => (
+													<Listbox.Option
+														key={index}
+														value={category.cat}
+													>
+														{category.cat}
+													</Listbox.Option>
+												)
+										  )}
+								</Listbox.Options>
+							</Transition>
+						</div>
+					</Listbox> */}
 				</div>
 			</div>
 		</div>
