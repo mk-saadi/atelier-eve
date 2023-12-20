@@ -30,20 +30,11 @@ const accessoriesCategory = [
 ];
 
 const Home = () => {
-	// const [selectedGender, setSelectedGender] = useState(people[0]);
 	const [selectedMale, setSelectedMale] = useState(maleCategory[0]);
 	const [selectedFemale, setSelectedFemale] = useState(femaleCategory[0]);
 	const [selectedAccessories, setSelectedAccessories] = useState(
 		accessoriesCategory[0]
 	);
-	// const handleGenderChange = (event) => {
-	// 	const selectedGender =
-	// 		event.target.value === "Male" ? "Male" : "Female";
-	// 	setSelectedGender(selectedGender);
-	// };
-
-	// const selectedCategory =
-	// 	selectedGender === "Male" ? selectedMale : selectedFemale;
 
 	const [selectedGender, setSelectedGender] = useState(people[0]);
 

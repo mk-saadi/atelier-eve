@@ -10,6 +10,7 @@ import Login from "./pages/authentication/Login";
 import AuthPage from "./pages/authentication/AuthPage";
 import AuthProvider from "./provide/AuthProvider";
 import AddProducts from "./dashboard/admin/AddProducts";
+import Exp from "./component/hooks/Exp";
 
 const router = createBrowserRouter([
 	{
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
 	{
 		path: "/addProducts",
 		element: <AddProducts />,
+	},
+	{
+		path: "/exp",
+		element: <Exp />,
 	},
 ]);
 
