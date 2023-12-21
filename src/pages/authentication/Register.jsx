@@ -154,6 +154,7 @@ const Register = () => {
 			<Fade
 				cascade
 				direction="up"
+				triggerOnce
 			>
 				<div className="relative">
 					<form
@@ -355,7 +356,7 @@ const Register = () => {
 						<input
 							type="submit"
 							value="Submit"
-							className="submitButton"
+							className="submitButton w-fit"
 						/>
 					</form>
 				</div>

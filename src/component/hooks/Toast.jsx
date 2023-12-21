@@ -26,10 +26,19 @@ const Toast = ({ type, message, onHide }) => {
 			iconComponent = null;
 	}
 
+	// useEffect(() => {
+	// 	const timeoutId = setTimeout(onHide, 3000);
+	// 	return () => clearTimeout(timeoutId);
+	// }, [onHide]);
 	useEffect(() => {
-		const timeoutId = setTimeout(onHide, 3000);
-		return () => clearTimeout(timeoutId);
-	}, [onHide]);
+		// Check if the type is "success" or "error" before setting a timeout
+		if (type === "success" || type === "error") {
+			const timeoutId = setTimeout(onHide, 3000);
+			return () => clearTimeout(timeoutId);
+		}
+
+		// If the type is "loading," don't clear the timeout
+	}, [type, onHide]);
 
 	return (
 		<Fade
