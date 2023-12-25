@@ -188,12 +188,12 @@ const NavbarS = () => {
 						leaveFrom="opacity-100"
 						leaveTo="opacity-0"
 					>
-						<div className="fixed inset-0 bg-black bg-opacity-25" />
+						<div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm" />
 					</Transition.Child>
 
 					<div
 						className="fixed inset-0 flex"
-						style={{ zIndex: "999" }}
+						style={{ zIndex: "0" }}
 					>
 						<Transition.Child
 							as={Fragment}
@@ -226,7 +226,6 @@ const NavbarS = () => {
 								<Tab.Group
 									as="div"
 									className="z-0 mt-2"
-									style={{ zIndex: "0" }}
 								>
 									<div className="border-b border-gray-200">
 										<Tab.List className="flex px-4 -mb-px space-x-8">
@@ -457,27 +456,47 @@ const NavbarS = () => {
 				</Dialog>
 			</Transition.Root>
 
-			<header className="relative  bg-[#fff]">
+			<header
+				className="relative  bg-[#fff]"
+				style={{ zIndex: "999" }}
+			>
 				<nav
 					aria-label="Top"
 					className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8"
 				>
 					<div className="border-b border-gray-200">
 						<div className="flex items-center h-16">
-							<button
-								type="button"
-								className="relative p-2 text-gray-400 bg-transparent  focus-visible:outline-offset-2 focus-visible:outline-[#fab07a] rounded-md lg:hidden"
-								style={{ zIndex: "0" }}
-								onClick={() => setOpen(true)}
-							>
-								<span className="absolute -inset-0.5" />
-								<span className="sr-only">Open menu</span>
+							{!open && (
+								<button
+									type="button"
+									className="relative p-2 text-gray-400 bg-transparent  focus-visible:outline-offset-2 focus-visible:outline-[#fab07a] rounded-md lg:hidden"
+									style={{ zIndex: "0" }}
+									onClick={() => setOpen(true)}
+								>
+									<span className="absolute -inset-0.5" />
+									<span className="sr-only">Open menu</span>
 
-								<AlignJustify
-									className="w-6 h-6"
-									aria-hidden="true"
-								/>
-							</button>
+									<AlignJustify
+										className="w-6 h-6"
+										aria-hidden="true"
+									/>
+								</button>
+							)}
+							{open && (
+								<button
+									type="button"
+									className="relative inline-flex items-center justify-center py-2 pl-4 pr-4 -m-2 text-gray-400 rounded-md"
+									style={{ zIndex: "9999" }}
+									onClick={() => setOpen(false)}
+								>
+									<span className="absolute -inset-0.5" />
+									<span className="sr-only">Close menu</span>
+									<X
+										className="w-6 h-6"
+										aria-hidden="true"
+									/>
+								</button>
+							)}
 
 							{/* Logo */}
 							<div className="flex ml-4 lg:ml-0">
@@ -664,9 +683,9 @@ const NavbarS = () => {
 											as="div"
 											className="relative hidden ml-3 sm:block"
 										>
-											<div className="flex items-center justify-center md:mr-2 lg:mr-0">
+											<div className="hidden md:mr-2 lg:mr-0 lg:block">
 												<Menu.Button
-													className="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+													className="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
 													// className="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
 												>
 													<span className="absolute -inset-1.5" />
