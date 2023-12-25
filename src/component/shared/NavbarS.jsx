@@ -450,6 +450,19 @@ const NavbarS = () => {
 										</span>
 									</a>
 								</div>
+
+								<div className="flex items-center justify-center">
+									<button
+										className="relative inline-flex items-center justify-center py-2 pl-4 pr-4 -m-2 text-gray-400 rounded-md"
+										onClick={() => setOpen(false)}
+									>
+										<span className="absolute -inset-0.5" />
+										<span className="sr-only">
+											Close menu
+										</span>
+										<X />
+									</button>
+								</div>
 							</Dialog.Panel>
 						</Transition.Child>
 					</div>
