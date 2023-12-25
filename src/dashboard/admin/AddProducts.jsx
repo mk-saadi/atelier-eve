@@ -55,6 +55,7 @@ const accessoriesCategory = [
 	{ cat: "Sunglasses" },
 	{ cat: "Watches" },
 	{ cat: "Wallets" },
+	{ cat: "Shoes" },
 ];
 
 const AddProducts = () => {
@@ -72,16 +73,26 @@ const AddProducts = () => {
 
 	const imgbbApiKey = "5617d55658537c83fee4ef9a7cffb921";
 
+	// const response = await axios.post(
+	// 	"https://api.imgbb.com/1/upload",
+	// 	formData
+	// );
+	// return response.data.data.url;
+
 	const uploadToImgbb = async (imageFile) => {
+		showToast("loading", "Hosting image!");
 		let formData = new FormData();
 		formData.append("image", imageFile);
 		formData.append("key", imgbbApiKey);
-
-		const response = await axios.post(
-			"https://api.imgbb.com/1/upload",
-			formData
-		);
-		return response.data.data.url;
+		try {
+			const response = await axios.post(
+				"https://api.imgbb.com/1/upload",
+				formData
+			);
+			return response.data.data.url;
+		} catch (error) {
+			showToast("error", "Image hosting failed!");
+		}
 	};
 
 	const handleProduct = async (e) => {
@@ -121,6 +132,8 @@ const AddProducts = () => {
 			secondaryPhotoUrls.push(photoUrl);
 		}
 
+		// if image upload to imgbb fails then break operation, return from here
+
 		let listItem = {
 			productName,
 			price,
@@ -142,6 +155,8 @@ const AddProducts = () => {
 			listItem.genderCat = genderCat;
 		}
 
+		showToast("loading", "Adding product to database!");
+
 		axios
 			.post("http://localhost:2000/products", listItem)
 			.then((res) => {
@@ -153,11 +168,9 @@ const AddProducts = () => {
 			.catch((err) => {
 				showToast(
 					"error",
-					"Couldn't add to database, Please try again"
+					"Couldn't add to database, Please try again!"
 				);
 			});
-
-		console.log("listItem: ", listItem);
 	};
 
 	const [selectedFile, setSelectedFile] = useState(null);

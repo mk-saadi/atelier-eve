@@ -21,6 +21,10 @@ const router = createBrowserRouter([
 				path: "/",
 				element: <Home />,
 			},
+			{
+				path: "/addProducts",
+				element: <AddProducts />,
+			},
 		],
 	},
 	{
@@ -36,10 +40,6 @@ const router = createBrowserRouter([
 				element: <Register />,
 			},
 		],
-	},
-	{
-		path: "/addProducts",
-		element: <AddProducts />,
 	},
 	{
 		path: "/exp",

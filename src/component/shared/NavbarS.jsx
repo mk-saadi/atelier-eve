@@ -150,7 +150,7 @@ const navigation = {
 		},
 	],
 	pages: [
-		{ name: "Company", href: "#" },
+		{ name: "Add product", href: "/addProducts" },
 		{ name: "Stores", href: "#" },
 	],
 };
@@ -164,13 +164,7 @@ const NavbarS = () => {
 	const [open, setOpen] = useState(false);
 
 	const handleLogOut = () => {
-		logOut()
-			.then(() => {
-				// navigate("/");
-			})
-			.catch((error) => {
-				console.log(error.message);
-			});
+		logOut();
 	};
 
 	return (
@@ -441,7 +435,7 @@ const NavbarS = () => {
 
 								<div className="px-4 py-6 border-t border-gray-200">
 									<a
-										href="#"
+										href="/"
 										className="flex items-center p-2 -m-2"
 									>
 										<img
@@ -487,7 +481,7 @@ const NavbarS = () => {
 
 							{/* Logo */}
 							<div className="flex ml-4 lg:ml-0">
-								<a href="#">
+								<a href="/">
 									<span className="sr-only">
 										Your Company
 									</span>
@@ -719,20 +713,20 @@ const NavbarS = () => {
 										</Menu>
 									</>
 								) : (
-									<div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+									<div className="hidden text-sm font-semibold text-gray-900/80 lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
 										<Link
 											to="/auth/login"
-											className="text-sm font-medium text-gray-400 hover:text-[#fab07a] duration-200"
+											className=" hover:text-[#fab07a] duration-200"
 										>
 											Sign in
 										</Link>
 										<span
-											className="w-px h-6 bg-gray-200"
+											className="w-px h-6 bg-gray-300"
 											aria-hidden="true"
 										/>
 										<Link
 											to="/auth/register"
-											className="text-sm font-medium text-gray-400 hover:text-[#fab07a] duration-200"
+											className=" hover:text-[#fab07a] duration-200"
 										>
 											Create account
 										</Link>
@@ -743,7 +737,7 @@ const NavbarS = () => {
 								<div className="flex lg:ml-6">
 									<a
 										href="#"
-										className="p-2 text-gray-400 hover:text-[#fab07a] duration-200 focus:outline-2 outline-offset-2 outline-[#fab07a]"
+										className="p-2 text-gray-900/80 hover:text-[#fab07a] duration-200 focus:outline-2 outline-offset-2 outline-[#fab07a]"
 									>
 										<span className="sr-only">Search</span>
 										<Search
@@ -759,7 +753,7 @@ const NavbarS = () => {
 										<div aria-hidden="true">
 											<Cart />
 										</div>
-										<span className="ml-2 text-sm font-medium text-gray-400">
+										<span className="ml-2 text-sm font-medium text-[#fab07a]">
 											0
 										</span>
 										<span className="sr-only">
