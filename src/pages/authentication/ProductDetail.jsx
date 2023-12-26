@@ -22,7 +22,7 @@ const ProductDetail = () => {
 		}
 	}, [id]);
 
-	// console.log("item", product.secondaryImages);
+	console.log("item", product?.secondaryImages);
 
 	return (
 		<>
@@ -77,54 +77,39 @@ const ProductDetail = () => {
 						<div className="hidden overflow-hidden rounded-lg aspect-h-4 aspect-w-3 lg:block">
 							<img
 								src={product.mainPhoto}
-								// alt={product.images[0].alt}
+								alt={product.productName}
 								className="object-cover object-center w-full h-full"
 							/>
 						</div>
-						<div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
+						<div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8 h-[450px]">
 							<div className="overflow-hidden rounded-lg aspect-h-2 aspect-w-3">
-								{/* <img
-									src={product.secondaryImages[1]}
-									alt={product.secondaryImages[1]}
-									className="object-cover object-center w-full h-full"
-								/> */}
-								{product?.secondaryImages?.length > 0 ? (
-									product?.secondaryImages?.map(
-										(name, index) => (
-											// <span
-											// 	key={index}
-											// 	className="block text-gray-300 whitespace-nowrap"
-											// >
-											// 	{name}
-											// </span>
-											<img
-												key={index}
-												src={name[1]}
-												alt={name}
-												className="object-cover object-center w-full h-full"
-											/>
-										)
-									)
-								) : (
-									<span className="text-gray-300 ">
-										No reaction yet!
-									</span>
+								{product?.secondaryImages?.length > 0 && (
+									<img
+										key={0}
+										src={product?.secondaryImages[0]}
+										alt={product?.secondaryImages[0]}
+										className="object-cover object-center w-full h-full"
+									/>
 								)}
 							</div>
-							{/* <div className="overflow-hidden rounded-lg aspect-h-2 aspect-w-3">
+							{product?.secondaryImages?.length > 0 && (
 								<img
-									src={product.images[2].src}
-									alt={product.images[2].alt}
+									key={0}
+									src={product?.secondaryImages[1]}
+									alt={product?.secondaryImages[1]}
 									className="object-cover object-center w-full h-full"
 								/>
-							</div> */}
+							)}
 						</div>
 						<div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-							{/* <img
-								src={product.images[3].src}
-								alt={product.images[3].alt}
-								className="object-cover object-center w-full h-full"
-							/> */}
+							{product?.secondaryImages?.length > 0 && (
+								<img
+									key={0}
+									src={product?.secondaryImages[2]}
+									alt={product?.secondaryImages[2]}
+									className="object-cover object-center w-full h-full"
+								/>
+							)}
 						</div>
 					</div>
 
