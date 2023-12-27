@@ -20,9 +20,9 @@ const ProductDetail = () => {
 
 	return (
 		<div className="flex flex-col min-h-screen mt-6 border-t border-black">
-			<div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-2 gap-y-4 lg:gap-y-0">
+			<div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-2 gap-y-4 lg:gap-y-0">
 				{/* 1st col */}
-				<div className="col-span-1">
+				<div className="col-span-2">
 					{/* image gallery here */}
 					<div className="overflow-hidden h-[500px] flex border border-green-500 lg:flex-row">
 						<div className="w-auto h-full">
@@ -79,6 +79,27 @@ const ProductDetail = () => {
 					<div>
 						<div>
 							<p>{product.productName}</p>
+
+							{product?.color && (
+								<div className="flex gap-1.5">
+									{product?.color
+										.split(",")
+										.map((hex, index) => (
+											<div
+												className="mt-4 shadow-md ring-2 ring-orange-400 ring-offset-2"
+												key={index}
+												style={{
+													backgroundColor: hex,
+													width: "30px",
+													height: "30px",
+													marginRight: "5px",
+													borderRadius: "50%",
+													// border: "2px solid orange",
+												}}
+											></div>
+										))}
+								</div>
+							)}
 						</div>
 					</div>
 				</div>

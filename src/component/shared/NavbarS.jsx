@@ -698,7 +698,7 @@ const NavbarS = () => {
 										>
 											<div className="hidden md:mr-2 lg:mr-0 lg:block">
 												<Menu.Button
-													className="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
+													className="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
 													// className="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
 												>
 													<span className="absolute -inset-1.5" />
