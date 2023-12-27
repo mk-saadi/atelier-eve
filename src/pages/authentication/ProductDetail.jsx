@@ -1,15 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { StarIcon } from "lucide-react";
 import { RadioGroup } from "@headlessui/react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 
 const ProductDetail = () => {
 	const [product, setProduct] = useState([]);
 	const { id } = useParams();
-	const secondaryImage = product?.secondaryImages;
+	const secondaryImage = product?.productImages;
 
 	useEffect(() => {
 		try {
@@ -20,6 +21,19 @@ const ProductDetail = () => {
 			console.log(error.message);
 		}
 	}, [id]);
+
+	const [currentSlide, setCurrentSlide] = useState(0);
+	const carouselRef = useRef(null);
+
+	const handleNextSlide = () => {
+		setCurrentSlide((currentSlide + 1) % secondaryImage.length);
+	};
+
+	const handlePreviousSlide = () => {
+		setCurrentSlide(
+			(currentSlide - 1 + secondaryImage.length) % secondaryImage.length
+		);
+	};
 
 	return (
 		<div className="flex flex-col min-h-screen mt-6 border-t border-black">
@@ -35,71 +49,63 @@ const ProductDetail = () => {
 								className="w-auto h-full"
 							/>
 						</div>
-						{/* 
-						<div className="w-auto h-full ">
-							<div className="grid w-auto h-full grid-cols-2 gap-x-6 drop-shadow-md">
-								<div className="flex flex-col w-full h-full gap-y-4">
-									{product?.secondaryImages?.length > 0 && (
+					</div>
+
+					{/* image carousel */}
+					<div className="relative w-[420px] border">
+						<div className="p-2 carousel-container">
+							<div
+								className="overflow-hidden p-2 flex justify-center items-center max-h-[468px] "
+								ref={carouselRef}
+							>
+								<div className="carousel-item active">
+									{secondaryImage && (
 										<img
-											key={0}
-											src={product?.secondaryImages[0]}
-											alt={product?.secondaryImages[0]}
-											className="w-auto h-[190px]"
-										/>
-									)}
-									{product?.secondaryImages?.length > 0 && (
-										<img
-											key={0}
-											src={product?.secondaryImages[1]}
-											alt={product?.secondaryImages[1]}
-											className="w-fit h-[190px]"
-										/>
-									)}
-								</div>
-								<div className="flex flex-col w-full h-full gap-y-4">
-									{product?.secondaryImages?.length > 0 && (
-										<img
-											key={0}
-											src={product?.secondaryImages[2]}
-											alt={product?.secondaryImages[2]}
-											className="w-fit h-[190px]"
-										/>
-									)}
-									{product?.secondaryImages?.length > 0 && (
-										<img
-											key={0}
-											src={product?.secondaryImages[3]}
-											alt={product?.secondaryImages[3]}
-											className="w-auto h-[190px]"
+											src={secondaryImage[currentSlide]}
+											alt=""
+											className="object-cover max-w-[345px] h-[450px] rounded-xl"
 										/>
 									)}
 								</div>
 							</div>
-						</div> */}
+						</div>
+						<div className="flex flex-row gap-2 mt-4 h-28">
+							{secondaryImage &&
+								secondaryImage.map((image, index) => (
+									<img
+										key={index}
+										src={image}
+										className="h-full border-2 border-orange-400 rounded-md shadow-md"
+										alt={`Image ${index}`}
+									/>
+								))}
+						</div>
+						<div className="absolute left-0 top-1/3">
+							<div className="flex gap-3 font-semibold text-gray-700">
+								<button
+									className="btn"
+									onClick={handleNextSlide}
+								>
+									<ArrowBigLeft />
+								</button>
+							</div>
+						</div>
+
+						<div className="absolute right-0 top-1/3">
+							<div className="flex gap-3 font-semibold text-gray-700">
+								<button
+									className="btn"
+									onClick={handlePreviousSlide}
+								>
+									<ArrowBigRight />
+								</button>
+							</div>
+						</div>
 					</div>
 
-					<Carousel
-						showArrows={true}
-						emulateTouch={true}
-						infiniteLoop={true}
-						showIndicators={false}
-						showThumbs={false}
-						className="h-full w-min"
-					>
-						{secondaryImage &&
-							secondaryImage?.map((image, index) => (
-								<div key={index}>
-									<img
-										src={image}
-										alt=""
-										className="object-cover w-auto h-full"
-									/>
-								</div>
-							))}
-					</Carousel>
 					{/* image gallery ends */}
 
-					<div>
+					<div className="mt-28">
 						<div>
 							<p>{product.productName}</p>
 

@@ -6,7 +6,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 
 const Exp = () => {
 	const [product, setProduct] = useState([]);
-	const secondaryImage = product?.secondaryImages;
+	const secondaryImage = product?.productImages;
 
 	console.log("secondaryImage: ", secondaryImage); // getting more than one image in an array
 
@@ -35,48 +35,54 @@ const Exp = () => {
 
 	return (
 		<div className="h-[300vh] p-10 overflow-hidden">
-			{/* <div className="overflow-hidden h-[650px] flex">
-				{secondaryImage &&
-					secondaryImage?.map((image, index) => (
-						<div key={index}>
-							<img
-								src={image}
-								alt=""
-								className="object-cover w-auto h-full"
-							/>
+			<div className="relative w-[460px] border">
+				<div className="p-2 carousel-container">
+					<div
+						className="overflow-hidden p-2 flex justify-center items-center max-h-[468px] "
+						ref={carouselRef}
+					>
+						<div className="carousel-item active">
+							{secondaryImage && (
+								<img
+									src={secondaryImage[currentSlide]}
+									alt=""
+									className="object-cover max-w-[295px] h-[450px] rounded-xl"
+								/>
+							)}
 						</div>
-					))}
-			</div> */}
-
-			<div className="carousel-container">
-				<div
-					className="carousel overflow-hidden h-[450px] "
-					ref={carouselRef}
-				>
-					{/* Only render the active image */}
-					<div className="carousel-item active">
-						{secondaryImage && (
-							<img
-								src={secondaryImage[currentSlide]}
-								alt=""
-								className="object-cover max-w-[295px] h-full"
-							/>
-						)}
 					</div>
 				</div>
-				<div className="flex gap-3 font-semibold text-gray-700">
-					<button
-						className="btn"
-						onClick={handleNextSlide}
-					>
-						<ArrowBigLeft />
-					</button>
-					<button
-						className="btn"
-						onClick={handlePreviousSlide}
-					>
-						<ArrowBigRight />
-					</button>
+				<div className="flex flex-row gap-2 mt-4 h-28">
+					{secondaryImage &&
+						secondaryImage.map((image, index) => (
+							<img
+								key={index}
+								src={image}
+								className="h-full shadow-md"
+								alt={`Image ${index}`}
+							/>
+						))}
+				</div>
+				<div className="absolute left-0 top-1/3">
+					<div className="flex gap-3 font-semibold text-gray-700">
+						<button
+							className="btn"
+							onClick={handleNextSlide}
+						>
+							<ArrowBigLeft />
+						</button>
+					</div>
+				</div>
+
+				<div className="absolute right-0 top-1/3">
+					<div className="flex gap-3 font-semibold text-gray-700">
+						<button
+							className="btn"
+							onClick={handlePreviousSlide}
+						>
+							<ArrowBigRight />
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>

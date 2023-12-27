@@ -149,9 +149,8 @@ const AddProducts = () => {
 		const form = e.target;
 		const productName = form.productName.value;
 		const price = parseFloat(form.price.value);
-		const mainPhoto = form.elements.image.files[0];
-		const secondaryImages = form.secondaryImage.files;
-		const first4Images = Array.from(secondaryImages).slice(0, 4);
+		const productImages = form.productImage.files;
+		const first4Images = Array.from(productImages).slice(0, 4);
 
 		const genderCat = form.genderCat.value;
 		const accessCat = form.accessCat.value;
@@ -170,8 +169,6 @@ const AddProducts = () => {
 			maxWidthOrHeight: 720,
 			useWebWorker: true,
 		};
-		const compressedMainPhoto = await imageCompression(mainPhoto, options);
-		const mainPhotoUrl = await uploadToImgbb(compressedMainPhoto);
 
 		let secondaryPhotoUrls = [];
 		for (let photo of first4Images) {
@@ -186,8 +183,7 @@ const AddProducts = () => {
 			productName,
 			price,
 			overview,
-			mainPhoto: mainPhotoUrl,
-			secondaryImages: secondaryPhotoUrls,
+			productImages: secondaryPhotoUrls,
 			accessCat,
 			seasonCat,
 			brandCat,
@@ -223,16 +219,6 @@ const AddProducts = () => {
 			});
 	};
 
-	const [selectedFile, setSelectedFile] = useState(null);
-	const [imagePreview, setImagePreview] = useState(null);
-	const handleChange = (event) => {
-		if (event.target.files.length > 0) {
-			const file = event.target.files[0];
-			setSelectedFile(file);
-			const imageUrl = URL.createObjectURL(file);
-			setImagePreview(imageUrl);
-		}
-	};
 	const [selectedImages, setSelectedImages] = useState([]);
 	const handleImageChange = (e) => {
 		const files = e.target.files;
@@ -370,85 +356,12 @@ const AddProducts = () => {
 							</div>
 						</div>
 
-						{/* upload main photo */}
 						<div className="w-full col-span-full ">
 							<label
-								htmlFor="preview-image"
+								htmlFor="productImage"
 								className="block text-sm font-semibold leading-6 text-gray-900"
 							>
-								Main Photo{" "}
-								<span className="px-2 text-lg text-red-400">
-									*
-								</span>
-							</label>
-							<div className="p-2 mt-2 h-[210px] border border-dashed bg-white rounded-lg  overflow-hidden border-gray-900/50">
-								{selectedFile ? (
-									<label
-										htmlFor="preview-image"
-										className="flex flex-col items-center justify-center gap-2 text-gray-500 cursor-pointer"
-									>
-										{imagePreview && (
-											<img
-												id="preview-image"
-												src={imagePreview}
-												alt="Image preview"
-												className="h-[150px] w-fit object-cover rounded-md  -md "
-											/>
-										)}
-										{selectedFile.name.length > 45
-											? `${selectedFile.name.slice(
-													0,
-													25
-											  )}...`
-											: selectedFile.name}
-									</label>
-								) : (
-									<>
-										<div className="flex justify-center px-6 py-10 mt-2">
-											<div className="text-center">
-												<Image
-													className="w-12 h-12 mx-auto text-gray-300"
-													aria-hidden="true"
-												/>
-												<div className="flex mt-4 text-sm leading-6 text-gray-600">
-													<label
-														htmlFor="preview-image"
-														className="relative font-semibold text-indigo-600 bg-white rounded-md cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-													>
-														<span>
-															Upload a file
-														</span>
-													</label>
-													<p className="pl-1">
-														or drag and drop
-													</p>
-												</div>
-												<p className="text-xs leading-5 text-gray-600">
-													PNG, JPG, GIF up to 10MB
-												</p>
-											</div>
-										</div>
-									</>
-								)}
-								<input
-									type="file"
-									id="preview-image"
-									name="image"
-									accept="image/*"
-									onChange={handleChange}
-									style={{ display: "none" }}
-									required
-									className="sr-only"
-								/>
-							</div>
-						</div>
-
-						<div className="w-full col-span-full ">
-							<label
-								htmlFor="secondaryImage"
-								className="block text-sm font-semibold leading-6 text-gray-900"
-							>
-								Secondary Images{" "}
+								Upload Product Image{" "}
 								<span className="px-2 text-lg text-red-400">
 									*
 								</span>
@@ -458,8 +371,8 @@ const AddProducts = () => {
 									<div className="mt-2.5">
 										<input
 											type="file"
-											name="secondaryImage"
-											id="secondaryImage"
+											name="productImage"
+											id="productImage"
 											accept="image/*"
 											multiple
 											autoComplete="product-image"

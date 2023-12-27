@@ -85,9 +85,9 @@ const Header = () => {
 								{it.genderCat !== "" && <p>{it.genderCat}</p>}
 							</div>
 							<div className="absolute top-0 w-full h-full">
-								{it?.mainPhoto && (
+								{it?.productImages && (
 									<img
-										src={it?.mainPhoto}
+										src={it?.productImages[0]}
 										alt=""
 										className="w-full h-max opacity-40 blur"
 										onError={(e) => {
@@ -101,9 +101,9 @@ const Header = () => {
 								className="h-min"
 								style={{ zIndex: "9999" }}
 							>
-								{it?.mainPhoto && (
+								{it?.productImages && (
 									<img
-										src={it?.mainPhoto}
+										src={it?.productImages[0]}
 										alt=""
 										className="h-[250px] rounded-xl shadow-xl md:h-[450px]"
 										onError={(e) => {
