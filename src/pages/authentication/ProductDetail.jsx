@@ -21,53 +21,64 @@ const ProductDetail = () => {
 	return (
 		<div className="flex flex-col min-h-screen mt-6 border-t border-black">
 			<div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-2 gap-y-4 lg:gap-y-0">
-				<div className="overflow-hidden h-[500px] flex border border-green-500 lg:flex-row col-span-1">
-					<div className="w-auto h-full">
-						<img
-							src={product.mainPhoto}
-							alt=""
-							className="w-auto h-full"
-						/>
-					</div>
+				{/* 1st col */}
+				<div className="col-span-1">
+					{/* image gallery here */}
+					<div className="overflow-hidden h-[500px] flex border border-green-500 lg:flex-row">
+						<div className="w-auto h-full">
+							<img
+								src={product.mainPhoto}
+								alt=""
+								className="w-auto h-full"
+							/>
+						</div>
 
-					<div className="w-auto h-full ">
-						<div className="grid w-auto h-full grid-cols-2 gap-x-6 drop-shadow-md">
-							<div className="flex flex-col w-full h-full gap-y-4">
-								{product?.secondaryImages?.length > 0 && (
-									<img
-										key={0}
-										src={product?.secondaryImages[0]}
-										alt={product?.secondaryImages[0]}
-										className="w-auto h-[190px]"
-									/>
-								)}
-								{product?.secondaryImages?.length > 0 && (
-									<img
-										key={0}
-										src={product?.secondaryImages[1]}
-										alt={product?.secondaryImages[1]}
-										className="w-fit h-[190px]"
-									/>
-								)}
+						<div className="w-auto h-full ">
+							<div className="grid w-auto h-full grid-cols-2 gap-x-6 drop-shadow-md">
+								<div className="flex flex-col w-full h-full gap-y-4">
+									{product?.secondaryImages?.length > 0 && (
+										<img
+											key={0}
+											src={product?.secondaryImages[0]}
+											alt={product?.secondaryImages[0]}
+											className="w-auto h-[190px]"
+										/>
+									)}
+									{product?.secondaryImages?.length > 0 && (
+										<img
+											key={0}
+											src={product?.secondaryImages[1]}
+											alt={product?.secondaryImages[1]}
+											className="w-fit h-[190px]"
+										/>
+									)}
+								</div>
+								<div className="flex flex-col w-full h-full gap-y-4">
+									{product?.secondaryImages?.length > 0 && (
+										<img
+											key={0}
+											src={product?.secondaryImages[2]}
+											alt={product?.secondaryImages[2]}
+											className="w-fit h-[190px]"
+										/>
+									)}
+									{product?.secondaryImages?.length > 0 && (
+										<img
+											key={0}
+											src={product?.secondaryImages[3]}
+											alt={product?.secondaryImages[3]}
+											className="w-auto h-[190px]"
+										/>
+									)}
+								</div>
 							</div>
-							<div className="flex flex-col w-full h-full gap-y-4">
-								{product?.secondaryImages?.length > 0 && (
-									<img
-										key={0}
-										src={product?.secondaryImages[2]}
-										alt={product?.secondaryImages[2]}
-										className="w-fit h-[190px]"
-									/>
-								)}
-								{product?.secondaryImages?.length > 0 && (
-									<img
-										key={0}
-										src={product?.secondaryImages[3]}
-										alt={product?.secondaryImages[3]}
-										className="w-auto h-[190px]"
-									/>
-								)}
-							</div>
+						</div>
+					</div>
+					{/* image gallery ends */}
+
+					<div>
+						<div>
+							<p>{product.productName}</p>
 						</div>
 					</div>
 				</div>
