@@ -1,92 +1,86 @@
-// import { useContext, useState, Fragment } from "react";
-// import { AuthContext } from "../../provide/AuthProvider";
-// // import { ChevronDown } from '@heroicons/react/20/solid'
-// import { Switch, Listbox, Transition } from "@headlessui/react";
-// import {
-// 	ChevronsUpDown,
-// 	ChevronDown,
-// 	Image,
-// 	PhoneOutgoingIcon,
-// 	Check,
-// } from "lucide-react";
+import axios from "axios";
+import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
-// const Exp = () => {
-// 	return <div></div>;
-// };
+const Exp = () => {
+	const [product, setProduct] = useState([]);
+	const secondaryImage = product?.secondaryImages;
 
-// export default Exp;
+	console.log("secondaryImage: ", secondaryImage); // getting more than one image in an array
 
-import * as React from "react";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import ListItemText from "@mui/material/ListItemText";
-import Select from "@mui/material/Select";
-import Checkbox from "@mui/material/Checkbox";
+	useEffect(() => {
+		try {
+			axios.get("http://localhost:2000/products").then((res) => {
+				setProduct(res.data[0]);
+			});
+		} catch (error) {
+			console.log(error.message);
+		}
+	}, []);
 
-const ITEM_HEIGHT = 88;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-	PaperProps: {
-		style: {
-			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-			width: 250,
-		},
-	},
-};
+	const [currentSlide, setCurrentSlide] = useState(0);
+	const carouselRef = useRef(null);
 
-const names = [
-	"Oliver Hansen",
-	"Van Henry",
-	"April Tucker",
-	"Ralph Hubbard",
-	"Omar Alexander",
-	"Carlos Abbott",
-	"Miriam Wagner",
-	"Bradley Wilkerson",
-	"Virginia Andrews",
-	"Kelly Snyder",
-];
+	const handleNextSlide = () => {
+		setCurrentSlide((currentSlide + 1) % secondaryImage.length);
+	};
 
-export default function Exp() {
-	const [personName, setPersonName] = React.useState([]);
-
-	const handleChange = (event) => {
-		const {
-			target: { value },
-		} = event;
-		setPersonName(
-			// On autofill we get a stringified value.
-			typeof value === "string" ? value.split(",") : value
+	const handlePreviousSlide = () => {
+		setCurrentSlide(
+			(currentSlide - 1 + secondaryImage.length) % secondaryImage.length
 		);
 	};
 
 	return (
-		<div>
-			<FormControl sx={{ m: 1, width: 300 }}>
-				<InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
-				<Select
-					labelId="demo-multiple-checkbox-label"
-					id="demo-multiple-checkbox"
-					multiple
-					value={personName}
-					onChange={handleChange}
-					input={<OutlinedInput label="Tag" />}
-					renderValue={(selected) => selected.join(", ")}
-					MenuProps={MenuProps}
-				>
-					{names.map((name) => (
-						<MenuItem
-							key={name}
-							value={name}
-						>
-							<Checkbox checked={personName.indexOf(name) > -1} />
-							<ListItemText primary={name} />
-						</MenuItem>
+		<div className="h-[300vh] p-10 overflow-hidden">
+			{/* <div className="overflow-hidden h-[650px] flex">
+				{secondaryImage &&
+					secondaryImage?.map((image, index) => (
+						<div key={index}>
+							<img
+								src={image}
+								alt=""
+								className="object-cover w-auto h-full"
+							/>
+						</div>
 					))}
-				</Select>
-			</FormControl>
+			</div> */}
+
+			<div className="carousel-container">
+				<div
+					className="carousel overflow-hidden h-[450px] "
+					ref={carouselRef}
+				>
+					{/* Only render the active image */}
+					<div className="carousel-item active">
+						{secondaryImage && (
+							<img
+								src={secondaryImage[currentSlide]}
+								alt=""
+								className="object-cover max-w-[295px] h-full"
+							/>
+						)}
+					</div>
+				</div>
+				<div className="flex gap-3 font-semibold text-gray-700">
+					<button
+						className="btn"
+						onClick={handleNextSlide}
+					>
+						<ArrowBigLeft />
+					</button>
+					<button
+						className="btn"
+						onClick={handlePreviousSlide}
+					>
+						<ArrowBigRight />
+					</button>
+				</div>
+			</div>
 		</div>
 	);
-}
+};
+
+export default Exp;

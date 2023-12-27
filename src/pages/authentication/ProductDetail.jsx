@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { StarIcon } from "lucide-react";
 import { RadioGroup } from "@headlessui/react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
 const ProductDetail = () => {
 	const [product, setProduct] = useState([]);
 	const { id } = useParams();
+	const secondaryImage = product?.secondaryImages;
 
 	useEffect(() => {
 		try {
@@ -32,7 +35,7 @@ const ProductDetail = () => {
 								className="w-auto h-full"
 							/>
 						</div>
-
+						{/* 
 						<div className="w-auto h-full ">
 							<div className="grid w-auto h-full grid-cols-2 gap-x-6 drop-shadow-md">
 								<div className="flex flex-col w-full h-full gap-y-4">
@@ -72,8 +75,28 @@ const ProductDetail = () => {
 									)}
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</div>
+
+					<Carousel
+						showArrows={true}
+						emulateTouch={true}
+						infiniteLoop={true}
+						showIndicators={false}
+						showThumbs={false}
+						className="h-full w-min"
+					>
+						{secondaryImage &&
+							secondaryImage?.map((image, index) => (
+								<div key={index}>
+									<img
+										src={image}
+										alt=""
+										className="object-cover w-auto h-full"
+									/>
+								</div>
+							))}
+					</Carousel>
 					{/* image gallery ends */}
 
 					<div>
@@ -109,8 +132,6 @@ const ProductDetail = () => {
 					<p>col span 2</p>
 				</div>
 			</div>
-
-			<p>hello</p>
 		</div>
 	);
 };
