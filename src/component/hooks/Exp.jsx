@@ -84,6 +84,7 @@ function classNames(...classes) {
 
 export default function Example() {
 	const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+	console.log("product.colors[0]: ", product.colors[0]);
 	const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
 
 	return (
