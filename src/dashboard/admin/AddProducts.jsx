@@ -2,12 +2,12 @@
 import * as React from "react";
 import { useContext, useState, Fragment } from "react";
 import { AuthContext } from "../../provide/AuthProvider";
-import { Switch, Listbox, Transition } from "@headlessui/react";
-import { ChevronsUpDown, Image, Check, ImagePlus } from "lucide-react";
+import { Listbox, Transition } from "@headlessui/react";
+import { ChevronsUpDown, Check } from "lucide-react";
 import Toast from "../../component/hooks/Toast";
 import useToast from "../../component/hooks/useToast";
 import imageCompression from "browser-image-compression";
-import { Fade, Slide } from "react-awesome-reveal";
+import { Fade } from "react-awesome-reveal";
 import axios from "axios";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -17,10 +17,6 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
-
-function classNames(...classes) {
-	return classes.filter(Boolean).join(" ");
-}
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -103,7 +99,7 @@ const accessoriesCategory = [
 
 const AddProducts = () => {
 	const { user } = useContext(AuthContext);
-	const [agreed, setAgreed] = useState(false);
+	// const [agreed, setAgreed] = useState(false);
 	const { toastType, toastMessage, showToast, hideToast } = useToast();
 
 	const [selectedGender, setSelectedGender] = useState(people[0]);
@@ -165,8 +161,8 @@ const AddProducts = () => {
 		const clothSize = form.clothSize.value;
 
 		const options = {
-			maxSizeMB: 0.08,
-			maxWidthOrHeight: 720,
+			maxSizeMB: 0.1,
+			maxWidthOrHeight: 1280,
 			useWebWorker: true,
 		};
 
@@ -203,20 +199,21 @@ const AddProducts = () => {
 
 		showToast("loading", "Adding product to database!");
 
-		axios
-			.post("http://localhost:2000/products", listItem)
-			.then((res) => {
-				if (res.data.acknowledged === true) {
-					showToast("success", "Product added to database!");
-					// form.reset();
-				}
-			})
-			.catch((err) => {
-				showToast(
-					"error",
-					"Couldn't add to database, Please try again!"
-				);
-			});
+		try {
+			const res = await axios.post(
+				"http://localhost:2000/products",
+				listItem
+			);
+			if (res.data.acknowledged === true) {
+				showToast("success", "Product added to the database!");
+				// form.reset();
+			}
+		} catch (error) {
+			showToast(
+				"error",
+				"Couldn't add to the database. Please try again!"
+			);
+		}
 	};
 
 	const [selectedImages, setSelectedImages] = useState([]);
