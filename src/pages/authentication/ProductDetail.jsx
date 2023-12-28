@@ -1,12 +1,21 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import PostContent from "../../component/hooks/PostContent";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+// import "swiper/css/pagination";
+// import { Pagination } from "swiper/modules";
+import "swiper/css/effect-cards";
+import { EffectCards } from "swiper/modules";
 
 const ProductDetail = () => {
-	const [product, setProduct] = useState([]);
 	const { id } = useParams();
-	const productImage = product?.productImages;
+	const [product, setProduct] = useState([]);
+	console.log("product: ", product);
+	const productImg = product?.productImages;
+	const duplicatedImages = productImg ? [...productImg, ...productImg] : [];
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -22,68 +31,54 @@ const ProductDetail = () => {
 		fetchData();
 	}, [id]);
 
-	// carousel
-	const [currentSlide, setCurrentSlide] = useState(0);
-	const carouselRef = useRef(null);
-	const handleNextSlide = () => {
-		setCurrentSlide((currentSlide + 1) % productImage.length);
-	};
-	const handlePreviousSlide = () => {
-		setCurrentSlide(
-			(currentSlide - 1 + productImage.length) % productImage.length
-		);
-	};
-
 	return (
-		<div className="flex flex-col min-h-screen mx-auto mt-6 border-t border-black lg:max-w-5xl">
-			<div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-2 gap-y-4 lg:gap-y-0">
+		<div className="flex flex-col min-h-screen mx-auto mt-6 lg:max-w-4xl xl:max-w-5xl">
+			<div className="grid grid-cols-1 overflow-x-hidden lg:grid-cols-3 lg:gap-x-2 gap-y-4 lg:gap-y-0">
 				{/* 1st col */}
 				<div className="col-span-2">
 					{/* image carousel */}
-					<div className="flex flex-row border border-black">
-						<div className="relative w-[390px]  flex-1">
-							<div className="p-2 carousel-container">
-								<div
-									className="overflow-hidden p-3 flex justify-center items-center max-h-[468px] "
-									ref={carouselRef}
-								>
-									<div className="carousel-item active">
-										{productImage && (
+					<div className="max-w-[250px] md:max-w-[350px] lg:max-w-[380px] block mx-auto lg:mx-0">
+						<div className="flex flex-col">
+							<Swiper
+								rewind={true}
+								effect={"cards"}
+								grabCursor={true}
+								modules={[EffectCards]}
+								className="w-full mySwiper h-fit"
+							>
+								{duplicatedImages &&
+									duplicatedImages.map((image, index) => (
+										<SwiperSlide
+											key={index}
+											className="block mx-auto bg-orange-100 shadow-xl h-min rounded-xl cursor-grab active:cursor-grabbing"
+										>
 											<img
-												src={productImage[currentSlide]}
-												alt="product image"
-												className="object-cover shadow-lg max-w-[345px] h-[450px] rounded-xl"
+												src={image}
+												className="md:h-[350px] lg:h-[420px] xl:h-[440px] h-[300px]"
+												alt={`Image ${index}`}
+												onClick={() => {
+													window.open(
+														image,
+														"_blank"
+													);
+												}}
 											/>
-										)}
-									</div>
-								</div>
-							</div>
-
-							<div className="absolute left-8 top-1/2">
-								<button
-									className="text-orange-400"
-									onClick={handlePreviousSlide}
-								>
-									<ChevronLeft />
-								</button>
-							</div>
-
-							<div className="absolute right-8 top-1/2">
-								<button
-									className="text-orange-400"
-									onClick={handleNextSlide}
-								>
-									<ChevronRight />
-								</button>
-							</div>
+										</SwiperSlide>
+									))}
+							</Swiper>
 						</div>
-						<div className="flex flex-col w-20 gap-2 mx-12 mt-4 border">
-							{productImage &&
-								productImage.map((image, index) => (
+						<div>
+							<p className="mt-2 text-xs text-center text-gray-500 md:text-sm">
+								* Click to open the image in a new window.
+							</p>
+						</div>
+						<div className="flex flex-row items-center justify-start gap-2 mt-3">
+							{productImg &&
+								productImg.map((image, index) => (
 									<img
 										key={index}
 										src={image}
-										className="object-cover h-20 border-2 border-orange-400 rounded-md"
+										className="object-cover h-16 border border-orange-400 rounded-md lg:h-20 min-w-8"
 										alt={`Image ${index}`}
 									/>
 								))}
@@ -91,9 +86,43 @@ const ProductDetail = () => {
 					</div>
 					{/* image gallery ends */}
 
-					<div className="mt-8">
+					<div className="mx-4 mt-8">
 						<div>
-							<p>{product.productName}</p>
+							<div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+								<h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+									{product.productName}
+								</h1>
+							</div>
+
+							<div className="mt-10">
+								<h3 className="sr-only">Description</h3>
+
+								<div className="space-y-6">
+									<PostContent
+										content={product.description}
+									/>
+								</div>
+							</div>
+
+							<div className="mt-5 border-t border-gray-900/30 max-w-prose">
+								<ul className="mt-1 mb-3 text-gray-700 list-disc list-inside">
+									<p className="font-semibold">
+										Quick overview
+									</p>
+									{product?.overview &&
+										product?.overview
+											.split(",")
+											.slice(0, 5)
+											.map((it, index) => (
+												<li
+													key={index}
+													className="ml-4 font-medium"
+												>
+													{it}
+												</li>
+											))}
+								</ul>
+							</div>
 
 							{product?.color && (
 								<div className="flex gap-1.5">
@@ -120,7 +149,7 @@ const ProductDetail = () => {
 				</div>
 
 				{/* seconds col span */}
-				<div className="col-span-1 border border-blue-500">
+				<div className="col-span-1 ">
 					<p>col span 2</p>
 				</div>
 			</div>

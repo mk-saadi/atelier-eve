@@ -2,7 +2,7 @@ import Header from "./homeComponent/Header";
 
 const Home = () => {
 	return (
-		<div className="h-[200vh]">
+		<div className="h-[200vh] overflow-x-hidden">
 			<div>
 				<Header />
 			</div>
