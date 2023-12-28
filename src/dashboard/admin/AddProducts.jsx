@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import * as React from "react";
 import { useContext, useState, Fragment } from "react";
 import { AuthContext } from "../../provide/AuthProvider";
@@ -28,7 +27,6 @@ const MenuProps = {
 		},
 	},
 };
-
 function getStyles(size, clothSize, theme) {
 	return {
 		fontWeight:

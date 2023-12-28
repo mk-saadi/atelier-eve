@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
 const ProductDetail = () => {
 	const [product, setProduct] = useState([]);
@@ -12,15 +11,14 @@ const ProductDetail = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await axios.get(
+				const res = await axios.get(
 					`http://localhost:2000/products/${id}`
 				);
-				setProduct(response.data);
+				setProduct(res.data);
 			} catch (error) {
 				console.error("Error fetching product data:", error.message);
 			}
 		};
-
 		fetchData();
 	}, [id]);
 

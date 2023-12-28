@@ -30,7 +30,7 @@ const products = [
 ];
 
 export default function Exp() {
-	const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(false);
 
 	return (
 		<>
