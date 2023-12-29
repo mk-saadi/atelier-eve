@@ -38,6 +38,14 @@ function getStyles(size, clothSize, theme) {
 
 const people = [{ gender: "" }, { gender: "Female" }, { gender: "Male" }];
 
+const status = [
+	{ cat: "Available" },
+	{ cat: "Upcoming" },
+	{ cat: "Sold Out" },
+	{ cat: "Hot" },
+	{ cat: "Trending" },
+];
+
 const season = [
 	{ sea: "All" },
 	{ sea: "Rainy" },
@@ -90,6 +98,7 @@ const AddProducts = () => {
 
 	const [selectedGender, setSelectedGender] = useState(people[0]);
 	const [selectedMale, setSelectedMale] = useState(maleCategory[0]);
+	const [selectedStatus, setSelectedStatus] = useState(status[0]);
 	const [selectedFemale, setSelectedFemale] = useState(femaleCategory[0]);
 	const [selectedSeason, setSelectedSeason] = useState(season[0]);
 	const [selectedAccessories, setSelectedAccessories] = useState(
@@ -148,20 +157,18 @@ const AddProducts = () => {
 		const productName = form.productName.value;
 		const price = parseFloat(form.price.value);
 		const productImages = form.productImage.files;
-		const first4Images = Array.from(productImages).slice(0, 4);
+		const first5Images = Array.from(productImages).slice(0, 5);
 
 		const genderCat = form.genderCat.value;
 		const accessCat = form.accessCat.value;
 		const seasonCat = selectedSeason.sea;
+		const statusCat = selectedStatus.cat;
 		const brandCat = form.brandName.value;
 
 		const overview = form.overview.value;
-		const quantity = parseFloat(form.quantity.value);
 		const color = form.color.value;
 		const material = form.material.value;
 		const description = form.description.value;
-		// const clothSize = form.clothSize.value;
-		// const selectedSizes = sizes.filter((size) => size.inStock); // good code
 		const updatedSizes = sizes.map((size) => ({
 			...size,
 			inStock: sizeName.includes(size.name),
@@ -174,7 +181,7 @@ const AddProducts = () => {
 		};
 
 		let secondaryPhotoUrls = [];
-		for (let photo of first4Images) {
+		for (let photo of first5Images) {
 			const compressedPhoto = await imageCompression(photo, options);
 			const photoUrl = await uploadToImgbb(compressedPhoto);
 			secondaryPhotoUrls.push(photoUrl);
@@ -187,12 +194,12 @@ const AddProducts = () => {
 			productImages: secondaryPhotoUrls,
 			accessCat,
 			seasonCat,
+			statusCat,
 			brandCat,
-			quantity,
 			color,
 			material,
 			description,
-			updatedSizes,
+			clothSizes: updatedSizes,
 			uploaderName: user?.displayName,
 			uploaderImage: user?.photoURL,
 			uploaderEmail: user?.email,
@@ -225,14 +232,14 @@ const AddProducts = () => {
 	const handleImageChange = (e) => {
 		const files = e.target.files;
 		const previewImages = [];
-		if (files.length > 4) {
-			showToast("error", "You can only upload up to 4 images!");
+		if (files.length > 5) {
+			showToast("error", "You can only upload up to 5 images!");
 		}
-		for (let i = 0; i < Math.min(files.length, 4); i++) {
+		for (let i = 0; i < Math.min(files.length, 5); i++) {
 			const reader = new FileReader();
 			reader.onload = (event) => {
 				previewImages.push(event.target.result);
-				if (previewImages.length === Math.min(files.length, 4)) {
+				if (previewImages.length === Math.min(files.length, 5)) {
 					setSelectedImages(previewImages);
 				}
 			};
@@ -278,13 +285,7 @@ const AddProducts = () => {
 					onSubmit={handleProduct}
 					className="max-w-xl mx-auto mt-16 sm:mt-20"
 				>
-					<div
-						className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2"
-						// cascade
-						// triggerOnce
-						// damping={0.1}
-						// direction="up"
-					>
+					<div className="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2">
 						<div className="w-full col-span-full ">
 							<label
 								htmlFor="productName"
@@ -301,7 +302,7 @@ const AddProducts = () => {
 									name="productName"
 									id="productName"
 									autoComplete="product-name"
-									className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
+									className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 bg-white"
 									required
 								/>
 							</div>
@@ -326,7 +327,7 @@ const AddProducts = () => {
 									type="text"
 									name="price"
 									id="price"
-									className="block w-full rounded-md border-0 pl-7 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
+									className="block w-full rounded-md border-0 pl-7 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6  bg-white"
 									required
 								/>
 							</div>
@@ -351,7 +352,7 @@ const AddProducts = () => {
 									id="overview"
 									autoComplete="organization"
 									rows={5}
-									className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
+									className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6  bg-white"
 									defaultValue={""}
 									required
 								></textarea>
@@ -483,6 +484,7 @@ const AddProducts = () => {
 								</div>
 							</Listbox>
 
+							{/* access cat here */}
 							<div className="flex-col items-center justify-around w-full md:flex gap-y-4 gap-x-3 md:flex-row col-span-full ">
 								<select
 									name="accessCat"
@@ -513,7 +515,7 @@ const AddProducts = () => {
 											});
 										}
 									}}
-									className="w-full px-2 py-2 mt-1 rounded-lg cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-400"
+									className="w-full px-2 py-2 mt-1 bg-white rounded-lg cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-400"
 									required
 								>
 									{selectedGender.gender === "Male"
@@ -645,7 +647,7 @@ const AddProducts = () => {
 										name="brandName"
 										id="brandName"
 										autoComplete="brand-name"
-										className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
+										className="block bg-white w-full rounded-md border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
 									/>
 								</div>
 							</div>
@@ -708,7 +710,8 @@ const AddProducts = () => {
 							</FormControl>
 						</div>
 
-						<Fade
+						{/* quantity input field */}
+						{/* <Fade
 							cascade
 							direction="up"
 							triggerOnce
@@ -724,7 +727,6 @@ const AddProducts = () => {
 								</span>
 							</label>
 							<div
-								// className="mt-2.5"
 								className="-mt-5"
 							>
 								<input
@@ -732,11 +734,103 @@ const AddProducts = () => {
 									name="quantity"
 									id="quantity"
 									autoComplete="number"
-									className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
+									className="block w-full rounded-md bg-white border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
 									required
 								/>
 							</div>
-						</Fade>
+						</Fade> */}
+
+						{/* cloth status here */}
+						<div className="col-span-full">
+							<Listbox
+								value={selectedStatus}
+								onChange={setSelectedStatus}
+								required
+								name="statusCat"
+							>
+								<div className="relative w-full mt-1">
+									<label
+										htmlFor="statusCat"
+										className="block text-sm font-semibold leading-6 text-gray-900"
+									>
+										Select Status{" "}
+										<span className="px-2 text-lg text-red-400">
+											*
+										</span>
+									</label>
+									<Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-400">
+										<span className="block truncate">
+											{selectedStatus.cat}
+										</span>
+										<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+											<ChevronsUpDown
+												className="w-5 h-5 text-gray-400"
+												aria-hidden="true"
+											/>
+										</span>
+									</Listbox.Button>
+									<Transition
+										as={Fragment}
+										leave="transition ease-in duration-100"
+										leaveFrom="opacity-100"
+										leaveTo="opacity-0"
+									>
+										<Listbox.Options className="absolute z-50 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black/5 focus:outline-none sm:text-sm">
+											{status.map((status, statusIdx) => (
+												<Listbox.Option
+													key={statusIdx}
+													className={({ active }) =>
+														`relative select-none py-2 pl-10 pr-4 font-semibold cursor-pointer ${
+															active
+																? "bg-amber-100 text-amber-900"
+																: "text-gray-900"
+														} ${
+															[
+																"Sold Out",
+																"Hot",
+																"Trending",
+															].includes(
+																status.cat
+															)
+																? "opacity-50 cursor-no-drop"
+																: ""
+														}`
+													}
+													value={status}
+													disabled={[
+														"Sold Out",
+														"Hot",
+														"Trending",
+													].includes(status.cat)}
+												>
+													{({ selected }) => (
+														<>
+															<span
+																className={`block truncate ${
+																	selected
+																		? "font-medium"
+																		: "font-normal"
+																}`}
+															>
+																{status.cat}
+															</span>
+															{selected ? (
+																<span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+																	<Check
+																		className="w-5 h-5"
+																		aria-hidden="true"
+																	/>
+																</span>
+															) : null}
+														</>
+													)}
+												</Listbox.Option>
+											))}
+										</Listbox.Options>
+									</Transition>
+								</div>
+							</Listbox>
+						</div>
 
 						<Fade
 							cascade
@@ -765,7 +859,7 @@ const AddProducts = () => {
 									name="color"
 									id="color"
 									autoComplete="color"
-									className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
+									className="block w-full rounded-md border-0 bg-white px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
 									required
 								/>
 							</div>
@@ -798,7 +892,7 @@ const AddProducts = () => {
 									name="material"
 									id="material"
 									autoComplete="material"
-									className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
+									className="block w-full rounded-md border-0 px-3.5 bg-white py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
 									required
 								/>
 							</div>
@@ -824,7 +918,7 @@ const AddProducts = () => {
 									name="description"
 									id="description"
 									rows={10}
-									className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
+									className="block w-full rounded-md border-0 px-3.5 py-2 bg-white text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
 									defaultValue={""}
 								/>
 							</div>
