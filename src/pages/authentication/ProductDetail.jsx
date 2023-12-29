@@ -6,14 +6,8 @@ import { RadioGroup } from "@headlessui/react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-// import "swiper/css/pagination";
-// import { Pagination } from "swiper/modules";
 import "swiper/css/effect-cards";
 import { EffectCards } from "swiper/modules";
-
-function classNames(...classes) {
-	return classes.filter(Boolean).join(" ");
-}
 
 const ProductDetail = () => {
 	const { id } = useParams();
@@ -22,6 +16,7 @@ const ProductDetail = () => {
 	const duplicatedImages = productImg ? [...productImg, ...productImg] : [];
 
 	const [color, setColor] = useState([]);
+	const [selectedColor, setSelectedColor] = useState(color[0]);
 	useEffect(() => {
 		try {
 			const colors = product?.color.split(",");
@@ -30,8 +25,6 @@ const ProductDetail = () => {
 			console.error("Error splitting colors:", error);
 		}
 	}, [product.color]);
-
-	const [selectedColor, setSelectedColor] = useState(color[0]);
 
 	useEffect(() => {
 		const fetchData = async () => {
