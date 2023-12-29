@@ -104,7 +104,6 @@ const AddProducts = () => {
 	const [selectedAccessories, setSelectedAccessories] = useState(
 		accessoriesCategory[0]
 	);
-	const imgbbApiKey = "5617d55658537c83fee4ef9a7cffb921";
 
 	// >> cloth size logic below
 	const [sizes, setSizes] = React.useState([
@@ -124,15 +123,15 @@ const AddProducts = () => {
 			target: { value },
 		} = event;
 		setSizeName(typeof value === "string" ? value.split(",") : value);
-
 		const updatedSizes = sizes.map((size) => ({
 			...size,
 			inStock: value.includes(size.name),
 		}));
-
 		setSizes(updatedSizes);
 	};
 
+	const imgbbApiKey = "5617d55658537c83fee4ef9a7cffb921";
+	// >> upload image to imgbb
 	const uploadToImgbb = async (imageFile) => {
 		showToast("loading", "Hosting image!");
 		let formData = new FormData();
@@ -149,6 +148,7 @@ const AddProducts = () => {
 		}
 	};
 
+	// >> upload product to database
 	const handleProduct = async (e) => {
 		e.preventDefault();
 		showToast("loading", "Please wait!");
@@ -208,8 +208,6 @@ const AddProducts = () => {
 			listItem.genderCat = genderCat;
 		}
 
-		console.log("listItem: ", listItem);
-
 		showToast("loading", "Adding product to database!");
 
 		try {
@@ -228,6 +226,7 @@ const AddProducts = () => {
 		}
 	};
 
+	// >> image preview function
 	const [selectedImages, setSelectedImages] = useState([]);
 	const handleImageChange = (e) => {
 		const files = e.target.files;

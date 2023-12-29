@@ -168,7 +168,7 @@ const NavbarS = () => {
 	};
 
 	return (
-		<div className=" bg-[#fff9e9]">
+		<div className=" bg-[#fffdf8]">
 			{/* Mobile menu */}
 			<Transition.Root
 				show={open}
@@ -204,7 +204,7 @@ const NavbarS = () => {
 							leaveFrom="translate-x-0"
 							leaveTo="-translate-x-full"
 						>
-							<Dialog.Panel className="relative flex flex-col w-full max-w-xs pb-12 overflow-y-auto bg-[#fff9e9] shadow-xl">
+							<Dialog.Panel className="relative flex flex-col w-full max-w-xs pb-12 overflow-y-auto bg-[#fffdf8] shadow-xl">
 								<div className="flex px-4 pt-5 pb-2">
 									<button
 										type="button"
@@ -470,7 +470,7 @@ const NavbarS = () => {
 			</Transition.Root>
 
 			<header
-				className="relative  bg-[#fff9e9]"
+				className="relative  bg-[#fffdf8]"
 				style={{ zIndex: "999" }}
 			>
 				<nav
@@ -562,11 +562,11 @@ const NavbarS = () => {
 														<Popover.Panel className="absolute inset-x-0 text-sm text-gray-500 top-full">
 															{/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
 															<div
-																className="absolute inset-0 bg-[#fff9e9] shadow top-1/2"
+																className="absolute inset-0 bg-[#fffdf8] shadow top-1/2"
 																aria-hidden="true"
 															/>
 
-															<div className="relative bg-[#fff9e9]">
+															<div className="relative bg-[#fffdf8]">
 																<div className="px-8 mx-auto max-w-7xl">
 																	<div className="grid grid-cols-2 py-16 gap-x-8 gap-y-10">
 																		<div className="grid grid-cols-2 col-start-2 gap-x-8">

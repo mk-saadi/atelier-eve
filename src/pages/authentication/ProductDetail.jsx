@@ -1,13 +1,15 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import PostContent from "../../component/hooks/PostContent";
-import { RadioGroup } from "@headlessui/react";
+import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import { EffectCards } from "swiper/modules";
+import sizeWomen from "../../assets/sizeWomenCloth.jpg";
+import sizeMen from "../../assets/sizeMenCloth.jpg";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -60,6 +62,15 @@ const ProductDetail = () => {
 		console.log("selectedCloth: ", selectedCloth);
 	};
 
+	// >> modal
+	const [isOpen, setIsOpen] = useState(false);
+	function closeModal() {
+		setIsOpen(false);
+	}
+	function openModal() {
+		setIsOpen(true);
+	}
+
 	return (
 		<div className="flex flex-col min-h-screen mx-auto mt-6 lg:max-w-4xl xl:max-w-5xl">
 			<div className="grid grid-cols-1 overflow-x-hidden lg:grid-cols-7 lg:gap-x-2 gap-y-4 lg:gap-y-0">
@@ -67,7 +78,7 @@ const ProductDetail = () => {
 				<div className="col-span-5">
 					{/* image carousel */}
 					<div className="max-w-[250px] md:max-w-[350px] lg:max-w-[380px] block mx-auto lg:mx-0">
-						<div className="flex flex-col">
+						<div className="flex flex-col xl:ml-14 lg:ml-12">
 							<Swiper
 								rewind={true}
 								effect={"cards"}
@@ -139,24 +150,6 @@ const ProductDetail = () => {
 				{/* 2nd col span */}
 				<div className="col-span-2 mt-8">
 					<form onSubmit={handleSubmit}>
-						{/* {product?.color && (
-							<div className="flex gap-1">
-								{product?.color.split(",").map((hex, index) => (
-									<div
-										className="mt-4 shadow-md"
-										key={index}
-										style={{
-											backgroundColor: hex,
-											width: "30px",
-											height: "30px",
-											marginRight: "5px",
-											borderRadius: "50%",
-										}}
-									></div>
-								))}
-							</div>
-						)} */}
-
 						<div>
 							<h1 className="text-xl font-semibold text-gray-900/80 sm:text-2xl">
 								{product.productName}
@@ -173,7 +166,6 @@ const ProductDetail = () => {
 								{product?.overview &&
 									product?.overview
 										.split(",")
-										.slice(0, 5)
 										.map((it, index) => (
 											<li
 												key={index}
@@ -230,12 +222,14 @@ const ProductDetail = () => {
 									<h3 className="text-sm font-medium text-gray-900">
 										Size
 									</h3>
-									<a
-										href=""
-										className="text-sm font-medium text-orange-400 hover:text-orange-500"
-									>
-										Size guide
-									</a>
+									<div className="-mb-[13px]">
+										<button
+											onClick={openModal}
+											className="text-sm font-medium text-orange-400 hover:text-orange-500"
+										>
+											Size guide
+										</button>
+									</div>
 								</div>
 
 								<RadioGroup
@@ -256,12 +250,12 @@ const ProductDetail = () => {
 													className={({ active }) =>
 														classNames(
 															size.inStock
-																? "cursor-pointer bg-white text-gray-900 shadow-md"
-																: "cursor-not-allowed bg-gray-50 text-gray-200",
+																? "cursor-pointer bg-white text-gray-700 shadow-xl font-semibold"
+																: "cursor-not-allowed bg-gray-50 text-gray-500 font-semibold",
 															active
 																? "ring-2 ring-orange-500"
 																: "",
-															"group relative flex items-center justify-center rounded-md border py-2 px-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-4"
+															"group relative flex items-center justify-center rounded-full border py-2 px-2 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-[17px]"
 														)
 													}
 												>
@@ -279,17 +273,17 @@ const ProductDetail = () => {
 																		checked
 																			? "border-orange-500"
 																			: "border-transparent",
-																		"pointer-events-none absolute -inset-px rounded-md"
+																		"pointer-events-none absolute -inset-px rounded-full"
 																	)}
 																	aria-hidden="true"
 																/>
 															) : (
 																<span
 																	aria-hidden="true"
-																	className="absolute border-2 border-gray-200 rounded-md pointer-events-none -inset-px"
+																	className="absolute border-2 border-red-400 rounded-full pointer-events-none -inset-px"
 																>
 																	<svg
-																		className="absolute inset-0 w-full h-full text-gray-200 stroke-2"
+																		className="absolute inset-0 w-full h-full text-gray-200 stroke-2 stroke-red-400"
 																		viewBox="0 0 100 100"
 																		preserveAspectRatio="none"
 																		stroke="currentColor"
@@ -324,12 +318,89 @@ const ProductDetail = () => {
 						<div>
 							<input
 								type="submit"
-								value="submit"
+								value="Add to cart"
+								className="inline-flex justify-center w-full px-4 py-2 mt-4 text-base font-semibold text-orange-600 duration-200 bg-orange-300 border-none shadow-xl outline-none cursor-pointer rounded-xl active:scale-95 hover:bg-orange-300 shadow-gray-700/30"
 							/>
 						</div>
 					</form>
 				</div>
 			</div>
+
+			<Transition
+				appear
+				show={isOpen}
+				as={Fragment}
+			>
+				<Dialog
+					as="div"
+					className="relative z-10"
+					onClose={closeModal}
+				>
+					<Transition.Child
+						as={Fragment}
+						enter="ease-out duration-300"
+						enterFrom="opacity-0"
+						enterTo="opacity-100"
+						leave="ease-in duration-200"
+						leaveFrom="opacity-100"
+						leaveTo="opacity-0"
+					>
+						<div className="fixed inset-0 bg-black/30" />
+					</Transition.Child>
+
+					<div className="fixed inset-0 overflow-y-auto">
+						<div className="flex items-center justify-center min-h-full p-4 text-center">
+							<Transition.Child
+								as={Fragment}
+								enter="ease-out duration-300"
+								enterFrom="opacity-0 scale-95"
+								enterTo="opacity-100 scale-100"
+								leave="ease-in duration-200"
+								leaveFrom="opacity-100 scale-100"
+								leaveTo="opacity-0 scale-95"
+							>
+								<Dialog.Panel className="p-6 overflow-hidden text-left align-middle transition-all transform bg-white w-fit authShadow rounded-xl">
+									<Dialog.Title
+										as="h2"
+										className="text-xl font-medium leading-6 text-gray-700"
+									>
+										Size guide.
+									</Dialog.Title>
+
+									<div className="flex flex-col justify-center gap-2 mt-2 text-sm font-medium text-gray-700 md:flex-row">
+										<div>
+											<p>Size guide for men.</p>
+											<img
+												src={sizeMen}
+												alt=""
+												className="xl:h-[320px] w-auto rounded-md shadow-xl"
+											/>
+										</div>
+										<div>
+											<p>Size guide for women.</p>
+											<img
+												src={sizeWomen}
+												alt=""
+												className="xl:h-[320px] w-auto rounded-md shadow-xl"
+											/>
+										</div>
+									</div>
+
+									<div className="mt-4">
+										<button
+											type="button"
+											className="inline-flex justify-center px-4 py-2 text-sm font-medium text-orange-500 duration-200 bg-orange-100 border border-transparent rounded-md active:scale-95 hover:bg-orange-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
+											onClick={closeModal}
+										>
+											Got it, thanks!
+										</button>
+									</div>
+								</Dialog.Panel>
+							</Transition.Child>
+						</div>
+					</div>
+				</Dialog>
+			</Transition>
 		</div>
 	);
 };
