@@ -36,18 +36,6 @@ function getStyles(size, clothSize, theme) {
 	};
 }
 
-const names = [
-	"x-small",
-	"small",
-	"medium",
-	"large",
-	"x-large",
-	"xx-large",
-	"xx-large big",
-	"xx-large tall",
-	"3x-large big",
-];
-
 const people = [{ gender: "" }, { gender: "Female" }, { gender: "Male" }];
 
 const season = [
@@ -107,18 +95,34 @@ const AddProducts = () => {
 	const [selectedAccessories, setSelectedAccessories] = useState(
 		accessoriesCategory[0]
 	);
+	const imgbbApiKey = "5617d55658537c83fee4ef9a7cffb921";
 
+	// >> cloth size logic below
+	const [sizes, setSizes] = React.useState([
+		{ name: "XXS", inStock: false },
+		{ name: "XS", inStock: false },
+		{ name: "S", inStock: false },
+		{ name: "M", inStock: false },
+		{ name: "L", inStock: false },
+		{ name: "XL", inStock: false },
+		{ name: "2XL", inStock: false },
+		{ name: "3XL", inStock: false },
+	]);
 	const [sizeName, setSizeName] = React.useState([]);
-
 	const theme = useTheme();
 	const handleSizeChange = (event) => {
 		const {
 			target: { value },
 		} = event;
 		setSizeName(typeof value === "string" ? value.split(",") : value);
-	};
 
-	const imgbbApiKey = "5617d55658537c83fee4ef9a7cffb921";
+		const updatedSizes = sizes.map((size) => ({
+			...size,
+			inStock: value.includes(size.name),
+		}));
+
+		setSizes(updatedSizes);
+	};
 
 	const uploadToImgbb = async (imageFile) => {
 		showToast("loading", "Hosting image!");
@@ -156,7 +160,12 @@ const AddProducts = () => {
 		const color = form.color.value;
 		const material = form.material.value;
 		const description = form.description.value;
-		const clothSize = form.clothSize.value;
+		// const clothSize = form.clothSize.value;
+		// const selectedSizes = sizes.filter((size) => size.inStock); // good code
+		const updatedSizes = sizes.map((size) => ({
+			...size,
+			inStock: sizeName.includes(size.name),
+		}));
 
 		const options = {
 			maxSizeMB: 0.1,
@@ -171,8 +180,6 @@ const AddProducts = () => {
 			secondaryPhotoUrls.push(photoUrl);
 		}
 
-		// if image upload to imgbb fails then break operation, return from here
-
 		let listItem = {
 			productName,
 			price,
@@ -185,7 +192,7 @@ const AddProducts = () => {
 			color,
 			material,
 			description,
-			clothSize,
+			updatedSizes,
 			uploaderName: user?.displayName,
 			uploaderImage: user?.photoURL,
 			uploaderEmail: user?.email,
@@ -193,6 +200,7 @@ const AddProducts = () => {
 		if (genderCat !== "") {
 			listItem.genderCat = genderCat;
 		}
+
 		console.log("listItem: ", listItem);
 
 		showToast("loading", "Adding product to database!");
@@ -204,7 +212,6 @@ const AddProducts = () => {
 			);
 			if (res.data.acknowledged === true) {
 				showToast("success", "Product added to the database!");
-				// form.reset();
 			}
 		} catch (error) {
 			showToast(
@@ -644,6 +651,7 @@ const AddProducts = () => {
 							</div>
 						</div>
 
+						{/* cloth size select tag here */}
 						<div>
 							<FormControl sx={{ m: 0.5, width: 300 }}>
 								<InputLabel id="demo-multiple-chip-label">
@@ -683,17 +691,17 @@ const AddProducts = () => {
 									)}
 									MenuProps={MenuProps}
 								>
-									{names.map((name) => (
+									{sizes.map((size) => (
 										<MenuItem
-											key={name}
-											value={name}
+											key={size.name}
+											value={size.name}
 											style={getStyles(
-												name,
+												size.name,
 												sizeName,
 												theme
 											)}
 										>
-											{name}
+											{size.name}
 										</MenuItem>
 									))}
 								</Select>
