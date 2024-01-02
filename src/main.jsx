@@ -12,6 +12,7 @@ import AuthProvider from "./provide/AuthProvider";
 import AddProducts from "./dashboard/admin/AddProducts";
 import Exp from "./component/hooks/Exp";
 import ProductDetail from "./pages/authentication/ProductDetail";
+import { CartProvider } from "./provide/CartProvider";
 
 const router = createBrowserRouter([
 	{
@@ -55,9 +56,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<AuthProvider>
-			<div className="flex flex-col min-h-screen bg-[#fffdf8] overflow-x-hidden">
-				<RouterProvider router={router} />
-			</div>
+			<CartProvider>
+				<div className="flex flex-col min-h-screen bg-[#fffdf8] overflow-x-hidden">
+					<RouterProvider router={router} />
+				</div>
+			</CartProvider>
 		</AuthProvider>
 	</React.StrictMode>
 );

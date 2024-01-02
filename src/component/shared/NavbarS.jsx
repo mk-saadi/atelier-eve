@@ -18,6 +18,7 @@ import { AlignJustify, BellIcon, Search, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import Cart from "./Cart";
 import { AuthContext } from "../../provide/AuthProvider";
+import { useCart } from "../../provide/CartProvider";
 
 const userNavigation = [
 	{ name: "Your Profile", href: "#" },
@@ -166,6 +167,8 @@ const NavbarS = () => {
 	const handleLogOut = () => {
 		logOut();
 	};
+
+	const { cartItems } = useCart();
 
 	return (
 		<div className=" bg-[#fffdf8]">
@@ -382,7 +385,7 @@ const NavbarS = () => {
 												/> */}
 												{user?.photoURL && (
 													<img
-														className="w-10 h-10 rounded-full"
+														className="object-cover w-10 h-10 rounded-full"
 														src={user?.photoURL}
 														alt=""
 													/>
@@ -588,7 +591,7 @@ const NavbarS = () => {
 																								alt={
 																									item.imageAlt
 																								}
-																								className="object-cover object-center"
+																								className="object-cover"
 																							/>
 																						</div>
 																						<a
@@ -707,7 +710,7 @@ const NavbarS = () => {
 													</span>
 													{user?.photoURL && (
 														<img
-															className="w-8 h-8 rounded-full"
+															className="object-cover w-8 h-8 rounded-full"
 															src={user?.photoURL}
 															alt=""
 														/>
@@ -723,19 +726,19 @@ const NavbarS = () => {
 												leaveFrom="transform opacity-100 scale-100"
 												leaveTo="transform opacity-0 scale-95"
 											>
-												<Menu.Items className="absolute right-0 z-50 w-48 py-1 mt-2 origin-top-right  bg-[#fff] rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-													<Menu.Items className="px-4 py-2 text-base text-gray-300  duration-200 hover:bg-[#fff] bg-opacity-50 cursor-pointer">
+												<Menu.Items className="absolute right-0 z-50 w-48 py-1 mt-2 font-medium text-gray-700 origin-top-right bg-gray-100 rounded-md shadow-lg ring-1 ring-orange-900/30 focus:outline-none">
+													<Menu.Items className="px-4 py-2 text-base duration-200 cursor-pointer hover:bg-orange-100">
 														<Link to="/profile">
 															User Profile
 														</Link>
 													</Menu.Items>
 
-													<Menu.Items className="px-4 py-2 text-base text-gray-300  duration-200 hover:bg-[#fff] bg-opacity-50 cursor-pointer">
+													<Menu.Items className="px-4 py-2 text-base duration-200 cursor-pointer hover:bg-orange-100">
 														Settings
 													</Menu.Items>
 
 													<Menu.Items
-														className="px-4 py-2 text-base text-gray-300  duration-200 hover:bg-[#fff] bg-opacity-50 cursor-pointer"
+														className="px-4 py-2 text-base duration-200 cursor-pointer hover:bg-orange-100"
 														onClick={handleLogOut}
 													>
 														<button>Logout</button>
@@ -786,7 +789,7 @@ const NavbarS = () => {
 											<Cart />
 										</div>
 										<span className="ml-2 text-sm font-medium text-[#fab07a]">
-											0
+											{cartItems.length}
 										</span>
 										<span className="sr-only">
 											items in cart, view bag

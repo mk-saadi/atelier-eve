@@ -31,7 +31,7 @@ const Login = () => {
 		setActiveInput("");
 	};
 
-	const handleLogin = (event) => {
+	const handleLogin = async (event) => {
 		event.preventDefault();
 		showToast("loading", "Please wait!");
 
@@ -46,26 +46,28 @@ const Login = () => {
 			return;
 		}
 
-		signIn(email, password)
-			.then((res) => {
-				const user = res.user;
-				if (user.uid) {
-					showToast(
-						"success",
-						`successfully signed in as ${user.displayName}`
-					);
-					form.reset();
+		try {
+			const res = await signIn(email, password);
+			const user = res.user;
+			if (user.uid) {
+				showToast(
+					"success",
+					`successfully signed in as ${user.displayName}`
+				);
 
+				form.reset();
+
+				setTimeout(() => {
+					showToast("loading", "Redirecting");
 					setTimeout(() => {
 						navigate("/");
-					}, 1500);
-				}
-			})
-			.catch((error) => {
-				passwordInput.value = "";
-
-				showToast("error", "Error, please try again");
-			});
+					}, 500);
+				}, 1000);
+			}
+		} catch (error) {
+			passwordInput.value = "";
+			showToast("error", "Error, please try again");
+		}
 	};
 
 	const [isOpen, setIsOpen] = useState(false);

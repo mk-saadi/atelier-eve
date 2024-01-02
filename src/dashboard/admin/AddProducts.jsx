@@ -709,36 +709,6 @@ const AddProducts = () => {
 							</FormControl>
 						</div>
 
-						{/* quantity input field */}
-						{/* <Fade
-							cascade
-							direction="up"
-							triggerOnce
-							className="sm:col-span-2"
-						>
-							<label
-								htmlFor="quantity"
-								className="block text-sm font-semibold leading-6 text-gray-900"
-							>
-								Quantity{" "}
-								<span className="px-2 text-lg text-red-400">
-									*
-								</span>
-							</label>
-							<div
-								className="-mt-5"
-							>
-								<input
-									type="number"
-									name="quantity"
-									id="quantity"
-									autoComplete="number"
-									className="block w-full rounded-md bg-white border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
-									required
-								/>
-							</div>
-						</Fade> */}
-
 						{/* cloth status here */}
 						<div className="col-span-full">
 							<Listbox

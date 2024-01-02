@@ -10,12 +10,14 @@ import "swiper/css/effect-cards";
 import { EffectCards } from "swiper/modules";
 import sizeWomen from "../../assets/sizeWomenCloth.jpg";
 import sizeMen from "../../assets/sizeMenCloth.jpg";
+import { useCart } from "../../provide/CartProvider";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 
 const ProductDetail = () => {
+	const { addToCart } = useCart();
 	const { id } = useParams();
 	const [product, setProduct] = useState([]);
 	const productImg = product?.productImages;
@@ -54,12 +56,15 @@ const ProductDetail = () => {
 		const form = e.target;
 		const clothColor = form.clothColor.value;
 		const clothSize = selectedSize.name;
+		const productId = id;
 
 		const selectedCloth = {
 			clothColor,
 			clothSize,
+			productId,
 		};
-		console.log("selectedCloth: ", selectedCloth);
+
+		addToCart(selectedCloth);
 	};
 
 	// >> modal
@@ -148,7 +153,7 @@ const ProductDetail = () => {
 				</div>
 
 				{/* 2nd col span */}
-				<div className="col-span-2 mt-8">
+				<div className="col-span-2 mx-4 mt-8 lg:mx-0 md:mx-4">
 					<form onSubmit={handleSubmit}>
 						<div>
 							<h1 className="text-xl font-semibold text-gray-900/80 sm:text-2xl">
@@ -251,11 +256,11 @@ const ProductDetail = () => {
 														classNames(
 															size.inStock
 																? "cursor-pointer bg-white text-gray-700 shadow-xl font-semibold"
-																: "cursor-not-allowed bg-gray-50 text-gray-500 font-semibold",
+																: "cursor-not-allowed bg-gray-100 text-gray-500 font-semibold",
 															active
 																? "ring-2 ring-orange-500"
 																: "",
-															"group relative flex items-center justify-center rounded-full border py-2 px-2 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-[17px]"
+															"group relative flex items-center justify-center rounded-full border border-gray-300 py-2 px-2 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 md:py-[12px] xl:py-[17px] sm:py-[17px] lg:py-[12px]"
 														)
 													}
 												>
@@ -268,7 +273,7 @@ const ProductDetail = () => {
 																<span
 																	className={classNames(
 																		active
-																			? "border"
+																			? "border "
 																			: "border-2",
 																		checked
 																			? "border-orange-500"

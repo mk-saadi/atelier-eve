@@ -9,11 +9,13 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import useToast from "../../component/hooks/useToast";
 import Toast from "../../component/hooks/Toast";
 import { Fade } from "react-awesome-reveal";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
 	const { signUp, updateProfileInfo } = useContext(AuthContext);
 	const [activeInput, setActiveInput] = useState("");
 	const { toastType, toastMessage, showToast, hideToast } = useToast();
+	const navigate = useNavigate();
 
 	const handleFocus = (e) => {
 		setActiveInput(e.target.name);
@@ -59,71 +61,144 @@ const Register = () => {
 			image.type
 		);
 
-		signUp(email, password)
-			.then((res) => {
-				if (res.user) {
-					const storageRef = ref(storage, email);
-					const uploadTask = uploadBytesResumable(storageRef, blob);
+		try {
+			const res = await signUp(email, password);
+			if (res.user) {
+				const storageRef = ref(storage, email);
+				const uploadTask = uploadBytesResumable(storageRef, blob);
 
-					uploadTask.on(
-						"state_changed",
-						(snapshot) => {
-							console.log(
-								"Upload is " +
-									(snapshot.bytesTransferred /
-										snapshot.totalBytes) *
-										100 +
-									"% done"
-							);
-						},
-						(error) => {
-							console.log(error.message);
-						},
-						() => {
-							getDownloadURL(uploadTask.snapshot.ref).then(
-								(downloadURL) => {
-									const userDocument = {
-										photo: downloadURL,
-										name: name,
-										email: email,
-									};
-									updateProfileInfo(name, downloadURL);
+				uploadTask.on(
+					"state_changed",
+					(snapshot) => {
+						console.log(
+							"Upload is " +
+								(snapshot.bytesTransferred /
+									snapshot.totalBytes) *
+									100 +
+								"% done"
+						);
+					},
+					(error) => {
+						console.log(error.message);
+					},
+					() => {
+						getDownloadURL(uploadTask.snapshot.ref).then(
+							(downloadURL) => {
+								const userDocument = {
+									photo: downloadURL,
+									name: name,
+									email: email,
+								};
+								updateProfileInfo(name, downloadURL);
 
-									axios
-										.post(
-											"http://localhost:2000/users",
-											userDocument
-										)
-										.then((response) => {
-											if (
-												response.data.acknowledged ===
-												true
-											) {
-												showToast(
-													"success",
-													"Registration successful!"
-												);
-
-												form.reset();
-											}
-										})
-										.catch((error) => {
+								axios
+									.post(
+										"http://localhost:2000/users",
+										userDocument
+									)
+									.then((response) => {
+										if (
+											response.data.acknowledged === true
+										) {
 											showToast(
-												"error",
-												"Couldn't store data to database!"
+												"success",
+												"Registration successful!"
 											);
-										});
-								}
-							);
-						}
-					);
-				} else {
-					showToast("error", "Error singing in user!");
-				}
-			})
-			.catch((error) => {
-				showToast("error", "Error singing in user!");
-			});
+
+											form.reset();
+											setTimeout(() => {
+												showToast(
+													"loading",
+													"Redirecting"
+												);
+												setTimeout(() => {
+													navigate("/");
+												}, 500);
+											}, 1000);
+										}
+									})
+									.catch((error) => {
+										showToast(
+											"error",
+											"Couldn't store data to database!"
+										);
+									});
+							}
+						);
+					}
+				);
+			} else {
+				showToast("error", "Error registering user!");
+			}
+		} catch (error) {
+			showToast("error", "Error registering user!");
+		}
+
+		// signUp(email, password)
+		// 	.then((res) => {
+		// 		if (res.user) {
+		// 			const storageRef = ref(storage, email);
+		// 			const uploadTask = uploadBytesResumable(storageRef, blob);
+
+		// 			uploadTask.on(
+		// 				"state_changed",
+		// 				(snapshot) => {
+		// 					console.log(
+		// 						"Upload is " +
+		// 							(snapshot.bytesTransferred /
+		// 								snapshot.totalBytes) *
+		// 								100 +
+		// 							"% done"
+		// 					);
+		// 				},
+		// 				(error) => {
+		// 					console.log(error.message);
+		// 				},
+		// 				() => {
+		// 					getDownloadURL(uploadTask.snapshot.ref).then(
+		// 						(downloadURL) => {
+		// 							const userDocument = {
+		// 								photo: downloadURL,
+		// 								name: name,
+		// 								email: email,
+		// 							};
+		// 							updateProfileInfo(name, downloadURL);
+
+		// 							axios
+		// 								.post(
+		// 									"http://localhost:2000/users",
+		// 									userDocument
+		// 								)
+		// 								.then((response) => {
+		// 									if (
+		// 										response.data.acknowledged ===
+		// 										true
+		// 									) {
+		// 										showToast(
+		// 											"success",
+		// 											"Registration successful!"
+		// 										);
+
+		// 										form.reset();
+		// 									}
+		// 								})
+		// 								.catch((error) => {
+		// 									showToast(
+		// 										"error",
+		// 										"Couldn't store data to database!"
+		// 									);
+		// 								});
+		// 						}
+		// 					);
+		// 				}
+		// 			);
+		// 		} else {
+		// 			showToast("error", "Error singing in user!");
+		// 		}
+		// 	})
+		// 	.catch((error) => {
+		// 		showToast("error", "Error singing in user!");
+		// 	});
 	};
 
 	const [selectedFile, setSelectedFile] = useState(null);

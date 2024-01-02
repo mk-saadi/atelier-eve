@@ -19,7 +19,6 @@ const Header = () => {
 		}
 	}, []);
 
-	console.log("item", item);
 	return (
 		<>
 			{/* <Swiper
