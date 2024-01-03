@@ -1,6 +1,8 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ShoppingBag, X } from "lucide-react";
+import { useCart } from "../../provide/CartProvider";
+import axios from "axios";
 
 const products = [
 	{
@@ -31,6 +33,30 @@ const products = [
 
 export default function Exp() {
 	const [open, setOpen] = useState(false);
+	const [cart, setCart] = useState([]);
+
+	const { cartItems } = useCart();
+	const selected = cartItems.map((ct) => ct.productId);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const res = await axios.get("http://localhost:2000/products");
+				if (res.status === 200) {
+					const data = res.data;
+					const matchedItems = data.filter((item) =>
+						selected.includes(item._id)
+					);
+					setCart(matchedItems);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchData();
+	}, []); // keeps re rendering
+
+	console.log("cart", cart);
 
 	return (
 		<>
