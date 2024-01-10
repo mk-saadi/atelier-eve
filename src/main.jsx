@@ -11,7 +11,7 @@ import AuthPage from "./pages/authentication/AuthPage";
 import AuthProvider from "./provide/AuthProvider";
 import AddProducts from "./dashboard/admin/AddProducts";
 import Exp from "./component/hooks/Exp";
-import ProductDetail from "./pages/authentication/ProductDetail";
+import ProductDetail from "./pages/productDetail/ProductDetail";
 import { CartProvider } from "./provide/CartProvider";
 
 const router = createBrowserRouter([

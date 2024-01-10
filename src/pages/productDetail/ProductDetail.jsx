@@ -21,6 +21,8 @@ const ProductDetail = () => {
 	const { id } = useParams();
 	const [product, setProduct] = useState([]);
 	const productImg = product?.productImages;
+	const productNameIs = product?.productName;
+	const productPrice = product?.price;
 	const duplicatedImages = productImg ? [...productImg, ...productImg] : [];
 
 	const [color, setColor] = useState([]);
@@ -39,9 +41,7 @@ const ProductDetail = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const res = await axios.get(
-					`http://localhost:2000/products/${id}`
-				);
+				const res = await axios.get(`http://localhost:2000/products/${id}`);
 				setProduct(res.data);
 			} catch (error) {
 				console.error("Error fetching product data:", error.message);
@@ -57,11 +57,15 @@ const ProductDetail = () => {
 		const clothColor = form.clothColor.value;
 		const clothSize = selectedSize.name;
 		const productId = id;
+		const productImage = productImg[0];
 
 		const selectedCloth = {
+			productId,
+			productNameIs,
+			productImage,
 			clothColor,
 			clothSize,
-			productId,
+			productPrice,
 		};
 
 		addToCart(selectedCloth);
@@ -102,10 +106,7 @@ const ProductDetail = () => {
 												className="md:h-[350px] lg:h-[420px] xl:h-[440px] h-[300px]"
 												alt={`Image ${index}`}
 												onClick={() => {
-													window.open(
-														image,
-														"_blank"
-													);
+													window.open(image, "_blank");
 												}}
 											/>
 										</SwiperSlide>
@@ -143,9 +144,7 @@ const ProductDetail = () => {
 								<h3 className="sr-only">Description</h3>
 
 								<div className="space-y-6">
-									<PostContent
-										content={product.description}
-									/>
+									<PostContent content={product.description} />
 								</div>
 							</div>
 						</div>
@@ -169,32 +168,26 @@ const ProductDetail = () => {
 							<ul className="mt-1 mb-3 text-gray-700 list-disc list-inside">
 								<p className="font-semibold">Quick overview</p>
 								{product?.overview &&
-									product?.overview
-										.split(",")
-										.map((it, index) => (
-											<li
-												key={index}
-												className="ml-4 font-medium"
-											>
-												{it}
-											</li>
-										))}
+									product?.overview.split(",").map((it, index) => (
+										<li
+											key={index}
+											className="ml-4 font-medium"
+										>
+											{it}
+										</li>
+									))}
 							</ul>
 						</div>
 
 						<div>
-							<h3 className="text-sm font-medium text-gray-900">
-								Color
-							</h3>
+							<h3 className="text-sm font-medium text-gray-900">Color</h3>
 							<RadioGroup
 								value={selectedColor}
 								onChange={setSelectedColor}
 								className="mt-4"
 								name="clothColor"
 							>
-								<RadioGroup.Label className="sr-only">
-									Choose a color
-								</RadioGroup.Label>
+								<RadioGroup.Label className="sr-only">Choose a color</RadioGroup.Label>
 								<div className="flex items-center space-x-3">
 									{color.map((hex, index) => (
 										<RadioGroup.Option
@@ -224,9 +217,7 @@ const ProductDetail = () => {
 						<div className="mt-10">
 							<div className="mt-10">
 								<div className="flex items-center justify-between">
-									<h3 className="text-sm font-medium text-gray-900">
-										Size
-									</h3>
+									<h3 className="text-sm font-medium text-gray-900">Size</h3>
 									<div className="-mb-[13px]">
 										<button
 											onClick={openModal}
@@ -242,9 +233,7 @@ const ProductDetail = () => {
 									onChange={setSelectedSize}
 									className="mt-4 lg:px-1"
 								>
-									<RadioGroup.Label className="sr-only">
-										Choose a size
-									</RadioGroup.Label>
+									<RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
 									<div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
 										{product?.clothSizes &&
 											product?.clothSizes.map((size) => (
@@ -257,9 +246,7 @@ const ProductDetail = () => {
 															size.inStock
 																? "cursor-pointer bg-white text-gray-700 shadow-xl font-semibold"
 																: "cursor-not-allowed bg-gray-100 text-gray-500 font-semibold",
-															active
-																? "ring-2 ring-orange-500"
-																: "",
+															active ? "ring-2 ring-orange-500" : "",
 															"group relative flex items-center justify-center rounded-full border border-gray-300 py-2 px-2 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 md:py-[12px] xl:py-[17px] sm:py-[17px] lg:py-[12px]"
 														)
 													}
@@ -272,9 +259,7 @@ const ProductDetail = () => {
 															{size.inStock ? (
 																<span
 																	className={classNames(
-																		active
-																			? "border "
-																			: "border-2",
+																		active ? "border " : "border-2",
 																		checked
 																			? "border-orange-500"
 																			: "border-transparent",
@@ -294,18 +279,10 @@ const ProductDetail = () => {
 																		stroke="currentColor"
 																	>
 																		<line
-																			x1={
-																				0
-																			}
-																			y1={
-																				100
-																			}
-																			x2={
-																				100
-																			}
-																			y2={
-																				0
-																			}
+																			x1={0}
+																			y1={100}
+																			x2={100}
+																			y2={0}
 																			vectorEffect="non-scaling-stroke"
 																		/>
 																	</svg>

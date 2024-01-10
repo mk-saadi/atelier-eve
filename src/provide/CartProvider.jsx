@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { createContext, useContext, useReducer, useEffect } from "react";
 
 const CartContext = createContext();
@@ -7,7 +8,7 @@ const cartReducer = (state, action) => {
 		case "ADD_TO_CART": {
 			const updatedCart = [...state.cartItems, action.payload];
 			// Save updated cart to localStorage
-			localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+			localStorage.setItem("cartItems-atelier", JSON.stringify(updatedCart));
 			return {
 				...state,
 				cartItems: updatedCart,
@@ -20,7 +21,7 @@ const cartReducer = (state, action) => {
 };
 
 const CartProvider = ({ children }) => {
-	const storedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+	const storedCartItems = JSON.parse(localStorage.getItem("cartItems-atelier")) || [];
 	const [state, dispatch] = useReducer(cartReducer, {
 		cartItems: storedCartItems,
 	});
@@ -32,14 +33,10 @@ const CartProvider = ({ children }) => {
 
 	// useEffect to update localStorage when cartItems change
 	useEffect(() => {
-		localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+		localStorage.setItem("cartItems-atelier", JSON.stringify(state.cartItems));
 	}, [state.cartItems]);
 
-	return (
-		<CartContext.Provider value={{ ...state, addToCart }}>
-			{children}
-		</CartContext.Provider>
-	);
+	return <CartContext.Provider value={{ ...state, addToCart }}>{children}</CartContext.Provider>;
 };
 
 const useCart = () => {

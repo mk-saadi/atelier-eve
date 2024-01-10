@@ -1,0 +1,71 @@
+[
+	{
+		"_id": "658f1d6779b5aed68bccc750",
+		"productName": "Men's Fleece Sweatpant (Available in Big & Tall)",
+		"price": 15.9,
+		"overview": "A relaxed straight leg and elastic,Drawstring waistband bring lounge-ready style to this classic casual pant,On-seam side pockets with a 32\" inseam,Everyday made better: we listen to customer feedback and fine-tune every detail to ensure quality fit and comfort,An Atelier Eve product\n",
+		"productImages": [
+			"https://i.ibb.co/x6F9c3b/blob.jpg",
+			"https://i.ibb.co/4F74Bpj/blob.jpg",
+			"https://i.ibb.co/Ns6t7x4/blob.jpg",
+			"https://i.ibb.co/tMM2Dgs/blob.jpg",
+			"https://i.ibb.co/1s6Krv0/blob.jpg"
+		],
+		"accessCat": "Sweatpant",
+		"seasonCat": "Summer",
+		"statusCat": "Available",
+		"brandCat": "Atelier Eve",
+		"color": "#171717,#d9c2a7,#fff,#2e372c,#ac9a7a",
+		"material": "56% Cotton,44% Polyester",
+		"description": "**Package Dimensions**: 14.48 x 11.93 x 2.44 inches, 14.39 Ounces.\n**Item model number**:  F17AE60508.\n**Department**: Men's.\n**Date First Available**: July 9, 2019.\n**Manufacturer**: Atelier Eve Essentials\n**ASIN**: B07Q3XADX5",
+		"uploaderName": "Raiden Ei",
+		"uploaderImage": "https://firebasestorage.googleapis.com/v0/b/next-pro-8e9af.appspot.com/o/raiden1000%40gmail.com?alt=media&token=3a74de83-b67c-4a78-9607-51cfd9246188",
+		"uploaderEmail": "raiden1000@gmail.com",
+		"genderCat": "Male",
+		"createdAt": "2023-12-29T19:26:31.548Z",
+		"clothSizes": [
+			{ "name": "XXS", "inStock": false },
+			{ "name": "XS", "inStock": false },
+			{ "name": "S", "inStock": true },
+			{ "name": "M", "inStock": true },
+			{ "name": "L", "inStock": true },
+			{ "name": "XL", "inStock": true },
+			{ "name": "2XL", "inStock": false },
+			{ "name": "3XL", "inStock": false }
+		]
+	},
+	{
+		"_id": "65948345acc71703a9d5509f",
+		"productName": "Women's Oversized Long Puffer Jacket",
+		"price": 88.9,
+		"overview": "Available in Plus Size,An Atelier Eve product,Imported from Vietnam,Water resistance",
+		"productImages": [
+			"https://i.ibb.co/C1zdN9J/blob.jpg",
+			"https://i.ibb.co/3zGcVGk/blob.jpg",
+			"https://i.ibb.co/8YrrzL4/blob.jpg",
+			"https://i.ibb.co/G0Lt0bf/blob.jpg"
+		],
+		"accessCat": "Jackets",
+		"seasonCat": "Winter",
+		"statusCat": "Available",
+		"brandCat": "AtelierEve",
+		"color": "#48502b,#fff",
+		"material": "100% Polyester",
+		"description": "**OVERSIZED FIT**: Roomy, generous fit through the body.\n**WATER-RESISTANT POLYESTER TAFFETA**:  Durable heavyweight quilted coat.  Fully lined, quilted and insulated. Designed to keep you warm even on the coldest winter days.\nThis product contains 100% Recycled Claim Standard (RCS) certified recycled polyester\n**LONG PUFFER**: This long puffer jacket brings endless comfort and warmth, and is the perfect jacket for all your winter adventures. Layer with a sweater or fleece sweatshirt for the colder winter months.\n**DETAILS**: Features an a-line shape, front zipper and snap closure, front pockets, elastic cuffs for comfort, and a hood with adjustable bungee cord and toggle. Side seam zippers at hem for versatile styling.\n**Features a 2-Way Zipper**: To close, pull down the upper slider until it touches the bottom slider. Insert the separable pin to the very bottom of the bottom slider (incomplete insertion may cause issues). Pull up the upper slider with the left hand. To open, pull down the top slider until it touches the bottom slider. Pull out the separable pin with the right hand.",
+		"clothSizes": [
+			{ "name": "XXS", "inStock": false },
+			{ "name": "XS", "inStock": false },
+			{ "name": "S", "inStock": false },
+			{ "name": "M", "inStock": true },
+			{ "name": "L", "inStock": true },
+			{ "name": "XL", "inStock": true },
+			{ "name": "2XL", "inStock": true },
+			{ "name": "3XL", "inStock": false }
+		],
+		"uploaderName": "Modeus",
+		"uploaderImage": "https://firebasestorage.googleapis.com/v0/b/next-pro-8e9af.appspot.com/o/modeus.hell%40inferno.dev?alt=media&token=69391331-4b94-47c7-a3cd-71e6fb844a20",
+		"uploaderEmail": "modeus.hell@inferno.dev",
+		"genderCat": "Female",
+		"createdAt": "2024-01-02T21:42:29.246Z"
+	}
+]
