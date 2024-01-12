@@ -7,18 +7,19 @@ import { Link } from "react-router-dom";
 export default function Exp() {
 	const [open, setOpen] = useState(false);
 
-	const { cartItems } = useCart();
-	console.log("cartItems: ", cartItems);
+	const { cartItems, dispatch } = useCart(); // all the products in localstorage
+
+	const handleRemove = (id) => {
+		console.log("id: ", id);
+		dispatch({ type: "REMOVE_FROM_CART", payload: id });
+		console.log("dispatch: ", dispatch);
+	};
 
 	const cartPrice = cartItems.map((ca) => ca.productPrice);
 
 	const totalCartPrice = cartPrice.reduce((accumulator, price) => {
 		return accumulator + price;
 	}, 0);
-
-	const handleRemove = (id) => {
-		console.log(id);
-	};
 
 	return (
 		<>

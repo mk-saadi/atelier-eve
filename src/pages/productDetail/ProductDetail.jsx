@@ -309,6 +309,11 @@ const ProductDetail = () => {
 				</div>
 			</div>
 
+			<div>
+				<p>Products related to this item</p>
+				<ProductCategory genderCategory={product.genderCat} />
+			</div>
+
 			<Transition
 				appear
 				show={isOpen}
@@ -384,6 +389,33 @@ const ProductDetail = () => {
 					</div>
 				</Dialog>
 			</Transition>
+		</div>
+	);
+};
+
+// eslint-disable-next-line react/prop-types
+const ProductCategory = ({ genderCategory }) => {
+	const [cat, setCat] = useState([]);
+	console.log("cat: ", cat);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const res = await axios.get(`http://localhost:2000/products/category/${genderCategory}`);
+				console.log("res: ", res);
+				if (res.status === 200) {
+					setCat(res.data);
+				}
+			} catch (error) {
+				console.log();
+			}
+		};
+		fetchData();
+	}, [genderCategory]);
+
+	return (
+		<div>
+			<p>product category here</p>
 		</div>
 	);
 };

@@ -35,16 +35,13 @@ const navigation = {
 				{
 					name: "New Arrivals",
 					href: "#",
-					imageSrc:
-						"https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg",
-					imageAlt:
-						"Models sitting back to back, wearing Basic Tee in black and bone.",
+					imageSrc: "https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg",
+					imageAlt: "Models sitting back to back, wearing Basic Tee in black and bone.",
 				},
 				{
 					name: "Basic Tees",
 					href: "#",
-					imageSrc:
-						"https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg",
+					imageSrc: "https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg",
 					imageAlt:
 						"Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.",
 				},
@@ -99,8 +96,7 @@ const navigation = {
 					href: "#",
 					imageSrc:
 						"https://tailwindui.com/img/ecommerce-images/product-page-04-detail-product-shot-01.jpg",
-					imageAlt:
-						"Drawstring top with elastic loop closure and textured interior padding.",
+					imageAlt: "Drawstring top with elastic loop closure and textured interior padding.",
 				},
 				{
 					name: "Artwork Tees",
@@ -215,9 +211,7 @@ const NavbarS = () => {
 										onClick={() => setOpen(false)}
 									>
 										<span className="absolute -inset-0.5" />
-										<span className="sr-only">
-											Close menu
-										</span>
+										<span className="sr-only">Close menu</span>
 										<X
 											className="w-6 h-6"
 											aria-hidden="true"
@@ -232,129 +226,93 @@ const NavbarS = () => {
 								>
 									<div className="border-b border-gray-200">
 										<Tab.List className="flex px-4 -mb-px space-x-8">
-											{navigation.categories.map(
-												(category) => (
-													<Tab
-														key={category.name}
-														className={({
-															selected,
-														}) =>
-															classNames(
-																selected
-																	? "border-[#fab07a] text-[#fab07a]"
-																	: "border-transparent text-gray-700 font-bold",
-																"flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fab07a]"
-															)
-														}
-													>
-														{category.name}
-													</Tab>
-												)
-											)}
+											{navigation.categories.map((category) => (
+												<Tab
+													key={category.name}
+													className={({ selected }) =>
+														classNames(
+															selected
+																? "border-[#fab07a] text-[#fab07a]"
+																: "border-transparent text-gray-700 font-bold",
+															"flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fab07a]"
+														)
+													}
+												>
+													{category.name}
+												</Tab>
+											))}
 										</Tab.List>
 									</div>
 
 									<Tab.Panels as={Fragment}>
-										{navigation.categories.map(
-											(category) => (
-												<Tab.Panel
-													key={category.name}
-													className="px-4 pt-10 pb-8 space-y-10"
-												>
-													<div className="grid grid-cols-2 gap-x-4">
-														{category.featured.map(
-															(item) => (
-																<div
-																	key={
-																		item.name
-																	}
-																	className="relative text-sm group"
-																>
-																	<div className="overflow-hidden bg-gray-100 rounded-lg aspect-h-1 aspect-w-1 group-hover:opacity-75">
-																		<img
-																			src={
-																				item.imageSrc
-																			}
-																			alt={
-																				item.imageAlt
-																			}
-																			className="object-cover object-center"
-																		/>
-																	</div>
-																	<a
-																		href={
-																			item.href
-																		}
-																		className="block mt-6 font-medium text-gray-900"
-																	>
-																		<span
-																			className="absolute inset-0 z-10"
-																			aria-hidden="true"
-																		/>
-																		{
-																			item.name
-																		}
-																	</a>
-																	<p
-																		aria-hidden="true"
-																		className="mt-1"
-																	>
-																		Shop now
-																	</p>
-																</div>
-															)
-														)}
-													</div>
-													{category.sections.map(
-														(section) => (
-															<div
-																key={
-																	section.name
-																}
-															>
-																<p
-																	id={`${category.id}-${section.id}-heading-mobile`}
-																	className="font-medium text-gray-900"
-																>
-																	{
-																		section.name
-																	}
-																</p>
-																<ul
-																	role="list"
-																	aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
-																	className="flex flex-col mt-6 space-y-6"
-																>
-																	{section.items.map(
-																		(
-																			item
-																		) => (
-																			<li
-																				key={
-																					item.name
-																				}
-																				className="flow-root"
-																			>
-																				<a
-																					href={
-																						item.href
-																					}
-																					className="block p-2 -m-2 text-gray-500"
-																				>
-																					{
-																						item.name
-																					}
-																				</a>
-																			</li>
-																		)
-																	)}
-																</ul>
+										{navigation.categories.map((category) => (
+											<Tab.Panel
+												key={category.name}
+												className="px-4 pt-10 pb-8 space-y-10"
+											>
+												<div className="grid grid-cols-2 gap-x-4">
+													{category.featured.map((item) => (
+														<div
+															key={item.name}
+															className="relative text-sm group"
+														>
+															<div className="overflow-hidden bg-gray-100 rounded-lg aspect-h-1 aspect-w-1 group-hover:opacity-75">
+																<img
+																	src={item.imageSrc}
+																	alt={item.imageAlt}
+																	className="object-cover object-center"
+																/>
 															</div>
-														)
-													)}
-												</Tab.Panel>
-											)
-										)}
+															<a
+																href={item.href}
+																className="block mt-6 font-medium text-gray-900"
+															>
+																<span
+																	className="absolute inset-0 z-10"
+																	aria-hidden="true"
+																/>
+																{item.name}
+															</a>
+															<p
+																aria-hidden="true"
+																className="mt-1"
+															>
+																Shop now
+															</p>
+														</div>
+													))}
+												</div>
+												{category.sections.map((section) => (
+													<div key={section.name}>
+														<p
+															id={`${category.id}-${section.id}-heading-mobile`}
+															className="font-medium text-gray-900"
+														>
+															{section.name}
+														</p>
+														<ul
+															role="list"
+															aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
+															className="flex flex-col mt-6 space-y-6"
+														>
+															{section.items.map((item) => (
+																<li
+																	key={item.name}
+																	className="flow-root"
+																>
+																	<a
+																		href={item.href}
+																		className="block p-2 -m-2 text-gray-500"
+																	>
+																		{item.name}
+																	</a>
+																</li>
+															))}
+														</ul>
+													</div>
+												))}
+											</Tab.Panel>
+										))}
 									</Tab.Panels>
 								</Tab.Group>
 
@@ -383,7 +341,7 @@ const NavbarS = () => {
 													src={user.imageUrl}
 													alt=""
 												/> */}
-												{user?.photoURL && (
+												{user && (
 													<img
 														className="object-cover w-10 h-10 rounded-full"
 														src={user?.photoURL}
@@ -404,9 +362,7 @@ const NavbarS = () => {
 												className="relative flex-shrink-0 p-1 ml-auto  bg-transparent rounded-full text-gray-400 hover:text-[#fab07a] duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
 											>
 												<span className="absolute -inset-1.5" />
-												<span className="sr-only">
-													View notifications
-												</span>
+												<span className="sr-only">View notifications</span>
 												<BellIcon
 													className="w-6 h-6"
 													aria-hidden="true"
@@ -448,9 +404,7 @@ const NavbarS = () => {
 										<span className="block ml-3 text-base font-medium text-gray-900">
 											CAD
 										</span>
-										<span className="sr-only">
-											, change currency
-										</span>
+										<span className="sr-only">, change currency</span>
 									</a>
 								</div>
 
@@ -460,9 +414,7 @@ const NavbarS = () => {
 										onClick={() => setOpen(false)}
 									>
 										<span className="absolute -inset-0.5" />
-										<span className="sr-only">
-											Close menu
-										</span>
+										<span className="sr-only">Close menu</span>
 										<X />
 									</button>
 								</div>
@@ -517,9 +469,7 @@ const NavbarS = () => {
 							{/* Logo */}
 							<div className="flex ml-4 lg:ml-0">
 								<a href="/">
-									<span className="sr-only">
-										Your Company
-									</span>
+									<span className="sr-only">Your Company</span>
 									<img
 										className="w-auto h-8"
 										src="https://tailwindui.com/img/logos/mark.svg?color=green&shade=500"
@@ -573,69 +523,50 @@ const NavbarS = () => {
 																<div className="px-8 mx-auto max-w-7xl">
 																	<div className="grid grid-cols-2 py-16 gap-x-8 gap-y-10">
 																		<div className="grid grid-cols-2 col-start-2 gap-x-8">
-																			{category.featured.map(
-																				(
-																					item
-																				) => (
-																					<div
-																						key={
-																							item.name
-																						}
-																						className="relative text-base group sm:text-sm"
-																					>
-																						<div className="overflow-hidden bg-gray-100 rounded-lg aspect-h-1 aspect-w-1 group-hover:opacity-75">
-																							<img
-																								src={
-																									item.imageSrc
-																								}
-																								alt={
-																									item.imageAlt
-																								}
-																								className="object-cover"
-																							/>
-																						</div>
-																						<a
-																							href={
-																								item.href
+																			{category.featured.map((item) => (
+																				<div
+																					key={item.name}
+																					className="relative text-base group sm:text-sm"
+																				>
+																					<div className="overflow-hidden bg-gray-100 rounded-lg aspect-h-1 aspect-w-1 group-hover:opacity-75">
+																						<img
+																							src={
+																								item.imageSrc
 																							}
-																							className="block mt-6 font-medium text-gray-900"
-																						>
-																							<span
-																								className="absolute inset-0 z-10"
-																								aria-hidden="true"
-																							/>
-																							{
-																								item.name
+																							alt={
+																								item.imageAlt
 																							}
-																						</a>
-																						<p
-																							aria-hidden="true"
-																							className="mt-1"
-																						>
-																							Shop
-																							now
-																						</p>
+																							className="object-cover"
+																						/>
 																					</div>
-																				)
-																			)}
+																					<a
+																						href={item.href}
+																						className="block mt-6 font-medium text-gray-900"
+																					>
+																						<span
+																							className="absolute inset-0 z-10"
+																							aria-hidden="true"
+																						/>
+																						{item.name}
+																					</a>
+																					<p
+																						aria-hidden="true"
+																						className="mt-1"
+																					>
+																						Shop now
+																					</p>
+																				</div>
+																			))}
 																		</div>
 																		<div className="grid grid-cols-3 row-start-1 text-sm gap-x-8 gap-y-10">
 																			{category.sections.map(
-																				(
-																					section
-																				) => (
-																					<div
-																						key={
-																							section.name
-																						}
-																					>
+																				(section) => (
+																					<div key={section.name}>
 																						<p
 																							id={`${section.name}-heading`}
 																							className="font-medium text-gray-900"
 																						>
-																							{
-																								section.name
-																							}
+																							{section.name}
 																						</p>
 																						<ul
 																							role="list"
@@ -643,9 +574,7 @@ const NavbarS = () => {
 																							className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
 																						>
 																							{section.items.map(
-																								(
-																									item
-																								) => (
+																								(item) => (
 																									<li
 																										key={
 																											item.name
@@ -705,10 +634,8 @@ const NavbarS = () => {
 													// className="relative flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
 												>
 													<span className="absolute -inset-1.5" />
-													<span className="sr-only">
-														Open user menu
-													</span>
-													{user?.photoURL && (
+													<span className="sr-only">Open user menu</span>
+													{user && (
 														<img
 															className="object-cover w-8 h-8 rounded-full"
 															src={user?.photoURL}
@@ -728,9 +655,7 @@ const NavbarS = () => {
 											>
 												<Menu.Items className="absolute right-0 z-50 w-48 py-1 mt-2 font-medium text-gray-700 origin-top-right bg-gray-100 rounded-md shadow-lg ring-1 ring-orange-900/30 focus:outline-none">
 													<Menu.Items className="px-4 py-2 text-base duration-200 cursor-pointer hover:bg-orange-100">
-														<Link to="/profile">
-															User Profile
-														</Link>
+														<Link to="/profile">User Profile</Link>
 													</Menu.Items>
 
 													<Menu.Items className="px-4 py-2 text-base duration-200 cursor-pointer hover:bg-orange-100">
@@ -791,9 +716,7 @@ const NavbarS = () => {
 										<span className="ml-2 text-sm font-medium text-[#fab07a]">
 											{cartItems.length}
 										</span>
-										<span className="sr-only">
-											items in cart, view bag
-										</span>
+										<span className="sr-only">items in cart, view bag</span>
 									</div>
 								</div>
 							</div>

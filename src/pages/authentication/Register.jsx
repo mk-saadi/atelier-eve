@@ -81,6 +81,7 @@ const Register = () => {
 								name: name,
 								email: email,
 								registrationDate: new Date(),
+								role: "general-user",
 							};
 							updateProfileInfo(name, downloadURL);
 

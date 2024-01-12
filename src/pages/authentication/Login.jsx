@@ -82,17 +82,18 @@ const Login = () => {
 	// 				registrationDate: new Date(),
 	// 			};
 
-	// 			const response = await axios.post("http://localhost:2000/users", userData);
-	// 			if (response.status === 200) {
-	// 				showToast("success", "Login successful!");
+	// 			// const response = await axios.post("http://localhost:2000/users", userData);
+	// 			// if (response.status === 200) {
+	// 			// 	console.log("response: ", response);
+	// 			// 	showToast("success", "Login successful!");
 
-	// 				setTimeout(() => {
-	// 					showToast("loading", "Redirecting.");
-	// 					setTimeout(() => {
-	// 						navigate("/");
-	// 					}, 500);
-	// 				}, 1000);
-	// 			}
+	// 			// 	// setTimeout(() => {
+	// 			// 	// 	showToast("loading", "Redirecting.");
+	// 			// 	// 	setTimeout(() => {
+	// 			// 	// 		navigate("/");
+	// 			// 	// 	}, 500);
+	// 			// 	// }, 1000);
+	// 			// }
 	// 		} catch (error) {
 	// 			console.log(error);
 	// 			// showToast("error", "Please try again");
@@ -100,8 +101,8 @@ const Login = () => {
 	// 	};
 	// 	handleRedirectResult();
 
-	// 	return () => {};
-	// }, [auth, showToast, navigate]);
+	// 	// return () => {};
+	// }, [auth, showToast]);
 
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -268,7 +269,7 @@ const Login = () => {
 					<div className="text-[#fab07a] flex justify-center items-center gap-4 text-xl md:text-2xl">
 						<button
 							type="button"
-							// onClick={signInWithGoogleRedirect}
+							onClick={signInWithGoogleRedirect}
 						>
 							<span className="sr-only">Login with your google account</span>
 							<FaGoogle aria-hidden="true" />
