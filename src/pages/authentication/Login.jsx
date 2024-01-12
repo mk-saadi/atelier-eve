@@ -1,4 +1,4 @@
-import { useContext, useState, Fragment } from "react";
+import { useContext, useState, Fragment, useEffect } from "react";
 import useToast from "../../component/hooks/useToast";
 import Toast from "../../component/hooks/Toast";
 import { CheckSquare2, Eye, EyeOff, Square } from "lucide-react";
@@ -10,10 +10,12 @@ import { Dialog, Transition } from "@headlessui/react";
 import "./auth.css";
 import { useNavigate } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
+import axios from "axios";
+import { getRedirectResult, sendPasswordResetEmail } from "firebase/auth";
 // import { space } from "postcss/lib/list";
 
 const Login = () => {
-	const { signIn } = useContext(AuthContext);
+	const { signIn, signInWithGoogleRedirect, auth } = useContext(AuthContext);
 	const { toastType, toastMessage, showToast, hideToast } = useToast();
 	const [activeInput, setActiveInput] = useState("");
 	const [isToggled, setIsToggled] = useState(false);
@@ -50,10 +52,7 @@ const Login = () => {
 			const res = await signIn(email, password);
 			const user = res.user;
 			if (user.uid) {
-				showToast(
-					"success",
-					`successfully signed in as ${user.displayName}`
-				);
+				showToast("success", `successfully signed in as ${user.displayName}`);
 
 				form.reset();
 
@@ -70,6 +69,40 @@ const Login = () => {
 		}
 	};
 
+	// useEffect(() => {
+	// 	const handleRedirectResult = async () => {
+	// 		try {
+	// 			const result = await getRedirectResult(auth);
+	// 			const user = result?.user;
+
+	// 			const userData = {
+	// 				photo: user?.photoURL,
+	// 				name: user?.displayName,
+	// 				email: user?.email,
+	// 				registrationDate: new Date(),
+	// 			};
+
+	// 			const response = await axios.post("http://localhost:2000/users", userData);
+	// 			if (response.status === 200) {
+	// 				showToast("success", "Login successful!");
+
+	// 				setTimeout(() => {
+	// 					showToast("loading", "Redirecting.");
+	// 					setTimeout(() => {
+	// 						navigate("/");
+	// 					}, 500);
+	// 				}, 1000);
+	// 			}
+	// 		} catch (error) {
+	// 			console.log(error);
+	// 			// showToast("error", "Please try again");
+	// 		}
+	// 	};
+	// 	handleRedirectResult();
+
+	// 	return () => {};
+	// }, [auth, showToast, navigate]);
+
 	const [isOpen, setIsOpen] = useState(false);
 
 	const [showPassword, setShowPassword] = useState(false);
@@ -84,6 +117,36 @@ const Login = () => {
 	function openModal() {
 		setIsOpen(true);
 	}
+
+	const [email, setEmail] = useState("");
+
+	// const resetPassword = async (event) => {
+	// 	event.preventDefault();
+
+	// 	if (!email) {
+	// 		return showToast("error", "Please enter an email first");
+	// 	}
+
+	// 	// try {
+	// 	// 	// const resetPass = async () => {
+	// 	// 	const res = await sendPasswordResetEmail(auth, email);
+	// 	// 	if (res) {
+	// 	// 		showToast("success", "Please check your email");
+	// 	// 	}
+	// 	// 	// };
+	// 	// 	// resetPass();
+	// 	// } catch (error) {
+	// 	// 	showToast("error", "Please try again!");
+	// 	// }
+
+	// 	sendPasswordResetEmail(auth, email)
+	// 		.then(() => {
+	// 			showToast("success", "Please check your email");
+	// 		})
+	// 		.catch((err) => {
+	// 			showToast("error", "Please try again!");
+	// 		});
+	// };
 
 	return (
 		<>
@@ -111,21 +174,15 @@ const Login = () => {
 						<div
 							className="bg-[#42486a]"
 							style={{
-								borderLeft:
-									activeInput === "email"
-										? "3px solid #fab07a"
-										: "",
-								paddingLeft:
-									activeInput === "email" ? "7px" : "",
+								borderLeft: activeInput === "email" ? "3px solid #fab07a" : "",
+								paddingLeft: activeInput === "email" ? "7px" : "",
 							}}
 							onFocus={handleFocus}
 							onBlur={handleBlur}
 							id="parag"
 							tabIndex={1}
 						>
-							<p className="text-sm font-medium text-gray-400">
-								Your Email
-							</p>
+							<p className="text-sm font-medium text-gray-400">Your Email</p>
 							<input
 								type="text"
 								id="inputForm"
@@ -137,21 +194,15 @@ const Login = () => {
 						<div
 							className="bg-[#42486a]"
 							style={{
-								borderLeft:
-									activeInput === "password"
-										? "3px solid #fab07a"
-										: "",
-								paddingLeft:
-									activeInput === "password" ? "7px" : "",
+								borderLeft: activeInput === "password" ? "3px solid #fab07a" : "",
+								paddingLeft: activeInput === "password" ? "7px" : "",
 							}}
 							onFocus={handleFocus}
 							onBlur={handleBlur}
 							id="parag"
 							tabIndex={1}
 						>
-							<p className="text-sm font-medium text-gray-400">
-								Password
-							</p>
+							<p className="text-sm font-medium text-gray-400">Password</p>
 							<div className="flex">
 								<input
 									id="inputForm"
@@ -177,11 +228,7 @@ const Login = () => {
 									className="cursor-pointer text-[#fab07a] duration-200"
 									onClick={handleClick}
 								>
-									{isToggled ? (
-										<CheckSquare2 />
-									) : (
-										<Square className="text-gray-300" />
-									)}
+									{isToggled ? <CheckSquare2 /> : <Square className="text-gray-300" />}
 								</span>{" "}
 								Remember Me
 							</div>
@@ -189,18 +236,22 @@ const Login = () => {
 							<div className="-mb-[13px]">
 								<button
 									onClick={openModal}
-									className="font-medium text-gray-300 cursor-pointer hover:underline"
+									className="font-medium text-gray-300 cursor-pointer hover:underline focus-visible:outline-none"
 								>
 									forgot password?
 								</button>
 							</div>
 						</div>
 					</Fade>
-					<input
-						type="submit"
-						value="Submit"
-						className="submitButton w-fit"
-					/>
+
+					<div className="w-fit">
+						<span className="sr-only">Submit login form</span>
+						<input
+							type="submit"
+							value="Login"
+							className="submitButton w-fit"
+						/>
+					</div>
 				</form>
 
 				<div>
@@ -213,15 +264,18 @@ const Login = () => {
 				</div>
 
 				<div className="flex items-center justify-start my-8">
-					<p className="mr-16 text-base font-semibold text-gray-300 md:text-xl">
-						Login with your
-					</p>
+					<p className="mr-16 text-base font-semibold text-gray-300 md:text-xl">Login with your</p>
 					<div className="text-[#fab07a] flex justify-center items-center gap-4 text-xl md:text-2xl">
-						<button>
-							<FaGoogle />
+						<button
+							type="button"
+							// onClick={signInWithGoogleRedirect}
+						>
+							<span className="sr-only">Login with your google account</span>
+							<FaGoogle aria-hidden="true" />
 						</button>
-						<button>
-							<FaSquareFacebook />
+						<button type="button">
+							<span className="sr-only">Login with your facebook account</span>
+							<FaSquareFacebook aria-hidden="true" />
 						</button>
 					</div>
 				</div>
@@ -268,9 +322,8 @@ const Login = () => {
 										</Dialog.Title>
 										<div className="mt-2">
 											<p className="text-base text-gray-500">
-												Enter your registered email
-												below. We will send a mail to
-												you to get your password reset.
+												Enter your registered email below. We will send a mail to you
+												to get your password reset.
 											</p>
 										</div>
 
@@ -278,37 +331,33 @@ const Login = () => {
 											className="bg-[#42486a] mt-4"
 											style={{
 												borderLeft:
-													activeInput === "emails"
-														? "3px solid #fab07a"
-														: "",
-												paddingLeft:
-													activeInput === "emails"
-														? "7px"
-														: "",
+													activeInput === "emails" ? "3px solid #fab07a" : "",
+												paddingLeft: activeInput === "emails" ? "7px" : "",
 											}}
 											onFocus={handleFocus}
 											onBlur={handleBlur}
 											id="parag"
 											tabIndex={1}
 										>
-											<p className="text-sm font-medium text-gray-400">
-												Your Email
-											</p>
+											<p className="text-sm font-medium text-gray-400">Your Email</p>
 											<input
 												type="text"
 												id="inputForm"
 												name="emails"
 												required
+												value={email}
+												onChange={(e) => setEmail(e.target.value)}
 											/>
 										</div>
 
 										<div className="mt-4">
 											<button
 												type="button"
-												className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-												onClick={closeModal}
+												className="inline-flex justify-start px-4 py-2 mt-4 text-base font-semibold text-orange-600 duration-200 bg-orange-300 border-none rounded-lg shadow-xl outline-none cursor-pointer w-fit active:scale-95 hover:bg-orange-300 shadow-gray-700/30"
+												// onClick={closeModal}
+												// onClick={resetPassword}
 											>
-												Got it, thanks!
+												Reset
 											</button>
 										</div>
 									</Dialog.Panel>

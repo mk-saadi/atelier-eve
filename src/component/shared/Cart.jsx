@@ -112,7 +112,10 @@ export default function Exp() {
 																				<h3>
 																					<Link
 																						className="hover:underline"
-																						to={product.productId}
+																						to={`/productsDetail/${product.productId}`}
+																						onClick={() =>
+																							setOpen(false)
+																						}
 																					>
 																						{
 																							product.productNameIs
@@ -157,7 +160,7 @@ export default function Exp() {
 											<div className="px-4 py-6 border-t border-gray-200 sm:px-6">
 												<div className="flex justify-between text-base font-medium text-gray-900">
 													<p>Subtotal</p>
-													<p>${totalCartPrice}</p>
+													<p>${totalCartPrice.toFixed(2)}</p>
 												</div>
 												<p className="mt-0.5 text-sm text-gray-500">
 													Shipping and taxes calculated at checkout.
@@ -175,11 +178,17 @@ export default function Exp() {
 														or
 														<button
 															type="button"
-															className="ml-2 font-medium text-orange-500 hover:text-orange-400"
+															className="ml-2 font-medium text-orange-500 hover:text-orange-400 group"
 															onClick={() => setOpen(false)}
 														>
 															Continue Shopping
-															<span aria-hidden="true"> &rarr;</span>
+															<span
+																aria-hidden="true"
+																className="duration-200 group-hover:ml-2"
+															>
+																{" "}
+																&rarr;
+															</span>
 														</button>
 													</p>
 												</div>

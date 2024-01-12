@@ -20,6 +20,7 @@ const ProductDetail = () => {
 	const { addToCart } = useCart();
 	const { id } = useParams();
 	const [product, setProduct] = useState([]);
+	console.log("product: ", product);
 	const productImg = product?.productImages;
 	const productNameIs = product?.productName;
 	const productPrice = product?.price;
@@ -179,8 +180,8 @@ const ProductDetail = () => {
 							</ul>
 						</div>
 
-						<div>
-							<h3 className="text-sm font-medium text-gray-900">Color</h3>
+						<div className="mt-4">
+							<h3 className="text-sm font-medium text-gray-900">Select a Color</h3>
 							<RadioGroup
 								value={selectedColor}
 								onChange={setSelectedColor}
@@ -217,7 +218,7 @@ const ProductDetail = () => {
 						<div className="mt-10">
 							<div className="mt-10">
 								<div className="flex items-center justify-between">
-									<h3 className="text-sm font-medium text-gray-900">Size</h3>
+									<h3 className="text-sm font-medium text-gray-900">Select Size</h3>
 									<div className="-mb-[13px]">
 										<button
 											onClick={openModal}

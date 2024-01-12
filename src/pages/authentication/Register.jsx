@@ -44,10 +44,7 @@ const Register = () => {
 			return showToast("error", "Passwords do not match!");
 		}
 		if (password.length < 8) {
-			return showToast(
-				"error",
-				"Password must be at least 8 characters!"
-			);
+			return showToast("error", "Password must be at least 8 characters!");
 		}
 
 		const options = {
@@ -71,60 +68,41 @@ const Register = () => {
 					"state_changed",
 					(snapshot) => {
 						console.log(
-							"Upload is " +
-								(snapshot.bytesTransferred /
-									snapshot.totalBytes) *
-									100 +
-								"% done"
+							"Upload is " + (snapshot.bytesTransferred / snapshot.totalBytes) * 100 + "% done"
 						);
 					},
 					(error) => {
 						console.log(error.message);
 					},
 					() => {
-						getDownloadURL(uploadTask.snapshot.ref).then(
-							(downloadURL) => {
-								const userDocument = {
-									photo: downloadURL,
-									name: name,
-									email: email,
-								};
-								updateProfileInfo(name, downloadURL);
+						getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+							const userDocument = {
+								photo: downloadURL,
+								name: name,
+								email: email,
+								registrationDate: new Date(),
+							};
+							updateProfileInfo(name, downloadURL);
 
-								axios
-									.post(
-										"http://localhost:2000/users",
-										userDocument
-									)
-									.then((response) => {
-										if (
-											response.data.acknowledged === true
-										) {
-											showToast(
-												"success",
-												"Registration successful!"
-											);
+							axios
+								.post("http://localhost:2000/users", userDocument)
+								.then((response) => {
+									if (response.data.acknowledged === true) {
+										showToast("success", "Registration successful!");
 
-											form.reset();
+										form.reset();
+										setTimeout(() => {
+											showToast("loading", "Redirecting");
 											setTimeout(() => {
-												showToast(
-													"loading",
-													"Redirecting"
-												);
-												setTimeout(() => {
-													navigate("/");
-												}, 500);
-											}, 1000);
-										}
-									})
-									.catch((error) => {
-										showToast(
-											"error",
-											"Couldn't store data to database!"
-										);
-									});
-							}
-						);
+												navigate("/");
+											}, 500);
+										}, 1000);
+									}
+								})
+								.catch((error) => {
+									showToast("error", "Couldn't store data to database!");
+								});
+						});
 					}
 				);
 			} else {
@@ -244,21 +222,15 @@ const Register = () => {
 							<div
 								className="bg-[#42486a]"
 								style={{
-									borderLeft:
-										activeInput === "name"
-											? "3px solid #fab07a"
-											: "",
-									paddingLeft:
-										activeInput === "name" ? "7px" : "",
+									borderLeft: activeInput === "name" ? "3px solid #fab07a" : "",
+									paddingLeft: activeInput === "name" ? "7px" : "",
 								}}
 								onFocus={handleFocus}
 								onBlur={handleBlur}
 								id="parag"
 								tabIndex={1}
 							>
-								<p className="text-sm font-medium text-gray-400">
-									Your Name
-								</p>
+								<p className="text-sm font-medium text-gray-400">Your Name</p>
 								<input
 									type="text"
 									id="inputForm"
@@ -270,21 +242,15 @@ const Register = () => {
 							<div
 								className="bg-[#42486a]"
 								style={{
-									borderLeft:
-										activeInput === "image"
-											? "3px solid #fab07a"
-											: "",
-									paddingLeft:
-										activeInput === "image" ? "7px" : "",
+									borderLeft: activeInput === "image" ? "3px solid #fab07a" : "",
+									paddingLeft: activeInput === "image" ? "7px" : "",
 								}}
 								onFocus={handleFocus}
 								onBlur={handleBlur}
 								id="parag"
 								tabIndex={1}
 							>
-								<p className="text-sm font-medium text-gray-400">
-									Your Photo
-								</p>
+								<p className="text-sm font-medium text-gray-400">Your Photo</p>
 
 								{selectedFile ? (
 									<label
@@ -300,10 +266,7 @@ const Register = () => {
 											/>
 										)}
 										{selectedFile.name.length > 25
-											? `${selectedFile.name.slice(
-													0,
-													25
-											  )}...`
+											? `${selectedFile.name.slice(0, 25)}...`
 											: selectedFile.name}
 									</label>
 								) : (
@@ -327,21 +290,15 @@ const Register = () => {
 							<div
 								className="bg-[#42486a]"
 								style={{
-									borderLeft:
-										activeInput === "email"
-											? "3px solid #fab07a"
-											: "",
-									paddingLeft:
-										activeInput === "email" ? "7px" : "",
+									borderLeft: activeInput === "email" ? "3px solid #fab07a" : "",
+									paddingLeft: activeInput === "email" ? "7px" : "",
 								}}
 								onFocus={handleFocus}
 								onBlur={handleBlur}
 								id="parag"
 								tabIndex={1}
 							>
-								<p className="text-sm font-medium text-gray-400">
-									Your Email
-								</p>
+								<p className="text-sm font-medium text-gray-400">Your Email</p>
 								<input
 									type="text"
 									id="inputForm"
@@ -353,30 +310,22 @@ const Register = () => {
 							<div
 								className="bg-[#42486a]"
 								style={{
-									borderLeft:
-										activeInput === "password"
-											? "3px solid #fab07a"
-											: "",
-									paddingLeft:
-										activeInput === "password" ? "7px" : "",
+									borderLeft: activeInput === "password" ? "3px solid #fab07a" : "",
+									paddingLeft: activeInput === "password" ? "7px" : "",
 								}}
 								onFocus={handleFocus}
 								onBlur={handleBlur}
 								id="parag"
 								tabIndex={1}
 							>
-								<p className="text-sm font-medium text-gray-400">
-									Password
-								</p>
+								<p className="text-sm font-medium text-gray-400">Password</p>
 								<div className="flex">
 									<input
 										id="inputForm"
 										name="password"
 										autoComplete="off"
 										required
-										type={
-											showPassword ? "text" : "password"
-										}
+										type={showPassword ? "text" : "password"}
 									/>
 
 									<button
@@ -392,38 +341,23 @@ const Register = () => {
 							<div
 								className="bg-[#42486a]"
 								style={{
-									borderLeft:
-										activeInput === "confirm"
-											? "3px solid #fab07a"
-											: "",
-									paddingLeft:
-										activeInput === "confirm" ? "7px" : "",
+									borderLeft: activeInput === "confirm" ? "3px solid #fab07a" : "",
+									paddingLeft: activeInput === "confirm" ? "7px" : "",
 								}}
 								onFocus={handleFocus}
 								onBlur={handleBlur}
 								id="parag"
 								tabIndex={1}
 							>
-								<p className="text-sm font-medium text-gray-400">
-									Confirm Password
-								</p>
+								<p className="text-sm font-medium text-gray-400">Confirm Password</p>
 								<div className="flex">
 									<input
-										type={
-											showPassword ? "text" : "password"
-										}
+										type="password"
 										id="inputForm"
 										name="confirm"
 										autoComplete="off"
 										required
 									/>
-									<button
-										type="button"
-										onClick={handleTogglePassword}
-										className="text-gray-300 outline-none"
-									>
-										{showPassword ? <EyeOff /> : <Eye />}
-									</button>
 								</div>
 							</div>
 						</Fade>

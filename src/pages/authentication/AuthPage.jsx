@@ -1,7 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import shop from "../../assets/shop.avif";
 import "./auth.css";
-import Navbar from "../../component/shared/Navbar";
 import NavbarS from "../../component/shared/NavbarS";
 
 const AuthPage = () => {
