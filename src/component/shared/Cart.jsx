@@ -7,12 +7,11 @@ import { Link } from "react-router-dom";
 export default function Exp() {
 	const [open, setOpen] = useState(false);
 
-	const { cartItems, dispatch } = useCart(); // all the products in localstorage
+	const { cartItems, dispatch } = useCart();
 
 	const handleRemove = (id) => {
 		console.log("id: ", id);
 		dispatch({ type: "REMOVE_FROM_CART", payload: id });
-		console.log("dispatch: ", dispatch);
 	};
 
 	const cartPrice = cartItems.map((ca) => ca.productPrice);
@@ -169,7 +168,7 @@ export default function Exp() {
 												<div className="mt-6">
 													<Link
 														to="/checkout"
-														className="inline-flex justify-center w-full px-4 py-2 mt-4 text-base font-semibold text-orange-600 duration-200 bg-orange-300 border-none shadow-xl outline-none cursor-pointer rounded-xl active:scale-95 hover:bg-orange-300 shadow-gray-700/30"
+														className="inline-flex justify-center w-full px-4 py-2 mt-4 text-base font-semibold text-orange-600 duration-200 bg-orange-300 border-none rounded-lg shadow-lg outline-none cursor-pointer active:scale-95 hover:bg-orange-300 shadow-gray-700/30"
 													>
 														Checkout
 													</Link>

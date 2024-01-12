@@ -7,7 +7,10 @@ import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-cards";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
 import { EffectCards } from "swiper/modules";
+
 import sizeWomen from "../../assets/sizeWomenCloth.jpg";
 import sizeMen from "../../assets/sizeMenCloth.jpg";
 import { useCart } from "../../provide/CartProvider";
@@ -131,7 +134,7 @@ const ProductDetail = () => {
 								))}
 						</div>
 					</div>
-					{/* image gallery ends */}
+					{/* image carousel ends */}
 
 					<div className="mx-4 mt-8">
 						<div>
@@ -302,16 +305,22 @@ const ProductDetail = () => {
 							<input
 								type="submit"
 								value="Add to cart"
-								className="inline-flex justify-center w-full px-4 py-2 mt-4 text-base font-semibold text-orange-600 duration-200 bg-orange-300 border-none shadow-xl outline-none cursor-pointer rounded-xl active:scale-95 hover:bg-orange-300 shadow-gray-700/30"
+								className="inline-flex justify-center w-full px-4 py-2 mt-4 text-base font-semibold text-orange-600 duration-200 bg-orange-300 border-none rounded-lg shadow-lg outline-none cursor-pointer active:scale-95 hover:bg-orange-300 shadow-gray-700/30"
 							/>
 						</div>
 					</form>
 				</div>
 			</div>
 
+			{/* comment section */}
+
+			<div className="my-8">
+				<p>comment section</p>
+			</div>
+
 			<div>
 				<p>Products related to this item</p>
-				<ProductCategory genderCategory={product.genderCat} />
+				<ProductCategory genderCategory={product?.genderCat} />
 			</div>
 
 			<Transition
@@ -396,18 +405,17 @@ const ProductDetail = () => {
 // eslint-disable-next-line react/prop-types
 const ProductCategory = ({ genderCategory }) => {
 	const [cat, setCat] = useState([]);
-	console.log("cat: ", cat);
+	const [error, setError] = useState("");
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const res = await axios.get(`http://localhost:2000/products/category/${genderCategory}`);
-				console.log("res: ", res);
 				if (res.status === 200) {
 					setCat(res.data);
 				}
 			} catch (error) {
-				console.log();
+				setError("Couldn't fetch data. Please reload the page.");
 			}
 		};
 		fetchData();
@@ -415,7 +423,38 @@ const ProductCategory = ({ genderCategory }) => {
 
 	return (
 		<div>
-			<p>product category here</p>
+			{error && (
+				<div>
+					<p className="text-2xl font-semibold text-red-400">{error}</p>
+				</div>
+			)}
+
+			<div>
+				<Swiper
+					className="relative w-full h-fit mySwiper"
+					loop={true}
+					slidesPerView={3}
+					spaceBetween={10}
+					pagination={{
+						clickable: true,
+					}}
+					modules={[Pagination]}
+				>
+					{cat.map((ca) => (
+						<SwiperSlide key={ca._id}>
+							<div>
+								<div>
+									<img
+										src={ca.productImages[0]}
+										alt=""
+									/>
+								</div>
+								<p>{ca.productName}</p>
+							</div>
+						</SwiperSlide>
+					))}
+				</Swiper>
+			</div>
 		</div>
 	);
 };
