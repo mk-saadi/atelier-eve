@@ -217,7 +217,7 @@ const ProductDetail = () => {
 							</RadioGroup>
 						</div>
 
-						{/* Sizes */}
+						{/* select Sizes */}
 						<div className="mt-10">
 							<div className="mt-10">
 								<div className="flex items-center justify-between">
@@ -433,7 +433,7 @@ const ProductCategory = ({ genderCategory }) => {
 				<Swiper
 					className="relative w-full h-fit mySwiper"
 					loop={true}
-					slidesPerView={3}
+					slidesPerView={5}
 					spaceBetween={10}
 					pagination={{
 						clickable: true,
