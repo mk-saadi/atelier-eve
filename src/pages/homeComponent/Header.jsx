@@ -30,7 +30,7 @@ const Header = () => {
 						className="bg-[#17171750] h-min"
 					>
 						<Link
-							className="relative flex w-full h-full p-4 active:cursor-grab" // Add relative class to allow positioning of the absolute div
+							className="relative flex w-full h-full p-4 active:cursor-grab"
 							to={`/productsDetail/${it._id}`}
 						>
 							<div className="flex-1">

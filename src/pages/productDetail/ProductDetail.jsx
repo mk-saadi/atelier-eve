@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState, Fragment } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PostContent from "../../component/hooks/PostContent";
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 
@@ -14,6 +14,7 @@ import { EffectCards } from "swiper/modules";
 import sizeWomen from "../../assets/sizeWomenCloth.jpg";
 import sizeMen from "../../assets/sizeMenCloth.jpg";
 import { useCart } from "../../provide/CartProvider";
+import useScrollToTop from "../../component/hooks/useScrollToTop";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -28,6 +29,8 @@ const ProductDetail = () => {
 	const productNameIs = product?.productName;
 	const productPrice = product?.price;
 	const duplicatedImages = productImg ? [...productImg, ...productImg] : [];
+
+	useScrollToTop();
 
 	const [color, setColor] = useState([]);
 	const [selectedColor, setSelectedColor] = useState(color[0]);
@@ -442,7 +445,7 @@ const ProductCategory = ({ genderCategory }) => {
 				>
 					{cat.map((ca) => (
 						<SwiperSlide key={ca._id}>
-							<div>
+							<Link to={`/productsDetail/${ca._id}`}>
 								<div>
 									<img
 										src={ca.productImages[0]}
@@ -450,7 +453,7 @@ const ProductCategory = ({ genderCategory }) => {
 									/>
 								</div>
 								<p>{ca.productName}</p>
-							</div>
+							</Link>
 						</SwiperSlide>
 					))}
 				</Swiper>
