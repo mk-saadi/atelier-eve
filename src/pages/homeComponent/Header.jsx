@@ -6,16 +6,21 @@ import { Link } from "react-router-dom";
 import error from "../../assets/error.webp";
 
 const Header = () => {
-	const [item, setItem] = useState([]);
+	const [product, setProduct] = useState([]);
+	console.log("product: ", product);
 
 	useEffect(() => {
-		try {
-			axios.get("http://localhost:2000/products").then((res) => {
-				setItem(res.data);
-			});
-		} catch (error) {
-			console.log(error.message);
-		}
+		const fetchData = async () => {
+			try {
+				const res = await axios.get("http://localhost:2000/products");
+				if (res.status === 200) {
+					setProduct(res.data);
+				}
+			} catch (error) {
+				console.log();
+			}
+		};
+		fetchData();
 	}, []);
 
 	return (
@@ -24,7 +29,7 @@ const Header = () => {
 				className="relative w-full h-fit mySwiper"
 				loop={true}
 			>
-				{item.map((it) => (
+				{product.map((it) => (
 					<SwiperSlide
 						key={it._id}
 						className="bg-[#17171750] h-min"
