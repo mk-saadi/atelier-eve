@@ -24,7 +24,6 @@ const ProductDetail = () => {
 	const { addToCart } = useCart();
 	const { id } = useParams();
 	const [product, setProduct] = useState([]);
-	console.log("product: ", product);
 	const productImg = product?.productImages;
 	const productNameIs = product?.productName;
 	const productPrice = product?.price;
@@ -444,7 +443,10 @@ const ProductCategory = ({ genderCategory }) => {
 					modules={[Pagination]}
 				>
 					{cat.map((ca) => (
-						<SwiperSlide key={ca._id}>
+						<SwiperSlide
+							key={ca._id}
+							className="flex flex-col"
+						>
 							<Link to={`/productsDetail/${ca._id}`}>
 								<div>
 									<img
