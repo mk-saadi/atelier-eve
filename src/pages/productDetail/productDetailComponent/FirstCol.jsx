@@ -11,7 +11,7 @@ const FirstCol = ({ product }) => {
 	return (
 		<>
 			{/* image carousel */}
-			<div className="max-w-[250px] md:max-w-[350px] lg:max-w-[380px] block mx-auto lg:mx-0">
+			<div className="max-w-[250px] md:max-w-[350px] lg:w-[380px] lg:max-w-[600px] block mx-auto lg:mx-0">
 				<div className="flex flex-col xl:ml-14 lg:ml-12">
 					<Swiper
 						rewind={true}
@@ -28,7 +28,7 @@ const FirstCol = ({ product }) => {
 								>
 									<img
 										src={image}
-										className="md:h-[350px] lg:h-[420px] xl:h-[440px] h-[300px]"
+										className="md:h-[350px] lg:h-[420px] xl:h-[440px] h-[300px] object-cover"
 										alt={`Image ${index}`}
 										onClick={() => {
 											window.open(image, "_blank");
@@ -49,7 +49,7 @@ const FirstCol = ({ product }) => {
 							<img
 								key={index}
 								src={image}
-								className="object-cover h-16 border border-orange-400 rounded-md lg:h-20 min-w-8"
+								className="object-cover w-12 h-16 border border-orange-400 rounded-md lg:h-20"
 								alt={`Image ${index}`}
 							/>
 						))}

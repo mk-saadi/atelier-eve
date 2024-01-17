@@ -12,6 +12,7 @@ import Comment from "./productDetailComponent/Comment";
 const ProductDetail = () => {
 	const { id } = useParams();
 	const [product, setProduct] = useState([]);
+	console.log("product: ", product);
 
 	useScrollToTop();
 
@@ -42,13 +43,19 @@ const ProductDetail = () => {
 			</div>
 
 			{/* comment section */}
-			<div className="py-16 bg-red-400/30">
-				<Comment id={id} />
+			<div className="py-16">
+				<Comment
+					id={id}
+					product={product}
+				/>
 			</div>
 
 			<div>
 				<p>Products related to this item</p>
-				<ProductCategory genderCategory={product?.genderCat} />
+				<ProductCategory
+					genderCategory={product?.genderCat}
+					accessCategory={product?.accessCat}
+				/>
 			</div>
 		</div>
 	);

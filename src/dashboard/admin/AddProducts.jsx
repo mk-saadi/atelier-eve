@@ -46,12 +46,7 @@ const status = [
 	{ cat: "Trending" },
 ];
 
-const season = [
-	{ sea: "All" },
-	{ sea: "Rainy" },
-	{ sea: "Summer" },
-	{ sea: "Winter" },
-];
+const season = [{ sea: "All" }, { sea: "Rainy" }, { sea: "Summer" }, { sea: "Winter" }];
 
 const femaleCategory = [
 	{ cat: "Activewear" },
@@ -86,6 +81,7 @@ const accessoriesCategory = [
 	{ cat: "Bags" },
 	{ cat: "Belts" },
 	{ cat: "Hats" },
+	{ cat: "Hills" },
 	{ cat: "Sunglasses" },
 	{ cat: "Wallets" },
 	{ cat: "Shoes" },
@@ -101,9 +97,7 @@ const AddProducts = () => {
 	const [selectedStatus, setSelectedStatus] = useState(status[0]);
 	const [selectedFemale, setSelectedFemale] = useState(femaleCategory[0]);
 	const [selectedSeason, setSelectedSeason] = useState(season[0]);
-	const [selectedAccessories, setSelectedAccessories] = useState(
-		accessoriesCategory[0]
-	);
+	const [selectedAccessories, setSelectedAccessories] = useState(accessoriesCategory[0]);
 
 	// >> cloth size logic below
 	const [sizes, setSizes] = React.useState([
@@ -138,10 +132,7 @@ const AddProducts = () => {
 		formData.append("image", imageFile);
 		formData.append("key", imgbbApiKey);
 		try {
-			const response = await axios.post(
-				"https://api.imgbb.com/1/upload",
-				formData
-			);
+			const response = await axios.post("https://api.imgbb.com/1/upload", formData);
 			return response.data.data.url;
 		} catch (error) {
 			showToast("error", "Image hosting failed!");
@@ -211,18 +202,12 @@ const AddProducts = () => {
 		showToast("loading", "Adding product to database!");
 
 		try {
-			const res = await axios.post(
-				"http://localhost:2000/products",
-				listItem
-			);
+			const res = await axios.post("http://localhost:2000/products", listItem);
 			if (res.data.acknowledged === true) {
 				showToast("success", "Product added to the database!");
 			}
 		} catch (error) {
-			showToast(
-				"error",
-				"Couldn't add to the database. Please try again!"
-			);
+			showToast("error", "Couldn't add to the database. Please try again!");
 		}
 	};
 
@@ -274,8 +259,7 @@ const AddProducts = () => {
 						Add new product
 					</h2>
 					<p className="mt-2 text-lg leading-8 text-gray-500">
-						Aute magna irure deserunt veniam aliqua magna enim
-						voluptate.
+						Aute magna irure deserunt veniam aliqua magna enim voluptate.
 					</p>
 				</div>
 				<form
@@ -290,10 +274,7 @@ const AddProducts = () => {
 								htmlFor="productName"
 								className="block text-sm font-semibold leading-6 text-gray-900"
 							>
-								Product Name{" "}
-								<span className="px-2 text-lg text-red-400">
-									*
-								</span>
+								Product Name <span className="px-2 text-lg text-red-400">*</span>
 							</label>
 							<div className="mt-2.5">
 								<input
@@ -311,16 +292,11 @@ const AddProducts = () => {
 								htmlFor="price"
 								className="block text-sm font-semibold leading-6 text-gray-900"
 							>
-								Price{" "}
-								<span className="px-2 text-lg text-red-400">
-									*
-								</span>
+								Price <span className="px-2 text-lg text-red-400">*</span>
 							</label>
 							<div className="relative mt-2.5 rounded-md shadow-sm">
 								<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-									<span className="text-gray-500 sm:text-sm">
-										$
-									</span>
+									<span className="text-gray-500 sm:text-sm">$</span>
 								</div>
 								<input
 									type="text"
@@ -339,9 +315,7 @@ const AddProducts = () => {
 								Quick Overview{" "}
 								<span className="ml-2 opacity-70">
 									(use comma ( , ) between each point ){" "}
-									<span className="px-2 text-lg text-red-400">
-										*
-									</span>
+									<span className="px-2 text-lg text-red-400">*</span>
 								</span>
 							</label>
 							<div className="mt-2.5">
@@ -363,10 +337,7 @@ const AddProducts = () => {
 								htmlFor="productImage"
 								className="block text-sm font-semibold leading-6 text-gray-900"
 							>
-								Upload Product Image{" "}
-								<span className="px-2 text-lg text-red-400">
-									*
-								</span>
+								Upload Product Image <span className="px-2 text-lg text-red-400">*</span>
 							</label>
 							<div className="p-2 mt-2 h-[210px] border border-dashed rounded-lg bg-white border-gray-900/50">
 								<div className="w-full">
@@ -417,18 +388,12 @@ const AddProducts = () => {
 									>
 										Select One{" "}
 										<span className="ml-2 opacity-70">
-											(not selecting any gender will give
-											access to Accessories Category
-											below){" "}
-											<span className="px-2 text-lg text-red-400">
-												*
-											</span>
+											(not selecting any gender will give access to Accessories Category
+											below) <span className="px-2 text-lg text-red-400">*</span>
 										</span>
 									</label>
 									<Listbox.Button className="relative w-full py-4 pl-3 pr-10 text-left bg-white rounded-lg cursor-pointer focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-400">
-										<span className="block truncate">
-											{selectedGender.gender}
-										</span>
+										<span className="block truncate">{selectedGender.gender}</span>
 										<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
 											<ChevronsUpDown
 												className="w-5 h-5 text-gray-400"
@@ -459,9 +424,7 @@ const AddProducts = () => {
 														<>
 															<span
 																className={`block truncate ${
-																	selected
-																		? "font-medium"
-																		: "font-normal"
+																	selected ? "font-medium" : "font-normal"
 																}`}
 															>
 																{person.gender}
@@ -496,15 +459,12 @@ const AddProducts = () => {
 											: selectedAccessories.cat
 									}
 									onChange={(e) => {
-										const selectedCategoryValue =
-											e.target.value;
+										const selectedCategoryValue = e.target.value;
 										if (selectedGender.gender === "Male") {
 											setSelectedMale({
 												cat: selectedCategoryValue,
 											});
-										} else if (
-											selectedGender.gender === "Female"
-										) {
+										} else if (selectedGender.gender === "Female") {
 											setSelectedFemale({
 												cat: selectedCategoryValue,
 											});
@@ -518,40 +478,34 @@ const AddProducts = () => {
 									required
 								>
 									{selectedGender.gender === "Male"
-										? maleCategory.map(
-												(category, index) => (
-													<option
-														key={index}
-														value={category.cat}
-														className="text-base font-medium text-gray-600"
-													>
-														{category.cat}
-													</option>
-												)
-										  )
+										? maleCategory.map((category, index) => (
+												<option
+													key={index}
+													value={category.cat}
+													className="text-base font-medium text-gray-600"
+												>
+													{category.cat}
+												</option>
+										  ))
 										: selectedGender.gender === "Female"
-										? femaleCategory.map(
-												(category, index) => (
-													<option
-														key={index}
-														value={category.cat}
-														className="text-base font-medium text-gray-600"
-													>
-														{category.cat}
-													</option>
-												)
-										  )
-										: accessoriesCategory.map(
-												(category, index) => (
-													<option
-														key={index}
-														value={category.cat}
-														className="text-base font-medium text-gray-600"
-													>
-														{category.cat}
-													</option>
-												)
-										  )}
+										? femaleCategory.map((category, index) => (
+												<option
+													key={index}
+													value={category.cat}
+													className="text-base font-medium text-gray-600"
+												>
+													{category.cat}
+												</option>
+										  ))
+										: accessoriesCategory.map((category, index) => (
+												<option
+													key={index}
+													value={category.cat}
+													className="text-base font-medium text-gray-600"
+												>
+													{category.cat}
+												</option>
+										  ))}
 								</select>
 							</div>
 						</div>
@@ -569,15 +523,10 @@ const AddProducts = () => {
 										htmlFor="seasonCat"
 										className="block text-sm font-semibold leading-6 text-gray-900"
 									>
-										Select Season{" "}
-										<span className="px-2 text-lg text-red-400">
-											*
-										</span>
+										Select Season <span className="px-2 text-lg text-red-400">*</span>
 									</label>
 									<Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-400">
-										<span className="block truncate">
-											{selectedSeason.sea}
-										</span>
+										<span className="block truncate">{selectedSeason.sea}</span>
 										<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
 											<ChevronsUpDown
 												className="w-5 h-5 text-gray-400"
@@ -608,9 +557,7 @@ const AddProducts = () => {
 														<>
 															<span
 																className={`block truncate ${
-																	selected
-																		? "font-medium"
-																		: "font-normal"
+																	selected ? "font-medium" : "font-normal"
 																}`}
 															>
 																{season.sea}
@@ -656,10 +603,7 @@ const AddProducts = () => {
 						<div>
 							<FormControl sx={{ m: 0.5, width: 300 }}>
 								<InputLabel id="demo-multiple-chip-label">
-									Size{" "}
-									<span className="px-2 text-lg text-red-400">
-										*
-									</span>
+									Size <span className="px-2 text-lg text-red-400">*</span>
 								</InputLabel>
 								<Select
 									labelId="demo-multiple-chip-label"
@@ -696,11 +640,7 @@ const AddProducts = () => {
 										<MenuItem
 											key={size.name}
 											value={size.name}
-											style={getStyles(
-												size.name,
-												sizeName,
-												theme
-											)}
+											style={getStyles(size.name, sizeName, theme)}
 										>
 											{size.name}
 										</MenuItem>
@@ -722,15 +662,10 @@ const AddProducts = () => {
 										htmlFor="statusCat"
 										className="block text-sm font-semibold leading-6 text-gray-900"
 									>
-										Select Status{" "}
-										<span className="px-2 text-lg text-red-400">
-											*
-										</span>
+										Select Status <span className="px-2 text-lg text-red-400">*</span>
 									</label>
 									<Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm ring-1 ring-inset ring-gray-400">
-										<span className="block truncate">
-											{selectedStatus.cat}
-										</span>
+										<span className="block truncate">{selectedStatus.cat}</span>
 										<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
 											<ChevronsUpDown
 												className="w-5 h-5 text-gray-400"
@@ -754,11 +689,7 @@ const AddProducts = () => {
 																? "bg-amber-100 text-amber-900"
 																: "text-gray-900"
 														} ${
-															[
-																"Sold Out",
-																"Hot",
-																"Trending",
-															].includes(
+															["Sold Out", "Hot", "Trending"].includes(
 																status.cat
 															)
 																? "opacity-50 cursor-no-drop"
@@ -766,19 +697,15 @@ const AddProducts = () => {
 														}`
 													}
 													value={status}
-													disabled={[
-														"Sold Out",
-														"Hot",
-														"Trending",
-													].includes(status.cat)}
+													disabled={["Sold Out", "Hot", "Trending"].includes(
+														status.cat
+													)}
 												>
 													{({ selected }) => (
 														<>
 															<span
 																className={`block truncate ${
-																	selected
-																		? "font-medium"
-																		: "font-normal"
+																	selected ? "font-medium" : "font-normal"
 																}`}
 															>
 																{status.cat}
@@ -811,13 +738,8 @@ const AddProducts = () => {
 								htmlFor="color"
 								className="block text-sm font-semibold leading-6 text-gray-900"
 							>
-								Color{" "}
-								<span className="ml-2 opacity-70">
-									(use hex ( # ) value)
-								</span>{" "}
-								<span className="px-2 text-lg text-red-400">
-									*
-								</span>
+								Color <span className="ml-2 opacity-70">(use hex ( # ) value)</span>{" "}
+								<span className="px-2 text-lg text-red-400">*</span>
 							</label>
 							<div
 								// className="mt-2.5"
@@ -845,12 +767,8 @@ const AddProducts = () => {
 								className="block text-sm font-semibold leading-6 text-gray-900"
 							>
 								Material{" "}
-								<span className="ml-2 opacity-70">
-									(use comma ( , ) between each point )
-								</span>{" "}
-								<span className="px-2 text-lg text-red-400">
-									*
-								</span>
+								<span className="ml-2 opacity-70">(use comma ( , ) between each point )</span>{" "}
+								<span className="px-2 text-lg text-red-400">*</span>
 							</label>
 							<div
 								// className="mt-2.5"
