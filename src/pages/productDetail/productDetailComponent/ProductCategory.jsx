@@ -81,7 +81,7 @@ const ProductCategory = ({ genderCategory, accessCategory }) => {
 				</div>
 			)}
 
-			{accessCategory && (
+			{/* {accessCategory && (
 				<div>
 					<Swiper
 						className="relative w-full h-fit mySwiper"
@@ -111,7 +111,7 @@ const ProductCategory = ({ genderCategory, accessCategory }) => {
 						))}
 					</Swiper>
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 };

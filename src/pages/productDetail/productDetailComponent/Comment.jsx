@@ -1,21 +1,32 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../provide/AuthProvider";
 
 const Comment = ({ id, product }) => {
 	const comment = product?.comments;
+	const [rate, setRate] = useState([]);
+	const { user } = useContext(AuthContext);
+
+	useEffect(() => {
+		try {
+			const productRating = comment.map((ca) => ca?.rating);
+			setRate(productRating);
+		} catch (error) {
+			console.log("productRating: ", error);
+		}
+	}, [comment]);
 
 	const handleComment = (event) => {
 		event.preventDefault();
 
 		const form = event.target;
 		const name = form.name.value;
-		const email = form.email.value;
 		const commentBody = form.body.value;
 		const rating = parseFloat(form.rating.value);
 
 		const commentDoc = {
 			name,
-			email,
 			commentBody,
 			rating,
 		};
@@ -33,29 +44,31 @@ const Comment = ({ id, product }) => {
 	return (
 		<>
 			<div className="bg-red-400/30">
-				<form onSubmit={handleComment}>
-					<input
-						type="text"
-						name="name"
-						placeholder="name"
-					/>
-					<input
-						type="email"
-						placeholder="email"
-						name="email"
-					/>
-					<textarea
-						name="body"
-						id=""
-						cols="30"
-						rows="10"
-					></textarea>
+				<form
+					onSubmit={handleComment}
+					className="flex flex-col space-y-2.5"
+				>
 					<input
 						type="number"
 						name="rating"
 						placeholder="rate"
 						id=""
 					/>
+
+					<input
+						type="text"
+						name="name"
+						placeholder="name"
+						className="w-full focus:outline-none"
+					/>
+
+					<textarea
+						name="body"
+						id=""
+						cols="30"
+						rows="10"
+					></textarea>
+
 					<input
 						type="submit"
 						value="submit"
