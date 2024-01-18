@@ -24,7 +24,7 @@ const FirstCol = ({ product }) => {
 							duplicatedImages.map((image, index) => (
 								<SwiperSlide
 									key={index}
-									className="block mx-auto bg-orange-100 shadow-lg h-min rounded-xl cursor-grab active:cursor-grabbing"
+									className="block mx-auto shadow-lg bg-orange-50 h-min rounded-xl cursor-grab active:cursor-grabbing"
 								>
 									<img
 										src={image}

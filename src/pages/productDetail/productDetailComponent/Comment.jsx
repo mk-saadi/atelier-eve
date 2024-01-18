@@ -2,11 +2,16 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../provide/AuthProvider";
+import { useNavigate } from "react-router-dom";
+import useToast from "../../../component/hooks/useToast";
+import Toast from "../../../component/hooks/Toast";
 
 const Comment = ({ id, product }) => {
 	const comment = product?.comments;
 	const [rate, setRate] = useState([]);
 	const { user } = useContext(AuthContext);
+	const navigate = useNavigate();
+	const { toastType, toastMessage, showToast, hideToast } = useToast();
 
 	useEffect(() => {
 		try {
@@ -31,18 +36,36 @@ const Comment = ({ id, product }) => {
 			rating,
 		};
 
-		axios
-			.post(`http://localhost:2000/products/${id}/comments`, commentDoc)
-			.then((res) => {
-				console.log(res.data);
-			})
-			.catch((err) => {
-				console.log(err.message);
-			});
+		if (user) {
+			axios
+				.post(`http://localhost:2000/products/${id}/comments`, commentDoc)
+				.then((res) => {
+					console.log(res.data);
+				})
+				.catch((err) => {
+					console.log(err.message);
+				});
+		} else {
+			showToast("error", "Please login first.");
+
+			setTimeout(() => {
+				showToast("loading", "Redirecting");
+				setTimeout(() => {
+					navigate("/auth/login");
+				}, 500);
+			}, 2000);
+		}
 	};
 
 	return (
 		<>
+			{toastType && (
+				<Toast
+					type={toastType}
+					message={toastMessage}
+					onHide={hideToast}
+				/>
+			)}
 			<div className="bg-red-400/30">
 				<form
 					onSubmit={handleComment}
@@ -52,7 +75,7 @@ const Comment = ({ id, product }) => {
 						type="number"
 						name="rating"
 						placeholder="rate"
-						id=""
+						className=""
 					/>
 
 					<input
@@ -71,7 +94,8 @@ const Comment = ({ id, product }) => {
 
 					<input
 						type="submit"
-						value="submit"
+						value="Submit"
+						className="inline-flex justify-center px-4 py-2 mt-4 text-base font-semibold text-orange-600 duration-200 bg-orange-300 border-none rounded-lg shadow-lg outline-none cursor-pointer w-fit active:scale-95 hover:bg-orange-300 shadow-gray-700/30"
 					/>
 				</form>
 			</div>

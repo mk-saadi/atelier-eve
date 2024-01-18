@@ -57,7 +57,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<AuthProvider>
 			<CartProvider>
-				<div className="flex flex-col min-h-screen bg-[#fffdf8] overflow-x-hidden">
+				<div className="flex flex-col min-h-screen bg-[#fff] overflow-x-hidden">
 					<RouterProvider router={router} />
 				</div>
 			</CartProvider>

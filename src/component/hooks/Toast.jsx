@@ -35,14 +35,14 @@ const Toast = ({ type, message, onHide }) => {
 
 	return (
 		<Fade
-			className="fixed right-0 z-50 flex justify-center w-full text-lg transform -translate-x-1/2 top-5"
+			className="fixed z-50 flex justify-start w-full transform md:justify-center left:4 md:left:auto bottom-6 md:bottom-auto md:right-0 md:-translate-x-1/2 md:top-5"
 			style={{ zIndex: "999999" }}
 			direction="down"
 		>
 			<div
 				className={` bg-white  font-semibold rounded-md shadow-md drop-shadow-md ${toastClasses[type]}`}
 			>
-				<p className="flex flex-row items-center justify-center px-4 py-4 font-semibold gap-x-4">
+				<p className="flex flex-row items-center justify-center px-2 py-1 text-sm font-semibold md:px-4 md:py-4 gap-x-4 md:text-lg">
 					{iconComponent}
 					{message}
 				</p>
