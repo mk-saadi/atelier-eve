@@ -66,7 +66,7 @@ const Comment = ({ id, product }) => {
 					onHide={hideToast}
 				/>
 			)}
-			<div className="bg-red-400/30">
+			<div className="bg-white">
 				<form
 					onSubmit={handleComment}
 					className="flex flex-col space-y-2.5"
@@ -81,31 +81,37 @@ const Comment = ({ id, product }) => {
 					<input
 						type="text"
 						name="name"
+						required
 						placeholder="name"
-						className="w-full focus:outline-none"
+						className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 bg-white"
 					/>
 
 					<textarea
 						name="body"
-						id=""
-						cols="30"
-						rows="10"
+						required
+						className="block w-full rounded-md border-0 px-3.5 py-2 bg-white text-gray-900/70  ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  focus:ring-[#fab07a] focus:outline-none text-sm md:text-base font-semibold sm:leading-6 "
 					></textarea>
 
-					<input
-						type="submit"
-						value="Submit"
-						className="inline-flex justify-center px-4 py-2 mt-4 text-base font-semibold text-orange-600 duration-200 bg-orange-300 border-none rounded-lg shadow-lg outline-none cursor-pointer w-fit active:scale-95 hover:bg-orange-300 shadow-gray-700/30"
-					/>
+					<div className="flex justify-end w-full">
+						<input
+							type="submit"
+							value="Submit"
+							className="inline-flex justify-center px-4 py-1 text-base font-semibold text-orange-600 duration-200 bg-orange-300 border-none rounded-lg shadow-lg outline-none cursor-pointer md:py-2 md:px-7 w-fit active:scale-95 hover:bg-orange-300 shadow-gray-700/30"
+						/>
+					</div>
 				</form>
 			</div>
 
-			<div className="bg-sky-400/30">
+			<div className="flex flex-col">
 				{comment?.length === undefined ? (
 					<div>no comments yet</div>
 				) : (
 					comment?.map((ca) => (
-						<div key={ca.name}>
+						<div
+							key={ca.name}
+							className="my-2.5"
+						>
+							<p>{ca.name}</p>
 							<p>{ca.commentBody}</p>
 						</div>
 					))

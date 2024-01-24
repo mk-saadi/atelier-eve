@@ -194,10 +194,12 @@ const AddProducts = () => {
 			uploaderName: user?.displayName,
 			uploaderImage: user?.photoURL,
 			uploaderEmail: user?.email,
+			genderCat,
 		};
-		if (genderCat !== "") {
-			listItem.genderCat = genderCat;
-		}
+		// if (genderCat !== "") {
+		// 	listItem.genderCat = genderCat;
+		// }
+		console.log("listItem: ", listItem);
 
 		showToast("loading", "Adding product to database!");
 
@@ -241,7 +243,7 @@ const AddProducts = () => {
 				/>
 			)}
 
-			<div className="px-1 py-24 md:px-6 bg-orange-50 isolate sm:py-32 lg:px-8">
+			<div className="px-1 py-24 bg-white md:px-6 isolate sm:py-32 lg:px-8">
 				<div
 					className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
 					aria-hidden="true"

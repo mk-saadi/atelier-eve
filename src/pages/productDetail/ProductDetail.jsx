@@ -30,7 +30,7 @@ const ProductDetail = () => {
 
 	return (
 		<div className="flex flex-col min-h-screen mx-auto mt-6 lg:max-w-4xl xl:max-w-5xl">
-			<div className="grid grid-cols-1 overflow-x-hidden lg:grid-cols-7 lg:gap-x-2 gap-y-4 lg:gap-y-0">
+			<div className="grid grid-cols-1 pb-6 overflow-x-hidden lg:grid-cols-7 lg:gap-x-2 gap-y-4 lg:gap-y-0">
 				{/* 1st col */}
 				<div className="col-span-5">
 					<FirstCol product={product} />
@@ -43,7 +43,7 @@ const ProductDetail = () => {
 			</div>
 
 			{/* comment section */}
-			<div className="py-16">
+			<div className="w-full py-4 my-12 border-t border-orange-900/20">
 				<Comment
 					id={id}
 					product={product}

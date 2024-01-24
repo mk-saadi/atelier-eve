@@ -21,7 +21,8 @@ const ProductCategory = ({ genderCategory, accessCategory }) => {
 					setCat(res.data);
 				}
 			} catch (error) {
-				setError("Couldn't fetch data. Please reload the page.");
+				console.log(error.message);
+				// setError("Couldn't fetch data. Please reload the page.");
 			}
 		};
 		fetchData();
@@ -48,70 +49,72 @@ const ProductCategory = ({ genderCategory, accessCategory }) => {
 					<p className="text-2xl font-semibold text-red-400">{error}</p>
 				</div>
 			)}
-
-			{genderCategory && (
-				<div>
-					<Swiper
-						className="relative w-full h-fit mySwiper"
-						loop={true}
-						slidesPerView={5}
-						spaceBetween={10}
-						pagination={{
-							clickable: true,
-						}}
-						modules={[Pagination]}
-					>
-						{cat.map((ca) => (
-							<SwiperSlide
-								key={ca._id}
-								className="flex flex-col"
-							>
-								<Link to={`/productsDetail/${ca._id}`}>
-									<div>
-										<img
-											src={ca.productImages[0]}
-											alt=""
-										/>
-									</div>
-									<p>{ca.productName}</p>
-								</Link>
-							</SwiperSlide>
-						))}
-					</Swiper>
-				</div>
+			{genderCategory ? (
+				<>
+					{" "}
+					<div>
+						<Swiper
+							className="relative w-full h-fit mySwiper"
+							loop={true}
+							slidesPerView={5}
+							spaceBetween={10}
+							pagination={{
+								clickable: true,
+							}}
+							modules={[Pagination]}
+						>
+							{cat.map((ca) => (
+								<SwiperSlide
+									key={ca._id}
+									className="flex flex-col"
+								>
+									<Link to={`/productsDetail/${ca._id}`}>
+										<div>
+											<img
+												src={ca.productImages[0]}
+												alt=""
+											/>
+										</div>
+										<p>{ca.productName}</p>
+									</Link>
+								</SwiperSlide>
+							))}
+						</Swiper>
+					</div>
+				</>
+			) : (
+				<>
+					<div>
+						<Swiper
+							className="relative w-full h-fit mySwiper"
+							loop={true}
+							slidesPerView={5}
+							spaceBetween={10}
+							pagination={{
+								clickable: true,
+							}}
+							modules={[Pagination]}
+						>
+							{access.map((ca) => (
+								<SwiperSlide
+									key={ca._id}
+									className="flex flex-col"
+								>
+									<Link to={`/productsDetail/${ca._id}`}>
+										<div>
+											<img
+												src={ca.productImages[0]}
+												alt=""
+											/>
+										</div>
+										<p>{ca.productName}</p>
+									</Link>
+								</SwiperSlide>
+							))}
+						</Swiper>
+					</div>
+				</>
 			)}
-
-			{/* {accessCategory && (
-				<div>
-					<Swiper
-						className="relative w-full h-fit mySwiper"
-						loop={true}
-						slidesPerView={5}
-						spaceBetween={10}
-						pagination={{
-							clickable: true,
-						}}
-						modules={[Pagination]}
-					>
-						{access.map((ca) => (
-							<SwiperSlide
-								key={ca._id}
-								className="flex flex-col"
-							>
-								<Link to={`/productsDetail/${ca._id}`}>
-									<div>
-										<img
-											src={ca.productImages[0]}
-											alt=""
-										/>
-									</div>
-									<p>{ca.productName}</p>
-								</Link>
-							</SwiperSlide>
-						))}
-					</Swiper>
-				</div>
-			)} */}
 		</div>
 	);
 };
